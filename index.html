@@ -2,1554 +2,667 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#081321">
-  <title>FutLab v6 | Fútbol con datos reales</title>
-
-  <style>
-    :root {
-      --bg: #081321;
-      --panel: #112237;
-      --panel2: #192e46;
-      --line: #2c425b;
-      --text: #f2f7fc;
-      --muted: #a8b8c9;
-      --lime: #bdf56a;
-      --blue: #79a8e8;
-      --red: #ffa1a1;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, sans-serif;
-      line-height: 1.5;
-    }
-
-    button, input, select { font: inherit; }
-    button { cursor: pointer; }
-
-    .container {
-      width: min(1120px, calc(100% - 30px));
-      margin: auto;
-    }
-
-    header {
-      background: #0c1a2b;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 17px 0;
-    }
-
-    .logo {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: -1px;
-    }
-
-    .logo span, .accent { color: var(--lime); }
-
-    .version {
-      color: var(--lime);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .hero { padding: 38px 0 20px; }
-
-    .hero h1 {
-      font-size: clamp(29px, 5vw, 48px);
-      line-height: 1.13;
-      max-width: 780px;
-      margin: 0 0 14px;
-    }
-
-    .hero p {
-      max-width: 680px;
-      color: var(--muted);
-      margin: 0;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin: 24px 0;
-    }
-
-    .stat, .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-    }
-
-    .stat { padding: 20px; }
-
-    .stat strong {
-      display: block;
-      font-size: 30px;
-      color: var(--lime);
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .panel {
-      padding: 22px;
-      margin-bottom: 24px;
-    }
-
-    h2 { margin: 0 0 8px; font-size: 24px; }
-    h3 { margin: 0 0 12px; }
-
-    .description {
-      margin: 0 0 20px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .filters {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    label {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 7px;
-    }
-
-    input, select {
-      width: 100%;
-      min-width: 0;
-      padding: 12px;
-      background: var(--panel2);
-      color: var(--text);
-      border: 1px solid #405671;
-      border-radius: 10px;
-      color-scheme: dark;
-    }
-
-    input:focus, select:focus, button:focus-visible {
-      outline: 2px solid var(--lime);
-      outline-offset: 2px;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .primary, .secondary {
-      border-radius: 10px;
-      padding: 12px 20px;
-      font-weight: 800;
-    }
-
-    .primary {
-      background: var(--lime);
-      color: #081321;
-      border: 0;
-    }
-
-    .secondary {
-      background: var(--panel2);
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    button:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
-
-    .status {
-      color: var(--muted);
-      font-size: 14px;
-      margin: 16px 0;
-    }
-
-    .error { color: var(--red); }
-
-    .match-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .match {
-      background: var(--panel2);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 17px;
-    }
-
-    .match-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 14px;
-    }
-
-    .team-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 5px 0;
-      font-weight: 600;
-    }
-
-    .score {
-      color: var(--lime);
-      font-size: 21px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .match-date {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .table-scroll { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 520px;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 12px 9px;
-      border-bottom: 1px solid var(--line);
-      white-space: nowrap;
-    }
-
-    th {
-      color: var(--lime);
-      font-size: 12px;
-    }
-
-    td { font-size: 14px; }
-
-    .team-button {
-      border: 0;
-      background: transparent;
-      color: var(--text);
-      padding: 0;
-      font-weight: 650;
-      text-align: left;
-      text-decoration: underline;
-      text-decoration-color: #657a90;
-    }
-
-    .team-button:hover { color: var(--lime); }
-
-    .team-name {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .crest {
-      width: 26px;
-      height: 26px;
-      object-fit: contain;
-    }
-
-    .team-card, .history-card {
-      background: var(--panel2);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 20px;
-      margin-top: 20px;
-    }
-
-    [hidden] { display: none !important; }
-
-    .team-heading {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .team-heading img {
-      width: 45px;
-      height: 45px;
-      object-fit: contain;
-    }
-
-    .team-heading h3 { margin: 0; }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .metric {
-      background: #21374f;
-      border-radius: 12px;
-      padding: 13px;
-    }
-
-    .metric strong {
-      display: block;
-      color: var(--lime);
-      font-size: 23px;
-    }
-
-    .metric span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .history-card h3 { color: var(--lime); }
-
-    .history-summary {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 16px 0 24px;
-    }
-
-    .history-summary .metric {
-      text-align: center;
-    }
-
-    .chart-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      font-size: 13px;
-      color: var(--muted);
-      margin: 12px 0;
-    }
-
-    .legend-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .legend-dot {
-      display: inline-block;
-      width: 11px;
-      height: 11px;
-      border-radius: 3px;
-    }
-
-    .dot-for { background: var(--lime); }
-    .dot-against { background: var(--blue); }
-
-    .chart {
-      display: flex;
-      align-items: end;
-      gap: 12px;
-      overflow-x: auto;
-      padding: 12px 2px 18px;
-      border-bottom: 1px solid var(--line);
-      min-height: 190px;
-    }
-
-    .chart-group {
-      flex: 1 0 44px;
-      min-width: 44px;
-      text-align: center;
-    }
-
-    .chart-bars {
-      height: 145px;
-      display: flex;
-      align-items: end;
-      justify-content: center;
-      gap: 5px;
-    }
-
-    .bar {
-      width: 17px;
-      min-height: 3px;
-      border-radius: 5px 5px 0 0;
-    }
-
-    .bar-for { background: var(--lime); }
-    .bar-against { background: var(--blue); }
-
-    .chart-group small {
-      display: block;
-      color: var(--muted);
-      margin-top: 8px;
-    }
-
-    .history-list { margin-top: 12px; }
-
-    .history-match {
-      padding: 13px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .history-match strong {
-      display: block;
-      color: var(--lime);
-      font-size: 13px;
-      margin-top: 5px;
-    }
-
-    .history-match span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    footer {
-      color: var(--muted);
-      text-align: center;
-      font-size: 13px;
-      padding: 28px 0 45px;
-    }
-
-    @media (max-width: 720px) {
-      .filters { grid-template-columns: 1fr; }
-      .match-grid { grid-template-columns: 1fr; }
-      .metrics { grid-template-columns: repeat(2, 1fr); }
-      .panel, .team-card, .history-card { padding: 15px; }
-      .stat { padding: 13px; }
-      .stat strong { font-size: 23px; }
-      .stat span { font-size: 11px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#081321">
+<title>FutLab v7 | Estadísticas de fútbol</title>
+
+<style>
+:root {
+  --bg: #081321;
+  --panel: #112237;
+  --panel2: #192e46;
+  --line: #2c425b;
+  --text: #f2f7fc;
+  --muted: #a8b8c9;
+  --lime: #bdf56a;
+  --blue: #79a8e8;
+  --red: #ffa1a1;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+}
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+[hidden] { display: none !important; }
+.container {
+  width: min(1120px, calc(100% - 30px));
+  margin: auto;
+}
+header {
+  background: #0c1a2b;
+  border-bottom: 1px solid var(--line);
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 17px 0;
+}
+.logo {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+.logo span, .accent { color: var(--lime); }
+.version {
+  color: var(--lime);
+  font-size: 12px;
+  font-weight: 800;
+}
+.hero { padding: 38px 0 20px; }
+.hero h1 {
+  font-size: clamp(29px, 5vw, 48px);
+  line-height: 1.13;
+  margin: 0 0 14px;
+}
+.hero p {
+  color: var(--muted);
+  max-width: 680px;
+  margin: 0;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+}
+.stat, .panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.stat { padding: 20px; }
+.stat strong {
+  display: block;
+  font-size: 30px;
+  color: var(--lime);
+}
+.stat span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.panel {
+  padding: 22px;
+  margin-bottom: 24px;
+}
+h2 { margin: 0 0 8px; font-size: 24px; }
+h3 { margin: 0 0 12px; }
+.description {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 20px;
+}
+.filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 7px;
+}
+input, select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  background: var(--panel2);
+  color: var(--text);
+  border: 1px solid #405671;
+  border-radius: 10px;
+  color-scheme: dark;
+}
+input:focus, select:focus, button:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 2px;
+}
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.primary, .secondary {
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 800;
+}
+.primary {
+  background: var(--lime);
+  color: #081321;
+  border: 0;
+}
+.secondary {
+  background: var(--panel2);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+button:disabled { opacity: .6; cursor: wait; }
+.status {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 16px 0;
+}
+.error { color: var(--red); }
+.match-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.match {
+  padding: 17px;
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.match-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+.team-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 0;
+  font-weight: 600;
+}
+.score {
+  color: var(--lime);
+  font-size: 21px;
+  font-weight: 900;
+}
+.match-date {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.table-scroll { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+}
+th, td {
+  text-align: left;
+  padding: 12px 9px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+th { color: var(--lime); font-size: 12px; }
+td { font-size: 14px; }
+.team-button {
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  padding: 0;
+  text-align: left;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: #657a90;
+}
+.team-button:hover { color: var(--lime); }
+.team-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.crest {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+.team-card, .history-card {
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+}
+.team-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.team-heading img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+.team-heading h3 { margin: 0; }
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.metric {
+  background: #21374f;
+  border-radius: 12px;
+  padding: 13px;
+}
+.metric strong {
+  display: block;
+  color: var(--lime);
+  font-size: 23px;
+}
+.metric span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.history-card h3 { color: var(--lime); }
+.history-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 16px 0 24px;
+}
+.history-summary .metric { text-align: center; }
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 12px 0;
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.legend-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+}
+.dot-for { background: var(--lime); }
+.dot-against { background: var(--blue); }
+.chart {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  overflow-x: auto;
+  min-height: 190px;
+  padding: 12px 2px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.chart-group {
+  flex: 1 0 44px;
+  min-width: 44px;
+  text-align: center;
+}
+.chart-bars {
+  height: 145px;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 5px;
+}
+.bar {
+  width: 17px;
+  min-height: 3px;
+  border-radius: 5px 5px 0 0;
+}
+.bar-for { background: var(--lime); }
+.bar-against { background: var(--blue); }
+.chart-group small {
+  display: block;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.history-match {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+.history-match strong {
+  display: block;
+  color: var(--lime);
+  font-size: 13px;
+  margin-top: 5px;
+}
+.history-match span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* FUTLAB V7: COMPARADOR */
+.compare-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.compare-card {
+  padding: 20px;
+  text-align: center;
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.compare-card img {
+  display: block;
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  margin: 0 auto 12px;
+}
+.compare-card h3 {
+  font-size: 17px;
+  margin: 0 0 8px;
+}
+.compare-card strong {
+  display: block;
+  color: var(--lime);
+  font-size: 32px;
+}
+.compare-card:nth-child(2) strong { color: var(--blue); }
+.compare-card span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.compare-metric {
+  padding: 8px 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+.compare-values {
+  display: grid;
+  grid-template-columns: minmax(40px, 1fr) 120px minmax(40px, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+.compare-values strong:first-child {
+  color: var(--lime);
+  text-align: right;
+}
+.compare-values strong:last-child {
+  color: var(--blue);
+  text-align: left;
+}
+.compare-values span {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+.compare-bars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-top: 8px;
+}
+.compare-track {
+  height: 10px;
+  background: #253d57;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.compare-track.left {
+  display: flex;
+  justify-content: flex-end;
+}
+.compare-fill-a, .compare-fill-b {
+  height: 100%;
+  border-radius: 6px;
+}
+.compare-fill-a { background: var(--lime); }
+.compare-fill-b { background: var(--blue); }
+.compare-summary {
+  background: var(--panel2);
+  padding: 18px;
+  border-radius: 14px;
+  margin-top: 22px;
+}
+.compare-summary h3 { color: var(--lime); }
+.compare-summary p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 28px 0 45px;
+}
+@media (max-width: 720px) {
+  .filters { grid-template-columns: 1fr; }
+  .match-grid { grid-template-columns: 1fr; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .panel, .team-card, .history-card { padding: 15px; }
+  .stat { padding: 13px; }
+  .stat strong { font-size: 23px; }
+  .stat span { font-size: 11px; }
+  .compare-card { padding: 12px; }
+  .compare-card h3 { font-size: 14px; }
+  .compare-card strong { font-size: 25px; }
+  .compare-values {
+    grid-template-columns: minmax(35px, 1fr) 90px minmax(35px, 1fr);
+    gap: 6px;
+  }
+}
+</style>
 </head>
 
 <body>
-  <header>
-    <div class="container nav">
-      <div class="logo">Fut<span>Lab.</span></div>
-      <div class="version">v6 · DATOS REALES</div>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <h1>
-        El fútbol, explicado
-        <span class="accent">con datos.</span>
-      </h1>
-      <p>
-        Explora partidos, clasificaciones, estadísticas
-        e historial de equipos en un solo lugar.
-      </p>
-    </section>
-
-    <section class="stats" aria-label="Resumen de partidos">
-      <div class="stat">
-        <strong id="total">—</strong>
-        <span>Partidos</span>
-      </div>
-      <div class="stat">
-        <strong id="finalizados">—</strong>
-        <span>Finalizados</span>
-      </div>
-      <div class="stat">
-        <strong id="programados">—</strong>
-        <span>Programados</span>
-      </div>
-    </section>
-
-    <!-- PARTIDOS -->
-    <section class="panel">
-      <h2>Explorador de partidos</h2>
-      <p class="description">
-        Selecciona fechas y competiciones.
-      </p>
-
-      <div class="filters">
-        <div>
-          <label for="dateFrom">Desde</label>
-          <input type="date" id="dateFrom">
-        </div>
-
-        <div>
-          <label for="dateTo">Hasta</label>
-          <input type="date" id="dateTo">
-        </div>
-
-        <div>
-          <label for="competition">Competición</label>
-          <select id="competition">
-            <option value="ALL">Todas las disponibles</option>
-            <option value="PL">Premier League</option>
-            <option value="PD">LaLiga</option>
-            <option value="BL1">Bundesliga</option>
-            <option value="SA">Serie A</option>
-            <option value="FL1">Ligue 1</option>
-            <option value="CL">Champions League</option>
-            <option value="DED">Eredivisie</option>
-            <option value="PPL">Liga de Portugal</option>
-            <option value="BSA">Brasileirão</option>
-            <option value="ELC">Championship</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="primary" id="loadMatches">
-          Ver partidos
-        </button>
-        <button class="secondary" id="todayButton">
-          Volver a hoy
-        </button>
-      </div>
-
-      <p id="matchStatus" class="status" role="status">
-        Preparando partidos...
-      </p>
-
-      <label for="searchTeam">
-        Buscar equipo o competición
-      </label>
-      <input
-        type="search"
-        id="searchTeam"
-        placeholder="Ejemplo: Barcelona"
-      >
-
-      <div
-        id="matches"
-        class="match-grid"
-        style="margin-top:16px"
-      ></div>
-    </section>
-
-    <!-- CLASIFICACIONES -->
-    <section class="panel" id="clasificaciones">
-      <h2>Clasificaciones</h2>
-      <p class="description">
-        Selecciona un equipo para abrir su ficha,
-        estadísticas e historial.
-      </p>
-
-      <div style="max-width:340px">
-        <label for="league">Liga</label>
-        <select id="league">
-          <option value="PL">Premier League</option>
-          <option value="PD">LaLiga</option>
-          <option value="BL1">Bundesliga</option>
-          <option value="SA">Serie A</option>
-          <option value="FL1">Ligue 1</option>
-          <option value="DED">Eredivisie</option>
-          <option value="PPL">Liga de Portugal</option>
-          <option value="BSA">Brasileirão</option>
-          <option value="ELC">Championship</option>
-        </select>
-      </div>
-
-      <p id="tableStatus" class="status" role="status">
-        Cargando clasificación...
-      </p>
-
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Pos.</th>
-              <th>Equipo</th>
-              <th>PJ</th>
-              <th>G</th>
-              <th>E</th>
-              <th>P</th>
-              <th>DG</th>
-              <th>Pts</th>
-            </tr>
-          </thead>
-          <tbody id="standingsBody"></tbody>
-        </table>
-      </div>
-
-      <!-- FICHA DEL EQUIPO -->
-      <article id="teamCard" class="team-card" hidden>
-        <div class="team-heading">
-          <img id="teamCrest" alt="" hidden>
-          <h3 id="teamTitle"></h3>
-        </div>
-
-        <p class="description">
-          Estadísticas de la clasificación de esta temporada.
-        </p>
-
-        <div id="teamMetrics" class="metrics"></div>
-      </article>
-
-      <!-- HISTORIAL Y GRÁFICOS -->
-      <article id="historyCard" class="history-card" hidden>
-        <h3>Historial y evolución</h3>
-
-        <p id="historyStatus" class="status" role="status">
-          Cargando historial...
-        </p>
-
-        <div id="historyContent" hidden>
-          <div class="history-summary">
-            <div class="metric">
-              <strong id="historyWins">—</strong>
-              <span>Victorias recientes</span>
-            </div>
-            <div class="metric">
-              <strong id="historyDraws">—</strong>
-              <span>Empates recientes</span>
-            </div>
-            <div class="metric">
-              <strong id="historyLosses">—</strong>
-              <span>Derrotas recientes</span>
-            </div>
-          </div>
-
-          <h3>Goles por partido</h3>
-
-          <div class="chart-legend">
-            <span class="legend-item">
-              <i class="legend-dot dot-for"></i>
-              Goles a favor
-            </span>
-            <span class="legend-item">
-              <i class="legend-dot dot-against"></i>
-              Goles en contra
-            </span>
-          </div>
-
-          <div id="goalsChart" class="chart"></div>
-
-          <h3 style="margin-top:25px">
-            Últimos resultados disponibles
-          </h3>
-
-          <div id="historyMatches" class="history-list"></div>
-        </div>
-      </article>
-    </section>
-  </main>
-
-  <footer>
-    FutLab v6 · Datos de football-data.org
-    <br>
-    La disponibilidad depende de las competiciones
-    incluidas en tu plan de datos.
-  </footer>
-
-  <script>
-    const $ = id => document.getElementById(id);
-
-    let currentMatches = [];
-    let matchesRequest = 0;
-    let standingsRequest = 0;
-    let historyRequest = 0;
-
-    function create(tag, text, className) {
-      const element = document.createElement(tag);
-
-      if (text !== undefined) {
-        element.textContent = text;
-      }
-
-      if (className) {
-        element.className = className;
-      }
-
-      return element;
-    }
-
-    function localDate(date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1)
-        .padStart(2, "0");
-      const day = String(date.getDate())
-        .padStart(2, "0");
-
-      return `${year}-${month}-${day}`;
-    }
-
-    function formatDate(value) {
-      if (!value) return "Fecha por confirmar";
-
-      const date = new Date(value);
-
-      if (isNaN(date.getTime())) {
-        return "Fecha por confirmar";
-      }
-
-      return new Intl.DateTimeFormat("es", {
-        dateStyle: "medium",
-        timeStyle: "short"
-      }).format(date);
-    }
-
-    function initDates() {
-      const today = localDate(new Date());
-      $("dateFrom").value = today;
-      $("dateTo").value = today;
-    }
-
-    function updateCounters(matches) {
-      $("total").textContent = matches.length;
-
-      $("finalizados").textContent = matches.filter(
-        m => m.status === "FINISHED"
-      ).length;
-
-      $("programados").textContent = matches.filter(
-        m => ["SCHEDULED", "TIMED"].includes(m.status)
-      ).length;
-    }
-
-    function renderMatches() {
-      const container = $("matches");
-      container.replaceChildren();
-
-      const query = $("searchTeam").value
-        .trim()
-        .toLocaleLowerCase("es");
-
-      const filtered = currentMatches.filter(match => {
-        const text = [
-          match.homeTeam,
-          match.awayTeam,
-          match.competition
-        ].join(" ").toLocaleLowerCase("es");
-
-        return text.includes(query);
-      });
-
-      if (!filtered.length) {
-        container.append(
-          create(
-            "p",
-            currentMatches.length
-              ? "No hay coincidencias con tu búsqueda."
-              : "No hay partidos disponibles para estos filtros.",
-            "status"
-          )
-        );
-        return;
-      }
-
-      filtered.forEach(match => {
-        const card = create(
-          "article", undefined, "match"
-        );
-
-        const top = create(
-          "div", undefined, "match-top"
-        );
-
-        top.append(
-          create(
-            "span",
-            match.competition || "Competición"
-          ),
-          create(
-            "span",
-            match.status || "Sin estado"
-          )
-        );
-
-        const home = create(
-          "div", undefined, "team-row"
-        );
-
-        home.append(
-          create(
-            "span",
-            match.homeTeam || "Por definir"
-          ),
-          create(
-            "span",
-            match.homeScore == null
-              ? "—"
-              : String(match.homeScore),
-            "score"
-          )
-        );
-
-        const away = create(
-          "div", undefined, "team-row"
-        );
-
-        away.append(
-          create(
-            "span",
-            match.awayTeam || "Por definir"
-          ),
-          create(
-            "span",
-            match.awayScore == null
-              ? "—"
-              : String(match.awayScore),
-            "score"
-          )
-        );
-
-        const date = create(
-          "div",
-          formatDate(match.utcDate),
-          "match-date"
-        );
-
-        card.append(top, home, away, date);
-        container.append(card);
-      });
-    }
-
-    async function loadMatches() {
-      const dateFrom = $("dateFrom").value;
-      const dateTo = $("dateTo").value;
-      const competition = $("competition").value;
-
-      if (!dateFrom || !dateTo) {
-        $("matchStatus").textContent =
-          "Selecciona ambas fechas.";
-        return;
-      }
-
-      const start = Date.parse(
-        dateFrom + "T00:00:00Z"
-      );
-
-      const end = Date.parse(
-        dateTo + "T00:00:00Z"
-      );
-
-      const days = (end - start) / 86400000;
-
-      if (!Number.isFinite(days) ||
-          days < 0 || days > 14) {
-        $("matchStatus").className = "status error";
-        $("matchStatus").textContent =
-          "Selecciona un intervalo de 1 a 15 días.";
-        return;
-      }
-
-      const requestId = ++matchesRequest;
-      $("loadMatches").disabled = true;
-
-      $("matchStatus").className = "status";
-      $("matchStatus").textContent =
-        "Cargando partidos...";
-
-      const params = new URLSearchParams({
-        dateFrom,
-        dateTo,
-        competition
-      });
-
-      try {
-        const response = await fetch(
-          "/api/partidos?" + params.toString()
-        );
-
-        const data = await response.json();
-
-        if (requestId !== matchesRequest) return;
-
-        if (!response.ok) {
-          throw new Error(
-            data.error || "No se pudieron cargar los partidos."
-          );
-        }
-
-        currentMatches = Array.isArray(data.matches)
-          ? data.matches
-          : [];
-
-        updateCounters(currentMatches);
-        renderMatches();
-
-        $("matchStatus").textContent =
-          `${currentMatches.length} partidos encontrados.`;
-
-      } catch (error) {
-        if (requestId !== matchesRequest) return;
-
-        currentMatches = [];
-        updateCounters([]);
-        renderMatches();
-
-        $("matchStatus").className = "status error";
-        $("matchStatus").textContent =
-          "Error: " + error.message;
-
-      } finally {
-        if (requestId === matchesRequest) {
-          $("loadMatches").disabled = false;
-        }
-      }
-    }
-
-    function showTeam(team) {
-      $("teamCard").hidden = false;
-      $("teamTitle").textContent =
-        team.nombre || "Equipo";
-
-      const crest = $("teamCrest");
-
-      if (team.escudo &&
-          /^https:\/\//i.test(team.escudo)) {
-        crest.src = team.escudo;
-        crest.hidden = false;
-      } else {
-        crest.removeAttribute("src");
-        crest.hidden = true;
-      }
-
-      const metrics = [
-        ["Posición", team.posicion],
-        ["Partidos jugados", team.jugados],
-        ["Victorias", team.ganados],
-        ["Empates", team.empatados],
-        ["Derrotas", team.perdidos],
-        ["Goles a favor", team.golesFavor],
-        ["Goles en contra", team.golesContra],
-        ["Diferencia de goles", team.diferencia],
-        ["Puntos", team.puntos]
-      ];
-
-      const container = $("teamMetrics");
-      container.replaceChildren();
-
-      metrics.forEach(([label, value]) => {
-        const box = create(
-          "div", undefined, "metric"
-        );
-
-        box.append(
-          create(
-            "strong",
-            value == null ? "—" : String(value)
-          ),
-          create("span", label)
-        );
-
-        container.append(box);
-      });
-
-      $("teamCard").scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
-    }
-
-    async function loadStandings() {
-      const league = $("league").value;
-      const requestId = ++standingsRequest;
-
-      historyRequest++;
-      $("teamCard").hidden = true;
-      $("historyCard").hidden = true;
-      $("standingsBody").replaceChildren();
-
-      $("tableStatus").className = "status";
-      $("tableStatus").textContent =
-        "Cargando clasificación...";
-
-      try {
-        const response = await fetch(
-          "/api/clasificacion?liga=" +
-          encodeURIComponent(league)
-        );
-
-        const data = await response.json();
-
-        if (requestId !== standingsRequest) return;
-
-        if (!response.ok) {
-          throw new Error(
-            data.error ||
-            "No se pudo cargar la clasificación."
-          );
-        }
-
-        const teams = Array.isArray(data.equipos)
-          ? data.equipos
-          : [];
-
-        $("tableStatus").textContent = teams.length
-          ? `${data.competicion || league} · ` +
-            "Selecciona un equipo para ver su ficha."
-          : "No hay clasificación disponible.";
-
-        const body = $("standingsBody");
-
-        teams.forEach(team => {
-          const row = document.createElement("tr");
-
-          row.append(
-            create(
-              "td",
-              String(team.posicion ?? "—")
-            )
-          );
-
-          const teamCell = create("td");
-          const wrapper = create(
-            "span", undefined, "team-name"
-          );
-
-          if (team.escudo &&
-              /^https:\/\//i.test(team.escudo)) {
-            const img = document.createElement("img");
-            img.src = team.escudo;
-            img.alt = "";
-            img.className = "crest";
-            img.loading = "lazy";
-            wrapper.append(img);
-          }
-
-          const button = create(
-            "button",
-            team.nombre || "Equipo",
-            "team-button"
-          );
-
-          button.type = "button";
-
-          button.addEventListener("click", () => {
-            showTeam(team);
-            loadHistory(
-              team.id,
-              team.nombre,
-              league
-            );
-          });
-
-          wrapper.append(button);
-          teamCell.append(wrapper);
-          row.append(teamCell);
-
-          [
-            team.jugados,
-            team.ganados,
-            team.empatados,
-            team.perdidos,
-            team.diferencia,
-            team.puntos
-          ].forEach(value => {
-            row.append(
-              create(
-                "td",
-                value == null
-                  ? "—"
-                  : String(value)
-              )
-            );
-          });
-
-          body.append(row);
-        });
-
-      } catch (error) {
-        if (requestId !== standingsRequest) return;
-
-        $("tableStatus").className = "status error";
-        $("tableStatus").textContent =
-          "Error: " + error.message;
-      }
-    }
-
-    function normalizeHistory(matches, teamId) {
-      return matches
-        .filter(match => {
-          return (
-            match.homeScore != null &&
-            match.awayScore != null &&
-            (
-              Number(match.homeId) === Number(teamId) ||
-              Number(match.awayId) === Number(teamId)
-            )
-          );
-        })
-        .map(match => {
-          const isHome =
-            Number(match.homeId) === Number(teamId);
-
-          const goalsFor = isHome
-            ? Number(match.homeScore)
-            : Number(match.awayScore);
-
-          const goalsAgainst = isHome
-            ? Number(match.awayScore)
-            : Number(match.homeScore);
-
-          let result = "Empate";
-
-          if (goalsFor > goalsAgainst) {
-            result = "Victoria";
-          } else if (goalsFor < goalsAgainst) {
-            result = "Derrota";
-          }
-
-          return {
-            ...match,
-            goalsFor,
-            goalsAgainst,
-            result
-          };
-        })
-        .sort(
-          (a, b) =>
-            new Date(b.utcDate) -
-            new Date(a.utcDate)
-        );
-    }
-
-    function renderHistory(matches) {
-      $("historyContent").hidden = false;
-
-      const wins = matches.filter(
-        m => m.result === "Victoria"
-      ).length;
-
-      const draws = matches.filter(
-        m => m.result === "Empate"
-      ).length;
-
-      const losses = matches.filter(
-        m => m.result === "Derrota"
-      ).length;
-
-      $("historyWins").textContent = wins;
-      $("historyDraws").textContent = draws;
-      $("historyLosses").textContent = losses;
-
-      const chart = $("goalsChart");
-      chart.replaceChildren();
-
-      const chronological = [...matches].reverse();
-
-      const maxGoals = Math.max(
-        1,
-        ...chronological.flatMap(
-          m => [m.goalsFor, m.goalsAgainst]
-        )
-      );
-
-      chronological.forEach((match, index) => {
-        const group = create(
-          "div", undefined, "chart-group"
-        );
-
-        const bars = create(
-          "div", undefined, "chart-bars"
-        );
-
-        const forBar = create(
-          "div", undefined, "bar bar-for"
-        );
-
-        forBar.style.height =
-          (match.goalsFor / maxGoals * 135 + 3) + "px";
-
-        forBar.title =
-          "Goles a favor: " + match.goalsFor;
-
-        const againstBar = create(
-          "div", undefined, "bar bar-against"
-        );
-
-        againstBar.style.height =
-          (match.goalsAgainst / maxGoals * 135 + 3) +
-          "px";
-
-        againstBar.title =
-          "Goles en contra: " + match.goalsAgainst;
-
-        bars.append(forBar, againstBar);
-
-        group.append(
-          bars,
-          create("small", "P" + (index + 1))
-        );
-
-        chart.append(group);
-      });
-
-      const list = $("historyMatches");
-      list.replaceChildren();
-
-      matches.forEach(match => {
-        const row = create(
-          "div", undefined, "history-match"
-        );
-
-        const score =
-          `${match.homeTeam} ` +
-          `${match.homeScore} - ${match.awayScore} ` +
-          `${match.awayTeam}`;
-
-        const date = formatDate(match.utcDate);
-
-        row.append(
-          create("div", score),
-          create(
-            "strong",
-            match.result
-          ),
-          create("span", date)
-        );
-
-        list.append(row);
-      });
-    }
-
-    async function loadHistory(
-      teamId,
-      teamName,
-      league
-    ) {
-      const requestId = ++historyRequest;
-
-      $("historyCard").hidden = false;
-      $("historyContent").hidden = true;
-
-      $("historyStatus").className = "status";
-      $("historyStatus").textContent =
-        "Cargando historial de " + teamName + "...";
-
-      if (!teamId) {
-        $("historyStatus").textContent =
-          "Este equipo no tiene un ID disponible.";
-        return;
-      }
-
-      const params = new URLSearchParams({
-        equipo: String(teamId),
-        liga: league
-      });
-
-      try {
-        const response = await fetch(
-          "/api/historial?" + params.toString()
-        );
-
-        const data = await response.json();
-
-        if (requestId !== historyRequest) return;
-
-        if (!response.ok) {
-          throw new Error(
-            data.error ||
-            "No se pudo consultar el historial."
-          );
-        }
-
-        const matches = normalizeHistory(
-          Array.isArray(data.matches)
-            ? data.matches
-            : [],
-          teamId
-        );
-
-        if (!matches.length) {
-          $("historyStatus").textContent =
-            "No hay partidos históricos disponibles " +
-            "para este equipo y competición.";
-          return;
-        }
-
-        $("historyStatus").textContent =
-          `${matches.length} partidos finalizados ` +
-          "disponibles. Los gráficos y el resumen " +
-          "se basan únicamente en estos encuentros.";
-
-        renderHistory(matches);
-
-      } catch (error) {
-        if (requestId !== historyRequest) return;
-
-        $("historyStatus").className = "status error";
-        $("historyStatus").textContent =
-          "Error: " + error.message;
-      }
-    }
-
-    $("loadMatches").addEventListener(
-      "click", loadMatches
-    );
-
-    $("todayButton").addEventListener(
-      "click", () => {
-        initDates();
-        loadMatches();
-      }
-    );
-
-    $("searchTeam").addEventListener(
-      "input", renderMatches
-    );
-
-    $("league").addEventListener(
-      "change", loadStandings
-    );
-
-    initDates();
-    loadMatches();
-    loadStandings();
-  </script>
-
-<!-- INICIO FUTLAB V7: COMPARADOR DE EQUIPOS -->
-
-<style>
-  #fl7-comparador {
-    max-width: 1120px;
-    margin: 24px auto;
-    padding: 22px;
-    border: 1px solid #2c425b;
-    border-radius: 18px;
-    background: #112237;
-    color: #f2f7fc;
-    font-family: system-ui, sans-serif;
-  }
-
-  #fl7-comparador * {
-    box-sizing: border-box;
-  }
-
-  #fl7-comparador h2 {
-    margin: 0 0 8px;
-    color: #bdf56a;
-  }
-
-  #fl7-comparador p {
-    color: #a8b8c9;
-  }
-
-  .fl7-filtros {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-    margin: 20px 0;
-  }
-
-  .fl7-filtros label {
-    display: block;
-    margin-bottom: 7px;
-    color: #a8b8c9;
-    font-size: 13px;
-  }
-
-  .fl7-filtros select {
-    width: 100%;
-    min-width: 0;
-    padding: 12px;
-    background: #192e46;
-    color: #f2f7fc;
-    border: 1px solid #405671;
-    border-radius: 10px;
-  }
-
-  #fl7-boton {
-    background: #bdf56a;
-    color: #081321;
-    border: 0;
-    border-radius: 10px;
-    padding: 12px 20px;
-    font-weight: 800;
-    cursor: pointer;
-  }
-
-  #fl7-boton:disabled {
-    opacity: 0.6;
-    cursor: wait;
-  }
-
-  #fl7-estado {
-    margin: 16px 0;
-    font-size: 14px;
-    color: #a8b8c9;
-  }
-
-  .fl7-tarjetas {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-    margin: 20px 0;
-  }
-
-  .fl7-tarjeta {
-    padding: 20px;
-    text-align: center;
-    background: #192e46;
-    border: 1px solid #2c425b;
-    border-radius: 16px;
-  }
-
-  .fl7-tarjeta img {
-    display: block;
-    width: 54px;
-    height: 54px;
-    object-fit: contain;
-    margin: 0 auto 12px;
-  }
-
-  .fl7-tarjeta h3 {
-    margin: 0 0 8px;
-    font-size: 17px;
-  }
-
-  .fl7-tarjeta strong {
-    display: block;
-    color: #bdf56a;
-    font-size: 32px;
-  }
-
-  .fl7-tarjeta span {
-    color: #a8b8c9;
-    font-size: 13px;
-  }
-
-  .fl7-fila {
-    display: grid;
-    grid-template-columns: minmax(45px, 1fr) 110px minmax(45px, 1fr);
-    gap: 10px;
-    align-items: center;
-    margin: 16px 0;
-  }
-
-  .fl7-valor {
-    font-weight: 800;
-    font-size: 18px;
-  }
-
-  .fl7-valor:first-child {
-    color: #bdf56a;
-    text-align: right;
-  }
-
-  .fl7-valor:last-child {
-    color: #79a8e8;
-    text-align: left;
-  }
-
-  .fl7-nombre-metrica {
-    color: #a8b8c9;
-    font-size: 12px;
-    text-align: center;
-  }
-
-  .fl7-barras {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5px;
-    margin-top: 5px;
-  }
-
-  .fl7-pista {
-    height: 9px;
-    background: #253d57;
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  .fl7-pista.izquierda {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .fl7-relleno-a {
-    height: 100%;
-    background: #bdf56a;
-    border-radius: 6px;
-  }
-
-  .fl7-relleno-b {
-    height: 100%;
-    background: #79a8e8;
-    border-radius: 6px;
-  }
-
-  .fl7-metrica {
-    border-bottom: 1px solid #2c425b;
-    padding: 3px 0 12px;
-  }
-
-  .fl7-resumen {
-    margin-top: 22px;
-    padding: 16px;
-    background: #192e46;
-    border-radius: 12px;
-    line-height: 1.6;
-  }
-
-  .fl7-resumen h3 {
-    color: #bdf56a;
-    margin: 0 0 8px;
-  }
-
-  #fl7-resultado[hidden] {
-    display: none;
-  }
-
-  @media (max-width: 720px) {
-    #fl7-comparador {
-      margin: 20px 15px;
-      padding: 16px;
-    }
-
-    .fl7-filtros {
-      grid-template-columns: 1fr;
-    }
-
-    .fl7-tarjeta {
-      padding: 12px;
-    }
-
-    .fl7-tarjeta h3 {
-      font-size: 14px;
-    }
-
-    .fl7-tarjeta strong {
-      font-size: 25px;
-    }
-
-    .fl7-fila {
-      grid-template-columns: minmax(35px, 1fr) 90px minmax(35px, 1fr);
-      gap: 6px;
-    }
-  }
-</style>
-
-<section id="fl7-comparador">
-  <h2>Comparador de equipos</h2>
-
+<header>
+  <div class="container nav">
+    <div class="logo">Fut<span>Lab.</span></div>
+    <div class="version">v7 · DATOS REALES</div>
+  </div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+  <h1>El fútbol, explicado
+    <span class="accent">con datos.</span>
+  </h1>
   <p>
-    Selecciona dos equipos de la misma liga
-    para comparar sus estadísticas de temporada.
+    Explora partidos, clasificaciones, estadísticas,
+    historial y comparaciones de equipos.
+  </p>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <strong id="total">—</strong>
+    <span>Partidos</span>
+  </div>
+  <div class="stat">
+    <strong id="finalizados">—</strong>
+    <span>Finalizados</span>
+  </div>
+  <div class="stat">
+    <strong id="programados">—</strong>
+    <span>Programados</span>
+  </div>
+</section>
+
+<!-- EXPLORADOR DE PARTIDOS -->
+<section class="panel">
+  <h2>Explorador de partidos</h2>
+  <p class="description">
+    Selecciona fechas y competición.
   </p>
 
-  <div class="fl7-filtros">
+  <div class="filters">
     <div>
-      <label for="fl7-liga">Liga</label>
-      <select id="fl7-liga">
+      <label for="dateFrom">Desde</label>
+      <input type="date" id="dateFrom">
+    </div>
+    <div>
+      <label for="dateTo">Hasta</label>
+      <input type="date" id="dateTo">
+    </div>
+    <div>
+      <label for="competition">Competición</label>
+      <select id="competition">
+        <option value="ALL">Todas las disponibles</option>
+        <option value="PL">Premier League</option>
+        <option value="PD">LaLiga</option>
+        <option value="BL1">Bundesliga</option>
+        <option value="SA">Serie A</option>
+        <option value="FL1">Ligue 1</option>
+        <option value="CL">Champions League</option>
+        <option value="DED">Eredivisie</option>
+        <option value="PPL">Liga de Portugal</option>
+        <option value="BSA">Brasileirão</option>
+        <option value="ELC">Championship</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" id="loadMatches">
+      Ver partidos
+    </button>
+    <button class="secondary" id="todayButton">
+      Volver a hoy
+    </button>
+  </div>
+
+  <p id="matchStatus" class="status" role="status">
+    Preparando partidos...
+  </p>
+
+  <label for="searchTeam">
+    Buscar equipo o competición
+  </label>
+  <input
+    type="search"
+    id="searchTeam"
+    placeholder="Ejemplo: Barcelona"
+  >
+
+  <div id="matches" class="match-grid"
+       style="margin-top:16px"></div>
+</section>
+
+<!-- CLASIFICACIONES -->
+<section class="panel" id="clasificaciones">
+  <h2>Clasificaciones</h2>
+  <p class="description">
+    Selecciona un equipo para ver su ficha,
+    historial y gráficos.
+  </p>
+
+  <div style="max-width:340px">
+    <label for="league">Liga</label>
+    <select id="league">
+      <option value="PL">Premier League</option>
+      <option value="PD">LaLiga</option>
+      <option value="BL1">Bundesliga</option>
+      <option value="SA">Serie A</option>
+      <option value="FL1">Ligue 1</option>
+      <option value="DED">Eredivisie</option>
+      <option value="PPL">Liga de Portugal</option>
+      <option value="BSA">Brasileirão</option>
+      <option value="ELC">Championship</option>
+    </select>
+  </div>
+
+  <p id="tableStatus" class="status" role="status">
+    Cargando clasificación...
+  </p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Pos.</th>
+          <th>Equipo</th>
+          <th>PJ</th>
+          <th>G</th>
+          <th>E</th>
+          <th>P</th>
+          <th>DG</th>
+          <th>Pts</th>
+        </tr>
+      </thead>
+      <tbody id="standingsBody"></tbody>
+    </table>
+  </div>
+
+  <article id="teamCard" class="team-card" hidden>
+    <div class="team-heading">
+      <img id="teamCrest" alt="" hidden>
+      <h3 id="teamTitle"></h3>
+    </div>
+    <p class="description">
+      Estadísticas de la temporada.
+    </p>
+    <div id="teamMetrics" class="metrics"></div>
+  </article>
+
+  <article id="historyCard" class="history-card" hidden>
+    <h3>Historial y evolución</h3>
+    <p id="historyStatus" class="status" role="status">
+      Cargando historial...
+    </p>
+
+    <div id="historyContent" hidden>
+      <div class="history-summary">
+        <div class="metric">
+          <strong id="historyWins">—</strong>
+          <span>Victorias recientes</span>
+        </div>
+        <div class="metric">
+          <strong id="historyDraws">—</strong>
+          <span>Empates recientes</span>
+        </div>
+        <div class="metric">
+          <strong id="historyLosses">—</strong>
+          <span>Derrotas recientes</span>
+        </div>
+      </div>
+
+      <h3>Goles por partido</h3>
+
+      <div class="chart-legend">
+        <span class="legend-item">
+          <i class="legend-dot dot-for"></i>
+          Goles a favor
+        </span>
+        <span class="legend-item">
+          <i class="legend-dot dot-against"></i>
+          Goles en contra
+        </span>
+      </div>
+
+      <div id="goalsChart" class="chart"></div>
+
+      <h3 style="margin-top:25px">
+        Últimos resultados disponibles
+      </h3>
+      <div id="historyMatches"></div>
+    </div>
+  </article>
+</section>
+
+<!-- COMPARADOR V7 -->
+<section class="panel" id="comparador">
+  <h2>Comparador de equipos</h2>
+  <p class="description">
+    Compara dos equipos de la misma liga
+    usando estadísticas reales de temporada.
+  </p>
+
+  <div class="filters">
+    <div>
+      <label for="compareLeague">Liga</label>
+      <select id="compareLeague">
         <option value="PL">Premier League</option>
         <option value="PD">LaLiga</option>
         <option value="BL1">Bundesliga</option>
@@ -1561,365 +674,769 @@
         <option value="ELC">Championship</option>
       </select>
     </div>
-
     <div>
-      <label for="fl7-equipo-a">Equipo A</label>
-      <select id="fl7-equipo-a">
+      <label for="compareA">Equipo A</label>
+      <select id="compareA">
         <option value="">Cargando equipos...</option>
       </select>
     </div>
-
     <div>
-      <label for="fl7-equipo-b">Equipo B</label>
-      <select id="fl7-equipo-b">
+      <label for="compareB">Equipo B</label>
+      <select id="compareB">
         <option value="">Cargando equipos...</option>
       </select>
     </div>
   </div>
 
-  <button id="fl7-boton" type="button">
+  <button class="primary" id="compareButton"
+          type="button" disabled>
     Comparar equipos
   </button>
 
-  <p id="fl7-estado" role="status">
-    Cargando clasificación...
+  <p id="compareStatus" class="status" role="status">
+    Cargando equipos...
   </p>
 
-  <div id="fl7-resultado" hidden>
-    <div class="fl7-tarjetas">
-      <div class="fl7-tarjeta">
-        <img id="fl7-escudo-a" alt="" hidden>
-        <h3 id="fl7-nombre-a">Equipo A</h3>
-        <strong id="fl7-puntos-a">—</strong>
+  <div id="compareResult" hidden>
+    <div class="compare-cards">
+      <div class="compare-card">
+        <img id="compareCrestA" alt="" hidden>
+        <h3 id="compareNameA">Equipo A</h3>
+        <strong id="comparePointsA">—</strong>
         <span>Puntos</span>
       </div>
-
-      <div class="fl7-tarjeta">
-        <img id="fl7-escudo-b" alt="" hidden>
-        <h3 id="fl7-nombre-b">Equipo B</h3>
-        <strong id="fl7-puntos-b">—</strong>
+      <div class="compare-card">
+        <img id="compareCrestB" alt="" hidden>
+        <h3 id="compareNameB">Equipo B</h3>
+        <strong id="comparePointsB">—</strong>
         <span>Puntos</span>
       </div>
     </div>
 
     <h3>Estadísticas comparadas</h3>
+    <div id="compareMetrics"></div>
 
-    <div id="fl7-metricas"></div>
-
-    <div class="fl7-resumen">
+    <div class="compare-summary">
       <h3>Resumen estadístico</h3>
-      <p id="fl7-analisis"></p>
+      <p id="compareAnalysis"></p>
     </div>
   </div>
 </section>
 
+</main>
+
+<footer>
+  FutLab v7 · Datos de football-data.org
+  <br>
+  La disponibilidad depende del plan de datos.
+</footer>
+
 <script>
-(() => {
-  const liga = document.getElementById("fl7-liga");
-  const selectA = document.getElementById("fl7-equipo-a");
-  const selectB = document.getElementById("fl7-equipo-b");
-  const boton = document.getElementById("fl7-boton");
-  const estado = document.getElementById("fl7-estado");
-  const resultado = document.getElementById("fl7-resultado");
-  const metricas = document.getElementById("fl7-metricas");
+const $ = id => document.getElementById(id);
 
-  let equipos = [];
-  let solicitudActual = 0;
+let currentMatches = [];
+let matchesRequest = 0;
+let standingsRequest = 0;
+let historyRequest = 0;
+let compareRequest = 0;
+let compareTeams = [];
 
-  function crear(tag, texto, clase) {
-    const elemento = document.createElement(tag);
+function create(tag, text, className) {
+  const element = document.createElement(tag);
+  if (text !== undefined) element.textContent = text;
+  if (className) element.className = className;
+  return element;
+}
 
-    if (texto !== undefined) {
-      elemento.textContent = texto;
-    }
+function number(value) {
+  if (value === null || value === undefined) return 0;
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
 
-    if (clase) {
-      elemento.className = clase;
-    }
+function localDate(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
 
-    return elemento;
-  }
+function formatDate(value) {
+  if (!value) return "Fecha por confirmar";
+  const date = new Date(value);
+  if (isNaN(date.getTime())) return "Fecha por confirmar";
 
-  function numero(valor) {
-    const n = Number(valor);
-    return Number.isFinite(n) ? n : 0;
-  }
+  return new Intl.DateTimeFormat("es", {
+    dateStyle: "medium",
+    timeStyle: "short"
+  }).format(date);
+}
 
-  function llenarSelector(select, lista) {
-    select.replaceChildren();
+function initDates() {
+  const today = localDate(new Date());
+  $("dateFrom").value = today;
+  $("dateTo").value = today;
+}
 
-    lista.forEach(equipo => {
-      const opcion = document.createElement("option");
-      opcion.value = String(equipo.id);
-      opcion.textContent = equipo.nombre;
-      select.append(opcion);
-    });
-  }
+function updateCounters(matches) {
+  $("total").textContent = matches.length;
+  $("finalizados").textContent = matches.filter(
+    m => m.status === "FINISHED"
+  ).length;
+  $("programados").textContent = matches.filter(
+    m => ["SCHEDULED", "TIMED"].includes(m.status)
+  ).length;
+}
 
-  async function cargarEquipos() {
-    const solicitud = ++solicitudActual;
+/* PARTIDOS */
+function renderMatches() {
+  const container = $("matches");
+  container.replaceChildren();
 
-    equipos = [];
-    resultado.hidden = true;
-    selectA.replaceChildren();
-    selectB.replaceChildren();
+  const query = $("searchTeam").value
+    .trim().toLocaleLowerCase("es");
 
-    estado.textContent = "Cargando equipos...";
-    boton.disabled = true;
+  const filtered = currentMatches.filter(match => {
+    const text = [
+      match.homeTeam,
+      match.awayTeam,
+      match.competition
+    ].join(" ").toLocaleLowerCase("es");
+    return text.includes(query);
+  });
 
-    try {
-      const respuesta = await fetch(
-        "/api/clasificacion?liga=" +
-        encodeURIComponent(liga.value)
-      );
-
-      const datos = await respuesta.json();
-
-      if (solicitud !== solicitudActual) return;
-
-      if (!respuesta.ok) {
-        throw new Error(
-          datos.error || "No se pudo cargar la liga."
-        );
-      }
-
-      equipos = Array.isArray(datos.equipos)
-        ? datos.equipos
-        : [];
-
-      if (equipos.length < 2) {
-        estado.textContent =
-          "No hay suficientes equipos disponibles.";
-        return;
-      }
-
-      llenarSelector(selectA, equipos);
-      llenarSelector(selectB, equipos);
-
-      selectA.selectedIndex = 0;
-      selectB.selectedIndex = 1;
-
-      estado.textContent =
-        `${equipos.length} equipos disponibles. ` +
-        "Elige dos y pulsa Comparar equipos.";
-
-      boton.disabled = false;
-
-    } catch (error) {
-      if (solicitud !== solicitudActual) return;
-
-      estado.textContent = "Error: " + error.message;
-    }
-  }
-
-  function actualizarTarjeta(sufijo, equipo) {
-    document.getElementById(
-      "fl7-nombre-" + sufijo
-    ).textContent = equipo.nombre;
-
-    document.getElementById(
-      "fl7-puntos-" + sufijo
-    ).textContent = numero(equipo.puntos);
-
-    const imagen = document.getElementById(
-      "fl7-escudo-" + sufijo
-    );
-
-    if (
-      equipo.escudo &&
-      /^https:\/\//i.test(equipo.escudo)
-    ) {
-      imagen.src = equipo.escudo;
-      imagen.hidden = false;
-    } else {
-      imagen.removeAttribute("src");
-      imagen.hidden = true;
-    }
-  }
-
-  function crearMetrica(nombre, valorA, valorB) {
-    const maximo = Math.max(1, valorA, valorB);
-
-    const contenedor = crear(
-      "div", undefined, "fl7-metrica"
-    );
-
-    const fila = crear(
-      "div", undefined, "fl7-fila"
-    );
-
-    fila.append(
-      crear("span", String(valorA), "fl7-valor"),
-      crear("span", nombre, "fl7-nombre-metrica"),
-      crear("span", String(valorB), "fl7-valor")
-    );
-
-    const barras = crear(
-      "div", undefined, "fl7-barras"
-    );
-
-    const pistaA = crear(
-      "div", undefined, "fl7-pista izquierda"
-    );
-
-    const pistaB = crear(
-      "div", undefined, "fl7-pista"
-    );
-
-    const barraA = crear(
-      "div", undefined, "fl7-relleno-a"
-    );
-
-    const barraB = crear(
-      "div", undefined, "fl7-relleno-b"
-    );
-
-    // Las barras representan valores positivos.
-    barraA.style.width =
-      Math.max(0, valorA) / maximo * 100 + "%";
-
-    barraB.style.width =
-      Math.max(0, valorB) / maximo * 100 + "%";
-
-    pistaA.append(barraA);
-    pistaB.append(barraB);
-
-    barras.append(pistaA, pistaB);
-    contenedor.append(fila, barras);
-
-    return contenedor;
-  }
-
-  function comparar() {
-    const equipoA = equipos.find(
-      e => String(e.id) === selectA.value
-    );
-
-    const equipoB = equipos.find(
-      e => String(e.id) === selectB.value
-    );
-
-    if (!equipoA || !equipoB) {
-      estado.textContent =
-        "Selecciona dos equipos válidos.";
-      resultado.hidden = true;
-      return;
-    }
-
-    if (equipoA.id === equipoB.id) {
-      estado.textContent =
-        "Selecciona dos equipos diferentes.";
-      resultado.hidden = true;
-      return;
-    }
-
-    actualizarTarjeta("a", equipoA);
-    actualizarTarjeta("b", equipoB);
-
-    metricas.replaceChildren();
-
-    const datos = [
-      ["Puntos", "puntos"],
-      ["Partidos", "jugados"],
-      ["Victorias", "ganados"],
-      ["Empates", "empatados"],
-      ["Derrotas", "perdidos"],
-      ["Goles a favor", "golesFavor"],
-      ["Goles en contra", "golesContra"]
-    ];
-
-    datos.forEach(([nombre, clave]) => {
-      metricas.append(
-        crearMetrica(
-          nombre,
-          numero(equipoA[clave]),
-          numero(equipoB[clave])
-        )
-      );
-    });
-
-    // La diferencia de goles puede ser negativa,
-    // por eso la mostramos como valor textual.
-    const diferencia = crear(
+  if (!filtered.length) {
+    container.append(create(
       "p",
-      `Diferencia de goles: ` +
-      `${equipoA.nombre} ` +
-      `${numero(equipoA.diferencia)} · ` +
-      `${equipoB.nombre} ` +
-      `${numero(equipoB.diferencia)}`
-    );
-
-    metricas.append(diferencia);
-
-    const puntosA = numero(equipoA.puntos);
-    const puntosB = numero(equipoB.puntos);
-
-    const pjA = numero(equipoA.jugados);
-    const pjB = numero(equipoB.jugados);
-
-    const promedioA = pjA
-      ? (puntosA / pjA).toFixed(2)
-      : "—";
-
-    const promedioB = pjB
-      ? (puntosB / pjB).toFixed(2)
-      : "—";
-
-    let texto = "";
-
-    if (puntosA > puntosB) {
-      texto =
-        `${equipoA.nombre} tiene ` +
-        `${puntosA - puntosB} puntos más que ` +
-        `${equipoB.nombre}. `;
-    } else if (puntosB > puntosA) {
-      texto =
-        `${equipoB.nombre} tiene ` +
-        `${puntosB - puntosA} puntos más que ` +
-        `${equipoA.nombre}. `;
-    } else {
-      texto =
-        "Ambos equipos tienen los mismos puntos. ";
-    }
-
-    texto +=
-      `El promedio de puntos por partido es ` +
-      `${promedioA} para ${equipoA.nombre} y ` +
-      `${promedioB} para ${equipoB.nombre}. ` +
-      "La comparación corresponde a los datos " +
-      "de clasificación disponibles.";
-
-    document.getElementById(
-      "fl7-analisis"
-    ).textContent = texto;
-
-    resultado.hidden = false;
-
-    estado.textContent =
-      "Comparación actualizada correctamente.";
-
-    resultado.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
+      currentMatches.length
+        ? "No hay coincidencias con tu búsqueda."
+        : "No hay partidos disponibles.",
+      "status"
+    ));
+    return;
   }
 
-  liga.addEventListener("change", cargarEquipos);
+  filtered.forEach(match => {
+    const card = create("article", undefined, "match");
+    const top = create("div", undefined, "match-top");
 
-  selectA.addEventListener("change", () => {
-    resultado.hidden = true;
+    top.append(
+      create("span", match.competition || "Competición"),
+      create("span", match.status || "Sin estado")
+    );
+
+    const home = create("div", undefined, "team-row");
+    home.append(
+      create("span", match.homeTeam || "Por definir"),
+      create("span",
+        match.homeScore == null
+          ? "—" : String(match.homeScore),
+        "score")
+    );
+
+    const away = create("div", undefined, "team-row");
+    away.append(
+      create("span", match.awayTeam || "Por definir"),
+      create("span",
+        match.awayScore == null
+          ? "—" : String(match.awayScore),
+        "score")
+    );
+
+    card.append(
+      top, home, away,
+      create("div", formatDate(match.utcDate), "match-date")
+    );
+    container.append(card);
+  });
+}
+
+async function loadMatches() {
+  const dateFrom = $("dateFrom").value;
+  const dateTo = $("dateTo").value;
+  const competition = $("competition").value;
+
+  const start = Date.parse(dateFrom + "T00:00:00Z");
+  const end = Date.parse(dateTo + "T00:00:00Z");
+  const days = (end - start) / 86400000;
+
+  if (!Number.isFinite(days) || days < 0 || days > 14) {
+    $("matchStatus").className = "status error";
+    $("matchStatus").textContent =
+      "Selecciona un intervalo de 1 a 15 días.";
+    return;
+  }
+
+  const requestId = ++matchesRequest;
+  $("loadMatches").disabled = true;
+  $("matchStatus").className = "status";
+  $("matchStatus").textContent = "Cargando partidos...";
+
+  const params = new URLSearchParams({
+    dateFrom, dateTo, competition
   });
 
-  selectB.addEventListener("change", () => {
-    resultado.hidden = true;
+  try {
+    const response = await fetch(
+      "/api/partidos?" + params.toString()
+    );
+    const data = await response.json();
+    if (requestId !== matchesRequest) return;
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "No se pudieron cargar los partidos."
+      );
+    }
+
+    currentMatches = Array.isArray(data.matches)
+      ? data.matches : [];
+
+    updateCounters(currentMatches);
+    renderMatches();
+
+    $("matchStatus").textContent =
+      `${currentMatches.length} partidos encontrados.`;
+
+  } catch (error) {
+    if (requestId !== matchesRequest) return;
+    currentMatches = [];
+    updateCounters([]);
+    renderMatches();
+    $("matchStatus").className = "status error";
+    $("matchStatus").textContent = "Error: " + error.message;
+  } finally {
+    if (requestId === matchesRequest) {
+      $("loadMatches").disabled = false;
+    }
+  }
+}
+
+/* FICHA DE EQUIPO */
+function setCrest(id, url) {
+  const img = $(id);
+  if (url && /^https:\/\//i.test(url)) {
+    img.src = url;
+    img.hidden = false;
+  } else {
+    img.removeAttribute("src");
+    img.hidden = true;
+  }
+}
+
+function showTeam(team) {
+  $("teamCard").hidden = false;
+  $("teamTitle").textContent = team.nombre || "Equipo";
+  setCrest("teamCrest", team.escudo);
+
+  const metrics = [
+    ["Posición", team.posicion],
+    ["Partidos jugados", team.jugados],
+    ["Victorias", team.ganados],
+    ["Empates", team.empatados],
+    ["Derrotas", team.perdidos],
+    ["Goles a favor", team.golesFavor],
+    ["Goles en contra", team.golesContra],
+    ["Diferencia de goles", team.diferencia],
+    ["Puntos", team.puntos]
+  ];
+
+  const container = $("teamMetrics");
+  container.replaceChildren();
+
+  metrics.forEach(([label, value]) => {
+    const box = create("div", undefined, "metric");
+    box.append(
+      create("strong",
+        value == null ? "—" : String(value)),
+      create("span", label)
+    );
+    container.append(box);
   });
 
-  boton.addEventListener("click", comparar);
+  $("teamCard").scrollIntoView({
+    behavior: "smooth",
+    block: "nearest"
+  });
+}
 
-  cargarEquipos();
-})();
+/* CLASIFICACIONES */
+async function loadStandings() {
+  const league = $("league").value;
+  const requestId = ++standingsRequest;
+
+  historyRequest++;
+  $("teamCard").hidden = true;
+  $("historyCard").hidden = true;
+  $("standingsBody").replaceChildren();
+
+  $("tableStatus").className = "status";
+  $("tableStatus").textContent = "Cargando clasificación...";
+
+  try {
+    const response = await fetch(
+      "/api/clasificacion?liga=" +
+      encodeURIComponent(league)
+    );
+    const data = await response.json();
+    if (requestId !== standingsRequest) return;
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "No se pudo cargar la clasificación."
+      );
+    }
+
+    const teams = Array.isArray(data.equipos)
+      ? data.equipos : [];
+
+    $("tableStatus").textContent = teams.length
+      ? `${data.competicion || league} · Selecciona un equipo.`
+      : "No hay clasificación disponible.";
+
+    const body = $("standingsBody");
+
+    teams.forEach(team => {
+      const row = document.createElement("tr");
+      row.append(create("td", String(team.posicion ?? "—")));
+
+      const teamCell = create("td");
+      const wrapper = create("span", undefined, "team-name");
+
+      if (team.escudo && /^https:\/\//i.test(team.escudo)) {
+        const img = document.createElement("img");
+        img.src = team.escudo;
+        img.alt = "";
+        img.className = "crest";
+        img.loading = "lazy";
+        wrapper.append(img);
+      }
+
+      const button = create(
+        "button", team.nombre || "Equipo", "team-button"
+      );
+      button.type = "button";
+      button.addEventListener("click", () => {
+        showTeam(team);
+        loadHistory(team.id, team.nombre, league);
+      });
+
+      wrapper.append(button);
+      teamCell.append(wrapper);
+      row.append(teamCell);
+
+      [
+        team.jugados, team.ganados, team.empatados,
+        team.perdidos, team.diferencia, team.puntos
+      ].forEach(value => {
+        row.append(create(
+          "td", value == null ? "—" : String(value)
+        ));
+      });
+
+      body.append(row);
+    });
+
+  } catch (error) {
+    if (requestId !== standingsRequest) return;
+    $("tableStatus").className = "status error";
+    $("tableStatus").textContent = "Error: " + error.message;
+  }
+}
+
+/* HISTORIAL */
+function normalizeHistory(matches, teamId) {
+  return matches
+    .filter(m =>
+      m.homeScore != null &&
+      m.awayScore != null &&
+      (
+        Number(m.homeId) === Number(teamId) ||
+        Number(m.awayId) === Number(teamId)
+      )
+    )
+    .map(m => {
+      const isHome = Number(m.homeId) === Number(teamId);
+      const goalsFor = isHome
+        ? Number(m.homeScore) : Number(m.awayScore);
+      const goalsAgainst = isHome
+        ? Number(m.awayScore) : Number(m.homeScore);
+
+      return {
+        ...m,
+        goalsFor,
+        goalsAgainst,
+        result: goalsFor > goalsAgainst
+          ? "Victoria"
+          : goalsFor < goalsAgainst
+            ? "Derrota" : "Empate"
+      };
+    })
+    .sort((a, b) =>
+      new Date(b.utcDate) - new Date(a.utcDate)
+    );
+}
+
+function renderHistory(matches) {
+  $("historyContent").hidden = false;
+
+  $("historyWins").textContent = matches.filter(
+    m => m.result === "Victoria"
+  ).length;
+  $("historyDraws").textContent = matches.filter(
+    m => m.result === "Empate"
+  ).length;
+  $("historyLosses").textContent = matches.filter(
+    m => m.result === "Derrota"
+  ).length;
+
+  const chart = $("goalsChart");
+  chart.replaceChildren();
+
+  const chronological = [...matches].reverse();
+  const maxGoals = Math.max(
+    1,
+    ...chronological.flatMap(
+      m => [m.goalsFor, m.goalsAgainst]
+    )
+  );
+
+  chronological.forEach((match, index) => {
+    const group = create("div", undefined, "chart-group");
+    const bars = create("div", undefined, "chart-bars");
+
+    const forBar = create(
+      "div", undefined, "bar bar-for"
+    );
+    forBar.style.height =
+      (match.goalsFor / maxGoals * 135 + 3) + "px";
+    forBar.title = "Goles a favor: " + match.goalsFor;
+
+    const againstBar = create(
+      "div", undefined, "bar bar-against"
+    );
+    againstBar.style.height =
+      (match.goalsAgainst / maxGoals * 135 + 3) + "px";
+    againstBar.title =
+      "Goles en contra: " + match.goalsAgainst;
+
+    bars.append(forBar, againstBar);
+    group.append(
+      bars,
+      create("small", "P" + (index + 1))
+    );
+    chart.append(group);
+  });
+
+  const list = $("historyMatches");
+  list.replaceChildren();
+
+  matches.forEach(match => {
+    const row = create(
+      "div", undefined, "history-match"
+    );
+
+    row.append(
+      create("div",
+        `${match.homeTeam} ${match.homeScore} - ` +
+        `${match.awayScore} ${match.awayTeam}`),
+      create("strong", match.result),
+      create("span", formatDate(match.utcDate))
+    );
+
+    list.append(row);
+  });
+}
+
+async function loadHistory(teamId, teamName, league) {
+  const requestId = ++historyRequest;
+  $("historyCard").hidden = false;
+  $("historyContent").hidden = true;
+  $("historyStatus").className = "status";
+  $("historyStatus").textContent =
+    "Cargando historial de " + teamName + "...";
+
+  if (!teamId) {
+    $("historyStatus").textContent =
+      "Este equipo no tiene un ID disponible.";
+    return;
+  }
+
+  const params = new URLSearchParams({
+    equipo: String(teamId),
+    liga: league
+  });
+
+  try {
+    const response = await fetch(
+      "/api/historial?" + params.toString()
+    );
+    const data = await response.json();
+    if (requestId !== historyRequest) return;
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "No se pudo consultar el historial."
+      );
+    }
+
+    const matches = normalizeHistory(
+      Array.isArray(data.matches) ? data.matches : [],
+      teamId
+    );
+
+    if (!matches.length) {
+      $("historyStatus").textContent =
+        "No hay historial disponible para este equipo.";
+      return;
+    }
+
+    $("historyStatus").textContent =
+      `${matches.length} partidos finalizados disponibles. ` +
+      "El gráfico se basa en estos encuentros.";
+
+    renderHistory(matches);
+
+  } catch (error) {
+    if (requestId !== historyRequest) return;
+    $("historyStatus").className = "status error";
+    $("historyStatus").textContent = "Error: " + error.message;
+  }
+}
+
+/* COMPARADOR V7 */
+function fillTeamSelect(select, teams) {
+  select.replaceChildren();
+
+  teams.forEach(team => {
+    const option = document.createElement("option");
+    option.value = String(team.id);
+    option.textContent = team.nombre;
+    select.append(option);
+  });
+}
+
+async function loadCompareTeams() {
+  const league = $("compareLeague").value;
+  const requestId = ++compareRequest;
+
+  compareTeams = [];
+  $("compareResult").hidden = true;
+  $("compareA").replaceChildren();
+  $("compareB").replaceChildren();
+  $("compareButton").disabled = true;
+  $("compareStatus").className = "status";
+  $("compareStatus").textContent = "Cargando equipos...";
+
+  try {
+    const response = await fetch(
+      "/api/clasificacion?liga=" +
+      encodeURIComponent(league)
+    );
+    const data = await response.json();
+    if (requestId !== compareRequest) return;
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "No se pudo cargar la liga."
+      );
+    }
+
+    compareTeams = Array.isArray(data.equipos)
+      ? data.equipos.filter(t => t.id != null)
+      : [];
+
+    if (compareTeams.length < 2) {
+      $("compareStatus").textContent =
+        "No hay suficientes equipos para comparar.";
+      return;
+    }
+
+    fillTeamSelect($("compareA"), compareTeams);
+    fillTeamSelect($("compareB"), compareTeams);
+
+    $("compareA").selectedIndex = 0;
+    $("compareB").selectedIndex = 1;
+    $("compareButton").disabled = false;
+
+    $("compareStatus").textContent =
+      `${compareTeams.length} equipos disponibles. ` +
+      "Elige dos equipos diferentes.";
+
+  } catch (error) {
+    if (requestId !== compareRequest) return;
+    $("compareStatus").className = "status error";
+    $("compareStatus").textContent =
+      "Error: " + error.message;
+  }
+}
+
+function updateCompareCard(suffix, team) {
+  $("compareName" + suffix).textContent =
+    team.nombre || "Equipo";
+  $("comparePoints" + suffix).textContent =
+    team.puntos ?? "—";
+  setCrest("compareCrest" + suffix, team.escudo);
+}
+
+function makeCompareMetric(label, valueA, valueB) {
+  const container = create(
+    "div", undefined, "compare-metric"
+  );
+  const values = create(
+    "div", undefined, "compare-values"
+  );
+
+  values.append(
+    create("strong", String(valueA)),
+    create("span", label),
+    create("strong", String(valueB))
+  );
+
+  const bars = create(
+    "div", undefined, "compare-bars"
+  );
+  const trackA = create(
+    "div", undefined, "compare-track left"
+  );
+  const trackB = create(
+    "div", undefined, "compare-track"
+  );
+  const fillA = create(
+    "div", undefined, "compare-fill-a"
+  );
+  const fillB = create(
+    "div", undefined, "compare-fill-b"
+  );
+
+  const max = Math.max(1, valueA, valueB);
+  fillA.style.width = Math.max(0, valueA) / max * 100 + "%";
+  fillB.style.width = Math.max(0, valueB) / max * 100 + "%";
+
+  trackA.append(fillA);
+  trackB.append(fillB);
+  bars.append(trackA, trackB);
+  container.append(values, bars);
+
+  return container;
+}
+
+function compareSelectedTeams() {
+  const a = compareTeams.find(
+    t => String(t.id) === $("compareA").value
+  );
+  const b = compareTeams.find(
+    t => String(t.id) === $("compareB").value
+  );
+
+  if (!a || !b || a.id === b.id) {
+    $("compareResult").hidden = true;
+    $("compareStatus").textContent =
+      "Selecciona dos equipos diferentes.";
+    return;
+  }
+
+  updateCompareCard("A", a);
+  updateCompareCard("B", b);
+
+  const container = $("compareMetrics");
+  container.replaceChildren();
+
+  [
+    ["Puntos", "puntos"],
+    ["Partidos jugados", "jugados"],
+    ["Victorias", "ganados"],
+    ["Empates", "empatados"],
+    ["Derrotas", "perdidos"],
+    ["Goles a favor", "golesFavor"],
+    ["Goles en contra", "golesContra"]
+  ].forEach(([label, key]) => {
+    container.append(makeCompareMetric(
+      label,
+      number(a[key]),
+      number(b[key])
+    ));
+  });
+
+  const dg = create(
+    "p",
+    `Diferencia de goles: ${a.nombre} ` +
+    `${a.diferencia ?? "—"} · ` +
+    `${b.nombre} ${b.diferencia ?? "—"}`
+  );
+  container.append(dg);
+
+  const pa = number(a.puntos);
+  const pb = number(b.puntos);
+  const ja = number(a.jugados);
+  const jb = number(b.jugados);
+
+  const avgA = ja ? (pa / ja).toFixed(2) : "—";
+  const avgB = jb ? (pb / jb).toFixed(2) : "—";
+
+  let summary;
+
+  if (pa > pb) {
+    summary = `${a.nombre} tiene ${pa - pb} puntos más ` +
+      `que ${b.nombre}. `;
+  } else if (pb > pa) {
+    summary = `${b.nombre} tiene ${pb - pa} puntos más ` +
+      `que ${a.nombre}. `;
+  } else {
+    summary = "Ambos equipos tienen los mismos puntos. ";
+  }
+
+  summary +=
+    `Promedio de puntos por partido: ${avgA} para ` +
+    `${a.nombre} y ${avgB} para ${b.nombre}. ` +
+    "Esta comparación describe las estadísticas " +
+    "de clasificación disponibles.";
+
+  $("compareAnalysis").textContent = summary;
+  $("compareStatus").textContent =
+    "Comparación actualizada.";
+  $("compareResult").hidden = false;
+
+  $("compareResult").scrollIntoView({
+    behavior: "smooth",
+    block: "nearest"
+  });
+}
+
+/* EVENTOS */
+$("loadMatches").addEventListener("click", loadMatches);
+
+$("todayButton").addEventListener("click", () => {
+  initDates();
+  loadMatches();
+});
+
+$("searchTeam").addEventListener("input", renderMatches);
+
+$("league").addEventListener("change", loadStandings);
+
+$("compareLeague").addEventListener(
+  "change", loadCompareTeams
+);
+
+$("compareA").addEventListener("change", () => {
+  $("compareResult").hidden = true;
+});
+
+$("compareB").addEventListener("change", () => {
+  $("compareResult").hidden = true;
+});
+
+$("compareButton").addEventListener(
+  "click", compareSelectedTeams
+);
+
+/* INICIAR FUTLAB */
+initDates();
+loadMatches();
+loadStandings();
+loadCompareTeams();
 </script>
 
-<!-- FIN FUTLAB V7 -->
 </body>
 </html>
