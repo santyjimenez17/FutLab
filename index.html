@@ -5,7 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#081321">
-<title>FutLab v7 | Estadísticas de fútbol</title>
+<meta name="description" content="FutLab: resultados, clasificaciones, historial y estadísticas de fútbol en español.">
+<title>FutLab v8.1 | Estadísticas de fútbol</title>
 
 <style>
 :root {
@@ -18,9 +19,17 @@
   --lime: #bdf56a;
   --blue: #79a8e8;
   --red: #ffa1a1;
+  --amber: #ffd38b;
 }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -28,91 +37,139 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
 }
-button, input, select { font: inherit; }
-button { cursor: pointer; }
-[hidden] { display: none !important; }
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}
+
 .container {
   width: min(1120px, calc(100% - 30px));
   margin: auto;
 }
+
 header {
   background: #0c1a2b;
   border-bottom: 1px solid var(--line);
 }
+
 .nav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   padding: 17px 0;
 }
+
 .logo {
   font-size: 28px;
   font-weight: 900;
   letter-spacing: -1px;
 }
-.logo span, .accent { color: var(--lime); }
+
+.logo span,
+.accent {
+  color: var(--lime);
+}
+
 .version {
   color: var(--lime);
   font-size: 12px;
   font-weight: 800;
 }
-.hero { padding: 38px 0 20px; }
+
+.hero {
+  padding: 38px 0 20px;
+}
+
 .hero h1 {
   font-size: clamp(29px, 5vw, 48px);
   line-height: 1.13;
   margin: 0 0 14px;
 }
+
 .hero p {
   color: var(--muted);
   max-width: 680px;
   margin: 0;
 }
+
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin: 24px 0;
 }
-.stat, .panel {
+
+.stat,
+.panel {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 18px;
 }
-.stat { padding: 20px; }
+
+.stat {
+  padding: 20px;
+}
+
 .stat strong {
   display: block;
   font-size: 30px;
   color: var(--lime);
 }
+
 .stat span {
   color: var(--muted);
   font-size: 13px;
 }
+
 .panel {
   padding: 22px;
   margin-bottom: 24px;
 }
-h2 { margin: 0 0 8px; font-size: 24px; }
-h3 { margin: 0 0 12px; }
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+h3 {
+  margin: 0 0 12px;
+}
+
+h4 {
+  margin: 0 0 10px;
+}
+
 .description {
   color: var(--muted);
   font-size: 14px;
   margin: 0 0 20px;
 }
+
 .filters {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin-bottom: 16px;
 }
+
 label {
   display: block;
   color: var(--muted);
   font-size: 13px;
   margin-bottom: 7px;
 }
-input, select {
+
+input,
+select {
   width: 100%;
   min-width: 0;
   padding: 12px;
@@ -122,56 +179,112 @@ input, select {
   border-radius: 10px;
   color-scheme: dark;
 }
-input:focus, select:focus, button:focus-visible {
+
+input:focus,
+select:focus,
+button:focus-visible {
   outline: 2px solid var(--lime);
   outline-offset: 2px;
 }
+
 .actions {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
-.primary, .secondary {
+
+.primary,
+.secondary {
   padding: 12px 20px;
   border-radius: 10px;
   font-weight: 800;
 }
+
 .primary {
   background: var(--lime);
   color: #081321;
   border: 0;
 }
+
 .secondary {
   background: var(--panel2);
   color: var(--text);
   border: 1px solid var(--line);
 }
-button:disabled { opacity: .6; cursor: wait; }
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 .status {
   color: var(--muted);
   font-size: 14px;
   margin: 16px 0;
 }
-.error { color: var(--red); }
+
+.error {
+  color: var(--red);
+}
+
 .match-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
+
 .match {
   padding: 17px;
   background: var(--panel2);
   border: 1px solid var(--line);
   border-radius: 14px;
 }
+
 .match-top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 12px;
   color: var(--muted);
   font-size: 12px;
   margin-bottom: 14px;
 }
+
+.match-top > span:first-child {
+  min-width: 0;
+}
+
+.status-badge {
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.status-live {
+  background: #254333;
+  border-color: #547f49;
+  color: var(--lime);
+}
+
+.status-finished {
+  background: #203750;
+  color: var(--blue);
+}
+
+.status-paused {
+  background: #493b26;
+  color: var(--amber);
+}
+
+.status-cancelled {
+  background: #482b35;
+  color: var(--red);
+}
+
 .team-row {
   display: flex;
   align-items: center;
@@ -180,30 +293,46 @@ button:disabled { opacity: .6; cursor: wait; }
   padding: 5px 0;
   font-weight: 600;
 }
+
 .score {
   color: var(--lime);
   font-size: 21px;
   font-weight: 900;
 }
+
 .match-date {
   margin-top: 12px;
   color: var(--muted);
   font-size: 12px;
 }
-.table-scroll { overflow-x: auto; }
+
+.table-scroll {
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
   min-width: 520px;
 }
-th, td {
+
+th,
+td {
   text-align: left;
   padding: 12px 9px;
   border-bottom: 1px solid var(--line);
   white-space: nowrap;
 }
-th { color: var(--lime); font-size: 12px; }
-td { font-size: 14px; }
+
+th {
+  color: var(--lime);
+  font-size: 12px;
+}
+
+td {
+  font-size: 14px;
+}
+
 .team-button {
   border: 0;
   background: transparent;
@@ -214,63 +343,82 @@ td { font-size: 14px; }
   text-decoration: underline;
   text-decoration-color: #657a90;
 }
-.team-button:hover { color: var(--lime); }
+
+.team-button:hover {
+  color: var(--lime);
+}
+
 .team-name {
   display: inline-flex;
   align-items: center;
   gap: 9px;
 }
+
 .crest {
   width: 26px;
   height: 26px;
   object-fit: contain;
 }
-.team-card, .history-card {
+
+.inner-card {
   background: var(--panel2);
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 20px;
   margin-top: 20px;
 }
+
 .team-heading {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 18px;
 }
+
 .team-heading img {
   width: 45px;
   height: 45px;
   object-fit: contain;
 }
-.team-heading h3 { margin: 0; }
+
+.team-heading h3 {
+  margin: 0;
+}
+
 .metrics {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
 }
+
 .metric {
   background: #21374f;
   border-radius: 12px;
   padding: 13px;
 }
+
 .metric strong {
   display: block;
   color: var(--lime);
   font-size: 23px;
 }
+
 .metric span {
   color: var(--muted);
   font-size: 12px;
 }
-.history-card h3 { color: var(--lime); }
-.history-summary {
+
+.summary3 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   margin: 16px 0 24px;
 }
-.history-summary .metric { text-align: center; }
+
+.summary3 .metric {
+  text-align: center;
+}
+
 .chart-legend {
   display: flex;
   flex-wrap: wrap;
@@ -279,18 +427,28 @@ td { font-size: 14px; }
   font-size: 13px;
   margin: 12px 0;
 }
+
 .legend-item {
   display: inline-flex;
   align-items: center;
   gap: 7px;
 }
+
 .legend-dot {
   width: 11px;
   height: 11px;
   border-radius: 3px;
+  display: inline-block;
 }
-.dot-for { background: var(--lime); }
-.dot-against { background: var(--blue); }
+
+.dot-for {
+  background: var(--lime);
+}
+
+.dot-against {
+  background: var(--blue);
+}
+
 .chart {
   display: flex;
   align-items: end;
@@ -300,11 +458,13 @@ td { font-size: 14px; }
   padding: 12px 2px 18px;
   border-bottom: 1px solid var(--line);
 }
+
 .chart-group {
   flex: 1 0 44px;
   min-width: 44px;
   text-align: center;
 }
+
 .chart-bars {
   height: 145px;
   display: flex;
@@ -312,40 +472,127 @@ td { font-size: 14px; }
   align-items: end;
   gap: 5px;
 }
+
 .bar {
   width: 17px;
   min-height: 3px;
   border-radius: 5px 5px 0 0;
 }
-.bar-for { background: var(--lime); }
-.bar-against { background: var(--blue); }
+
+.bar-for {
+  background: var(--lime);
+}
+
+.bar-against {
+  background: var(--blue);
+}
+
+.bar-points {
+  background: var(--amber);
+  width: 25px;
+}
+
 .chart-group small {
   display: block;
   color: var(--muted);
   margin-top: 8px;
 }
+
 .history-match {
   padding: 13px 0;
   border-bottom: 1px solid var(--line);
 }
+
 .history-match strong {
   display: block;
   color: var(--lime);
   font-size: 13px;
   margin-top: 5px;
 }
+
 .history-match span {
   color: var(--muted);
   font-size: 12px;
 }
 
-/* FUTLAB V7: COMPARADOR */
+.form-strip {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0 20px;
+}
+
+.form-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-weight: 900;
+  color: #081321;
+}
+
+.form-win {
+  background: var(--lime);
+}
+
+.form-draw {
+  background: var(--amber);
+}
+
+.form-loss {
+  background: var(--red);
+}
+
+.split-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.split-card {
+  padding: 18px;
+  background: #21374f;
+  border-radius: 14px;
+}
+
+.split-card h4 {
+  color: var(--lime);
+}
+
+.split-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+
+.split-row span:first-child {
+  color: var(--muted);
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 25px 0;
+}
+
+.mini-note {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .compare-cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
   margin: 20px 0;
 }
+
 .compare-card {
   padding: 20px;
   text-align: center;
@@ -353,6 +600,7 @@ td { font-size: 14px; }
   border: 1px solid var(--line);
   border-radius: 16px;
 }
+
 .compare-card img {
   display: block;
   width: 54px;
@@ -360,93 +608,157 @@ td { font-size: 14px; }
   object-fit: contain;
   margin: 0 auto 12px;
 }
+
 .compare-card h3 {
   font-size: 17px;
   margin: 0 0 8px;
 }
+
 .compare-card strong {
   display: block;
   color: var(--lime);
   font-size: 32px;
 }
-.compare-card:nth-child(2) strong { color: var(--blue); }
+
+.compare-card:nth-child(2) strong {
+  color: var(--blue);
+}
+
 .compare-card span {
   color: var(--muted);
   font-size: 13px;
 }
+
 .compare-metric {
   padding: 8px 0 16px;
   border-bottom: 1px solid var(--line);
 }
+
 .compare-values {
   display: grid;
   grid-template-columns: minmax(40px, 1fr) 120px minmax(40px, 1fr);
   gap: 10px;
   align-items: center;
 }
+
 .compare-values strong:first-child {
   color: var(--lime);
   text-align: right;
 }
+
 .compare-values strong:last-child {
   color: var(--blue);
   text-align: left;
 }
+
 .compare-values span {
   color: var(--muted);
   font-size: 12px;
   text-align: center;
 }
+
 .compare-bars {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
   margin-top: 8px;
 }
+
 .compare-track {
   height: 10px;
   background: #253d57;
   border-radius: 6px;
   overflow: hidden;
 }
+
 .compare-track.left {
   display: flex;
   justify-content: flex-end;
 }
-.compare-fill-a, .compare-fill-b {
+
+.compare-fill-a,
+.compare-fill-b {
   height: 100%;
   border-radius: 6px;
 }
-.compare-fill-a { background: var(--lime); }
-.compare-fill-b { background: var(--blue); }
+
+.compare-fill-a {
+  background: var(--lime);
+}
+
+.compare-fill-b {
+  background: var(--blue);
+}
+
 .compare-summary {
   background: var(--panel2);
   padding: 18px;
   border-radius: 14px;
   margin-top: 22px;
 }
-.compare-summary h3 { color: var(--lime); }
+
+.compare-summary h3 {
+  color: var(--lime);
+}
+
 .compare-summary p {
   margin-bottom: 0;
   color: var(--muted);
 }
+
 footer {
   text-align: center;
   color: var(--muted);
   font-size: 13px;
   padding: 28px 0 45px;
 }
+
 @media (max-width: 720px) {
-  .filters { grid-template-columns: 1fr; }
-  .match-grid { grid-template-columns: 1fr; }
-  .metrics { grid-template-columns: repeat(2, 1fr); }
-  .panel, .team-card, .history-card { padding: 15px; }
-  .stat { padding: 13px; }
-  .stat strong { font-size: 23px; }
-  .stat span { font-size: 11px; }
-  .compare-card { padding: 12px; }
-  .compare-card h3 { font-size: 14px; }
-  .compare-card strong { font-size: 25px; }
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .match-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .split-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel,
+  .inner-card {
+    padding: 15px;
+  }
+
+  .stat {
+    padding: 13px;
+  }
+
+  .stat strong {
+    font-size: 23px;
+  }
+
+  .stat span {
+    font-size: 11px;
+  }
+
+  .compare-card {
+    padding: 12px;
+  }
+
+  .compare-card h3 {
+    font-size: 14px;
+  }
+
+  .compare-card strong {
+    font-size: 25px;
+  }
+
   .compare-values {
     grid-template-columns: minmax(35px, 1fr) 90px minmax(35px, 1fr);
     gap: 6px;
@@ -456,22 +768,24 @@ footer {
 </head>
 
 <body>
+
 <header>
   <div class="container nav">
     <div class="logo">Fut<span>Lab.</span></div>
-    <div class="version">v7 · DATOS REALES</div>
+    <div class="version">v8.1 · EN ESPAÑOL</div>
   </div>
 </header>
 
 <main class="container">
 
 <section class="hero">
-  <h1>El fútbol, explicado
+  <h1>
+    El fútbol, explicado
     <span class="accent">con datos.</span>
   </h1>
   <p>
-    Explora partidos, clasificaciones, estadísticas,
-    historial y comparaciones de equipos.
+    Resultados, clasificaciones, historial, gráficos
+    y comparaciones de equipos. Todo en español.
   </p>
 </section>
 
@@ -490,11 +804,11 @@ footer {
   </div>
 </section>
 
-<!-- EXPLORADOR DE PARTIDOS -->
+<!-- PARTIDOS -->
 <section class="panel">
   <h2>Explorador de partidos</h2>
   <p class="description">
-    Selecciona fechas y competición.
+    Selecciona fechas y competición para consultar los encuentros.
   </p>
 
   <div class="filters">
@@ -502,33 +816,36 @@ footer {
       <label for="dateFrom">Desde</label>
       <input type="date" id="dateFrom">
     </div>
+
     <div>
       <label for="dateTo">Hasta</label>
       <input type="date" id="dateTo">
     </div>
+
     <div>
       <label for="competition">Competición</label>
       <select id="competition">
         <option value="ALL">Todas las disponibles</option>
-        <option value="PL">Premier League</option>
-        <option value="PD">LaLiga</option>
-        <option value="BL1">Bundesliga</option>
-        <option value="SA">Serie A</option>
-        <option value="FL1">Ligue 1</option>
-        <option value="CL">Champions League</option>
-        <option value="DED">Eredivisie</option>
-        <option value="PPL">Liga de Portugal</option>
-        <option value="BSA">Brasileirão</option>
-        <option value="ELC">Championship</option>
+        <option value="PL">Liga Premier de Inglaterra</option>
+        <option value="PD">Primera División de España</option>
+        <option value="BL1">Liga Alemana</option>
+        <option value="SA">Liga Italiana</option>
+        <option value="FL1">Liga Francesa</option>
+        <option value="CL">Liga de Campeones</option>
+        <option value="DED">Liga Neerlandesa</option>
+        <option value="PPL">Primera Liga de Portugal</option>
+        <option value="BSA">Primera División de Brasil</option>
+        <option value="ELC">Segunda División de Inglaterra</option>
       </select>
     </div>
   </div>
 
   <div class="actions">
-    <button class="primary" id="loadMatches">
+    <button class="primary" id="loadMatches" type="button">
       Ver partidos
     </button>
-    <button class="secondary" id="todayButton">
+
+    <button class="secondary" id="todayButton" type="button">
       Volver a hoy
     </button>
   </div>
@@ -537,39 +854,41 @@ footer {
     Preparando partidos...
   </p>
 
-  <label for="searchTeam">
-    Buscar equipo o competición
-  </label>
+  <label for="searchTeam">Buscar equipo o competición</label>
   <input
     type="search"
     id="searchTeam"
     placeholder="Ejemplo: Barcelona"
   >
 
-  <div id="matches" class="match-grid"
-       style="margin-top:16px"></div>
+  <div
+    id="matches"
+    class="match-grid"
+    style="margin-top:16px"
+  ></div>
 </section>
 
 <!-- CLASIFICACIONES -->
 <section class="panel" id="clasificaciones">
   <h2>Clasificaciones</h2>
+
   <p class="description">
-    Selecciona un equipo para ver su ficha,
-    historial y gráficos.
+    Pulsa el nombre de un equipo para consultar sus estadísticas,
+    últimos resultados y gráficos.
   </p>
 
   <div style="max-width:340px">
     <label for="league">Liga</label>
     <select id="league">
-      <option value="PL">Premier League</option>
-      <option value="PD">LaLiga</option>
-      <option value="BL1">Bundesliga</option>
-      <option value="SA">Serie A</option>
-      <option value="FL1">Ligue 1</option>
-      <option value="DED">Eredivisie</option>
-      <option value="PPL">Liga de Portugal</option>
-      <option value="BSA">Brasileirão</option>
-      <option value="ELC">Championship</option>
+      <option value="PL">Liga Premier de Inglaterra</option>
+      <option value="PD">Primera División de España</option>
+      <option value="BL1">Liga Alemana</option>
+      <option value="SA">Liga Italiana</option>
+      <option value="FL1">Liga Francesa</option>
+      <option value="DED">Liga Neerlandesa</option>
+      <option value="PPL">Primera Liga de Portugal</option>
+      <option value="BSA">Primera División de Brasil</option>
+      <option value="ELC">Segunda División de Inglaterra</option>
     </select>
   </div>
 
@@ -595,38 +914,82 @@ footer {
     </table>
   </div>
 
-  <article id="teamCard" class="team-card" hidden>
+  <article id="teamCard" class="inner-card" hidden>
     <div class="team-heading">
       <img id="teamCrest" alt="" hidden>
       <h3 id="teamTitle"></h3>
     </div>
+
     <p class="description">
-      Estadísticas de la temporada.
+      Estadísticas de la clasificación de temporada.
     </p>
+
     <div id="teamMetrics" class="metrics"></div>
   </article>
 
-  <article id="historyCard" class="history-card" hidden>
-    <h3>Historial y evolución</h3>
+  <article id="historyCard" class="inner-card" hidden>
+    <h3 style="color:var(--lime)">
+      Historial y rendimiento reciente
+    </h3>
+
     <p id="historyStatus" class="status" role="status">
       Cargando historial...
     </p>
 
     <div id="historyContent" hidden>
-      <div class="history-summary">
+
+      <h4>Forma reciente</h4>
+      <div id="formStrip" class="form-strip"></div>
+
+      <p class="mini-note">
+        V = victoria · E = empate · D = derrota.
+        Del partido más antiguo al más reciente.
+      </p>
+
+      <div class="summary3">
         <div class="metric">
           <strong id="historyWins">—</strong>
-          <span>Victorias recientes</span>
+          <span>Victorias</span>
         </div>
+
         <div class="metric">
           <strong id="historyDraws">—</strong>
-          <span>Empates recientes</span>
+          <span>Empates</span>
         </div>
+
         <div class="metric">
           <strong id="historyLosses">—</strong>
-          <span>Derrotas recientes</span>
+          <span>Derrotas</span>
         </div>
       </div>
+
+      <hr class="section-divider">
+
+      <h3>Rendimiento como local y visitante</h3>
+
+      <p class="mini-note">
+        Datos calculados con los partidos recientes disponibles,
+        no con toda la temporada.
+      </p>
+
+      <div class="split-grid">
+        <div class="split-card">
+          <h4>En casa</h4>
+          <div id="homeStats"></div>
+        </div>
+
+        <div class="split-card">
+          <h4>Fuera de casa</h4>
+          <div id="awayStats"></div>
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <h3>Promedios recientes</h3>
+      <div id="recentAverages" class="metrics"></div>
+
+      <hr class="section-divider">
 
       <h3>Goles por partido</h3>
 
@@ -635,6 +998,7 @@ footer {
           <i class="legend-dot dot-for"></i>
           Goles a favor
         </span>
+
         <span class="legend-item">
           <i class="legend-dot dot-against"></i>
           Goles en contra
@@ -644,42 +1008,56 @@ footer {
       <div id="goalsChart" class="chart"></div>
 
       <h3 style="margin-top:25px">
+        Evolución de puntos recientes
+      </h3>
+
+      <p class="mini-note">
+        Puntos acumulados únicamente en los encuentros mostrados.
+      </p>
+
+      <div id="pointsChart" class="chart"></div>
+
+      <h3 style="margin-top:25px">
         Últimos resultados disponibles
       </h3>
+
       <div id="historyMatches"></div>
     </div>
   </article>
 </section>
 
-<!-- COMPARADOR V7 -->
+<!-- COMPARADOR -->
 <section class="panel" id="comparador">
   <h2>Comparador de equipos</h2>
+
   <p class="description">
-    Compara dos equipos de la misma liga
-    usando estadísticas reales de temporada.
+    Compara dos equipos de la misma liga con estadísticas
+    reales de la clasificación.
   </p>
 
   <div class="filters">
     <div>
       <label for="compareLeague">Liga</label>
       <select id="compareLeague">
-        <option value="PL">Premier League</option>
-        <option value="PD">LaLiga</option>
-        <option value="BL1">Bundesliga</option>
-        <option value="SA">Serie A</option>
-        <option value="FL1">Ligue 1</option>
-        <option value="DED">Eredivisie</option>
-        <option value="PPL">Liga de Portugal</option>
-        <option value="BSA">Brasileirão</option>
-        <option value="ELC">Championship</option>
+        <option value="PL">Liga Premier de Inglaterra</option>
+        <option value="PD">Primera División de España</option>
+        <option value="BL1">Liga Alemana</option>
+        <option value="SA">Liga Italiana</option>
+        <option value="FL1">Liga Francesa</option>
+        <option value="DED">Liga Neerlandesa</option>
+        <option value="PPL">Primera Liga de Portugal</option>
+        <option value="BSA">Primera División de Brasil</option>
+        <option value="ELC">Segunda División de Inglaterra</option>
       </select>
     </div>
+
     <div>
       <label for="compareA">Equipo A</label>
       <select id="compareA">
         <option value="">Cargando equipos...</option>
       </select>
     </div>
+
     <div>
       <label for="compareB">Equipo B</label>
       <select id="compareB">
@@ -688,8 +1066,12 @@ footer {
     </div>
   </div>
 
-  <button class="primary" id="compareButton"
-          type="button" disabled>
+  <button
+    class="primary"
+    id="compareButton"
+    type="button"
+    disabled
+  >
     Comparar equipos
   </button>
 
@@ -705,6 +1087,7 @@ footer {
         <strong id="comparePointsA">—</strong>
         <span>Puntos</span>
       </div>
+
       <div class="compare-card">
         <img id="compareCrestB" alt="" hidden>
         <h3 id="compareNameB">Equipo B</h3>
@@ -726,9 +1109,9 @@ footer {
 </main>
 
 <footer>
-  FutLab v7 · Datos de football-data.org
+  FutLab v8.1 · Datos de football-data.org
   <br>
-  La disponibilidad depende del plan de datos.
+  La disponibilidad depende del plan de acceso a la API.
 </footer>
 
 <script>
@@ -741,15 +1124,77 @@ let historyRequest = 0;
 let compareRequest = 0;
 let compareTeams = [];
 
-function create(tag, text, className) {
-  const element = document.createElement(tag);
-  if (text !== undefined) element.textContent = text;
-  if (className) element.className = className;
-  return element;
+/* TRADUCCIONES AL ESPAÑOL */
+
+function traducirEstado(estado) {
+  const estados = {
+    SCHEDULED: "Programado",
+    TIMED: "Programado",
+    IN_PLAY: "En juego",
+    PAUSED: "Descanso",
+    FINISHED: "Finalizado",
+    POSTPONED: "Aplazado",
+    SUSPENDED: "Suspendido",
+    CANCELLED: "Cancelado",
+    AWARDED: "Resultado adjudicado"
+  };
+
+  return estados[estado] || "Estado no disponible";
 }
 
-function number(value) {
-  if (value === null || value === undefined) return 0;
+function traducirCompeticion(nombre) {
+  const nombres = {
+    "Premier League": "Liga Premier de Inglaterra",
+    "Primera Division": "Primera División de España",
+    "Primera División": "Primera División de España",
+    "Bundesliga": "Liga Alemana",
+    "Serie A": "Liga Italiana",
+    "Ligue 1": "Liga Francesa",
+    "Ligue 1 McDonald's": "Liga Francesa",
+    "Champions League": "Liga de Campeones",
+    "UEFA Champions League": "Liga de Campeones",
+    "Eredivisie": "Liga Neerlandesa",
+    "Primeira Liga": "Primera Liga de Portugal",
+    "Campeonato Brasileiro Série A": "Primera División de Brasil",
+    "Campeonato Brasileiro Serie A": "Primera División de Brasil",
+    "Championship": "Segunda División de Inglaterra",
+    "English Football League Championship": "Segunda División de Inglaterra"
+  };
+
+  return nombres[nombre] || nombre || "Competición";
+}
+
+function claseEstado(estado) {
+  if (estado === "IN_PLAY") return "status-live";
+  if (estado === "PAUSED") return "status-paused";
+  if (estado === "FINISHED") return "status-finished";
+
+  if (["CANCELLED", "SUSPENDED", "POSTPONED"].includes(estado)) {
+    return "status-cancelled";
+  }
+
+  return "";
+}
+
+/* UTILIDADES */
+
+function create(tag, text, className) {
+  const node = document.createElement(tag);
+
+  if (text !== undefined) {
+    node.textContent = text;
+  }
+
+  if (className) {
+    node.className = className;
+  }
+
+  return node;
+}
+
+function num(value) {
+  if (value == null) return 0;
+
   const n = Number(value);
   return Number.isFinite(n) ? n : 0;
 }
@@ -758,13 +1203,18 @@ function localDate(date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
+
   return `${y}-${m}-${d}`;
 }
 
 function formatDate(value) {
   if (!value) return "Fecha por confirmar";
+
   const date = new Date(value);
-  if (isNaN(date.getTime())) return "Fecha por confirmar";
+
+  if (isNaN(date.getTime())) {
+    return "Fecha por confirmar";
+  }
 
   return new Intl.DateTimeFormat("es", {
     dateStyle: "medium",
@@ -772,149 +1222,9 @@ function formatDate(value) {
   }).format(date);
 }
 
-function initDates() {
-  const today = localDate(new Date());
-  $("dateFrom").value = today;
-  $("dateTo").value = today;
-}
-
-function updateCounters(matches) {
-  $("total").textContent = matches.length;
-  $("finalizados").textContent = matches.filter(
-    m => m.status === "FINISHED"
-  ).length;
-  $("programados").textContent = matches.filter(
-    m => ["SCHEDULED", "TIMED"].includes(m.status)
-  ).length;
-}
-
-/* PARTIDOS */
-function renderMatches() {
-  const container = $("matches");
-  container.replaceChildren();
-
-  const query = $("searchTeam").value
-    .trim().toLocaleLowerCase("es");
-
-  const filtered = currentMatches.filter(match => {
-    const text = [
-      match.homeTeam,
-      match.awayTeam,
-      match.competition
-    ].join(" ").toLocaleLowerCase("es");
-    return text.includes(query);
-  });
-
-  if (!filtered.length) {
-    container.append(create(
-      "p",
-      currentMatches.length
-        ? "No hay coincidencias con tu búsqueda."
-        : "No hay partidos disponibles.",
-      "status"
-    ));
-    return;
-  }
-
-  filtered.forEach(match => {
-    const card = create("article", undefined, "match");
-    const top = create("div", undefined, "match-top");
-
-    top.append(
-      create("span", match.competition || "Competición"),
-      create("span", match.status || "Sin estado")
-    );
-
-    const home = create("div", undefined, "team-row");
-    home.append(
-      create("span", match.homeTeam || "Por definir"),
-      create("span",
-        match.homeScore == null
-          ? "—" : String(match.homeScore),
-        "score")
-    );
-
-    const away = create("div", undefined, "team-row");
-    away.append(
-      create("span", match.awayTeam || "Por definir"),
-      create("span",
-        match.awayScore == null
-          ? "—" : String(match.awayScore),
-        "score")
-    );
-
-    card.append(
-      top, home, away,
-      create("div", formatDate(match.utcDate), "match-date")
-    );
-    container.append(card);
-  });
-}
-
-async function loadMatches() {
-  const dateFrom = $("dateFrom").value;
-  const dateTo = $("dateTo").value;
-  const competition = $("competition").value;
-
-  const start = Date.parse(dateFrom + "T00:00:00Z");
-  const end = Date.parse(dateTo + "T00:00:00Z");
-  const days = (end - start) / 86400000;
-
-  if (!Number.isFinite(days) || days < 0 || days > 14) {
-    $("matchStatus").className = "status error";
-    $("matchStatus").textContent =
-      "Selecciona un intervalo de 1 a 15 días.";
-    return;
-  }
-
-  const requestId = ++matchesRequest;
-  $("loadMatches").disabled = true;
-  $("matchStatus").className = "status";
-  $("matchStatus").textContent = "Cargando partidos...";
-
-  const params = new URLSearchParams({
-    dateFrom, dateTo, competition
-  });
-
-  try {
-    const response = await fetch(
-      "/api/partidos?" + params.toString()
-    );
-    const data = await response.json();
-    if (requestId !== matchesRequest) return;
-
-    if (!response.ok) {
-      throw new Error(
-        data.error || "No se pudieron cargar los partidos."
-      );
-    }
-
-    currentMatches = Array.isArray(data.matches)
-      ? data.matches : [];
-
-    updateCounters(currentMatches);
-    renderMatches();
-
-    $("matchStatus").textContent =
-      `${currentMatches.length} partidos encontrados.`;
-
-  } catch (error) {
-    if (requestId !== matchesRequest) return;
-    currentMatches = [];
-    updateCounters([]);
-    renderMatches();
-    $("matchStatus").className = "status error";
-    $("matchStatus").textContent = "Error: " + error.message;
-  } finally {
-    if (requestId === matchesRequest) {
-      $("loadMatches").disabled = false;
-    }
-  }
-}
-
-/* FICHA DE EQUIPO */
 function setCrest(id, url) {
   const img = $(id);
+
   if (url && /^https:\/\//i.test(url)) {
     img.src = url;
     img.hidden = false;
@@ -924,12 +1234,252 @@ function setCrest(id, url) {
   }
 }
 
+function metricBox(label, value) {
+  const box = create("div", undefined, "metric");
+
+  box.append(
+    create(
+      "strong",
+      value == null ? "—" : String(value)
+    ),
+    create("span", label)
+  );
+
+  return box;
+}
+
+function initDates() {
+  const today = localDate(new Date());
+
+  $("dateFrom").value = today;
+  $("dateTo").value = today;
+}
+
+/* EXPLORADOR DE PARTIDOS */
+
+function updateCounters(matches) {
+  $("total").textContent = matches.length;
+
+  $("finalizados").textContent = matches.filter(
+    m => m.status === "FINISHED"
+  ).length;
+
+  $("programados").textContent = matches.filter(
+    m => ["SCHEDULED", "TIMED"].includes(m.status)
+  ).length;
+}
+
+function renderMatches() {
+  const container = $("matches");
+  container.replaceChildren();
+
+  const query = $("searchTeam").value
+    .trim()
+    .toLocaleLowerCase("es");
+
+  const filtered = currentMatches.filter(m => {
+    const text = [
+      m.homeTeam,
+      m.awayTeam,
+      m.competition,
+      traducirCompeticion(m.competition)
+    ].join(" ").toLocaleLowerCase("es");
+
+    return text.includes(query);
+  });
+
+  if (!filtered.length) {
+    container.append(
+      create(
+        "p",
+        currentMatches.length
+          ? "No hay coincidencias con tu búsqueda."
+          : "No hay partidos disponibles.",
+        "status"
+      )
+    );
+
+    return;
+  }
+
+  filtered.forEach(m => {
+    const card = create(
+      "article",
+      undefined,
+      "match"
+    );
+
+    const top = create(
+      "div",
+      undefined,
+      "match-top"
+    );
+
+    const badge = create(
+      "span",
+      traducirEstado(m.status),
+      "status-badge " + claseEstado(m.status)
+    );
+
+    top.append(
+      create(
+        "span",
+        traducirCompeticion(m.competition)
+      ),
+      badge
+    );
+
+    const home = create(
+      "div",
+      undefined,
+      "team-row"
+    );
+
+    home.append(
+      create(
+        "span",
+        m.homeTeam || "Por definir"
+      ),
+      create(
+        "span",
+        m.homeScore == null
+          ? "—"
+          : String(m.homeScore),
+        "score"
+      )
+    );
+
+    const away = create(
+      "div",
+      undefined,
+      "team-row"
+    );
+
+    away.append(
+      create(
+        "span",
+        m.awayTeam || "Por definir"
+      ),
+      create(
+        "span",
+        m.awayScore == null
+          ? "—"
+          : String(m.awayScore),
+        "score"
+      )
+    );
+
+    card.append(
+      top,
+      home,
+      away,
+      create(
+        "div",
+        formatDate(m.utcDate),
+        "match-date"
+      )
+    );
+
+    container.append(card);
+  });
+}
+
+async function loadMatches() {
+  const dateFrom = $("dateFrom").value;
+  const dateTo = $("dateTo").value;
+
+  const start = Date.parse(
+    dateFrom + "T00:00:00Z"
+  );
+
+  const end = Date.parse(
+    dateTo + "T00:00:00Z"
+  );
+
+  const days = (end - start) / 86400000;
+
+  if (
+    !Number.isFinite(days) ||
+    days < 0 ||
+    days > 14
+  ) {
+    $("matchStatus").className = "status error";
+
+    $("matchStatus").textContent =
+      "Selecciona un intervalo de 1 a 15 días.";
+
+    return;
+  }
+
+  const requestId = ++matchesRequest;
+
+  $("loadMatches").disabled = true;
+  $("matchStatus").className = "status";
+  $("matchStatus").textContent =
+    "Cargando partidos...";
+
+  const params = new URLSearchParams({
+    dateFrom,
+    dateTo,
+    competition: $("competition").value
+  });
+
+  try {
+    const response = await fetch(
+      "/api/partidos?" + params.toString()
+    );
+
+    const data = await response.json();
+
+    if (requestId !== matchesRequest) return;
+
+    if (!response.ok) {
+      throw new Error(
+        data.error ||
+        "No se pudieron cargar los partidos."
+      );
+    }
+
+    currentMatches = Array.isArray(data.matches)
+      ? data.matches
+      : [];
+
+    updateCounters(currentMatches);
+    renderMatches();
+
+    $("matchStatus").textContent =
+      `${currentMatches.length} partidos encontrados.`;
+
+  } catch (error) {
+    if (requestId !== matchesRequest) return;
+
+    currentMatches = [];
+
+    updateCounters([]);
+    renderMatches();
+
+    $("matchStatus").className = "status error";
+    $("matchStatus").textContent =
+      "Error: " + error.message;
+
+  } finally {
+    if (requestId === matchesRequest) {
+      $("loadMatches").disabled = false;
+    }
+  }
+}
+
+/* CLASIFICACIONES Y FICHAS */
+
 function showTeam(team) {
   $("teamCard").hidden = false;
-  $("teamTitle").textContent = team.nombre || "Equipo";
+
+  $("teamTitle").textContent =
+    team.nombre || "Equipo";
+
   setCrest("teamCrest", team.escudo);
 
-  const metrics = [
+  const data = [
     ["Posición", team.posicion],
     ["Partidos jugados", team.jugados],
     ["Victorias", team.ganados],
@@ -944,14 +1494,10 @@ function showTeam(team) {
   const container = $("teamMetrics");
   container.replaceChildren();
 
-  metrics.forEach(([label, value]) => {
-    const box = create("div", undefined, "metric");
-    box.append(
-      create("strong",
-        value == null ? "—" : String(value)),
-      create("span", label)
+  data.forEach(([label, value]) => {
+    container.append(
+      metricBox(label, value)
     );
-    container.append(box);
   });
 
   $("teamCard").scrollIntoView({
@@ -960,65 +1506,97 @@ function showTeam(team) {
   });
 }
 
-/* CLASIFICACIONES */
 async function loadStandings() {
   const league = $("league").value;
   const requestId = ++standingsRequest;
 
   historyRequest++;
+
   $("teamCard").hidden = true;
   $("historyCard").hidden = true;
   $("standingsBody").replaceChildren();
 
   $("tableStatus").className = "status";
-  $("tableStatus").textContent = "Cargando clasificación...";
+  $("tableStatus").textContent =
+    "Cargando clasificación...";
 
   try {
     const response = await fetch(
       "/api/clasificacion?liga=" +
       encodeURIComponent(league)
     );
+
     const data = await response.json();
+
     if (requestId !== standingsRequest) return;
 
     if (!response.ok) {
       throw new Error(
-        data.error || "No se pudo cargar la clasificación."
+        data.error ||
+        "No se pudo cargar la clasificación."
       );
     }
 
     const teams = Array.isArray(data.equipos)
-      ? data.equipos : [];
+      ? data.equipos
+      : [];
 
-    $("tableStatus").textContent = teams.length
-      ? `${data.competicion || league} · Selecciona un equipo.`
-      : "No hay clasificación disponible.";
-
-    const body = $("standingsBody");
+    $("tableStatus").textContent =
+      teams.length
+        ? "Selecciona un equipo para ver sus estadísticas."
+        : "No hay clasificación disponible.";
 
     teams.forEach(team => {
-      const row = document.createElement("tr");
-      row.append(create("td", String(team.posicion ?? "—")));
+      const row = create("tr");
+
+      row.append(
+        create(
+          "td",
+          String(team.posicion ?? "—")
+        )
+      );
 
       const teamCell = create("td");
-      const wrapper = create("span", undefined, "team-name");
 
-      if (team.escudo && /^https:\/\//i.test(team.escudo)) {
-        const img = document.createElement("img");
+      const wrapper = create(
+        "span",
+        undefined,
+        "team-name"
+      );
+
+      if (
+        team.escudo &&
+        /^https:\/\//i.test(team.escudo)
+      ) {
+        const img = create(
+          "img",
+          undefined,
+          "crest"
+        );
+
         img.src = team.escudo;
         img.alt = "";
-        img.className = "crest";
         img.loading = "lazy";
+
         wrapper.append(img);
       }
 
       const button = create(
-        "button", team.nombre || "Equipo", "team-button"
+        "button",
+        team.nombre || "Equipo",
+        "team-button"
       );
+
       button.type = "button";
+
       button.addEventListener("click", () => {
         showTeam(team);
-        loadHistory(team.id, team.nombre, league);
+
+        loadHistory(
+          team.id,
+          team.nombre,
+          league
+        );
       });
 
       wrapper.append(button);
@@ -1026,25 +1604,37 @@ async function loadStandings() {
       row.append(teamCell);
 
       [
-        team.jugados, team.ganados, team.empatados,
-        team.perdidos, team.diferencia, team.puntos
+        team.jugados,
+        team.ganados,
+        team.empatados,
+        team.perdidos,
+        team.diferencia,
+        team.puntos
       ].forEach(value => {
-        row.append(create(
-          "td", value == null ? "—" : String(value)
-        ));
+        row.append(
+          create(
+            "td",
+            value == null
+              ? "—"
+              : String(value)
+          )
+        );
       });
 
-      body.append(row);
+      $("standingsBody").append(row);
     });
 
   } catch (error) {
     if (requestId !== standingsRequest) return;
+
     $("tableStatus").className = "status error";
-    $("tableStatus").textContent = "Error: " + error.message;
+    $("tableStatus").textContent =
+      "Error: " + error.message;
   }
 }
 
-/* HISTORIAL */
+/* HISTORIAL Y RENDIMIENTO RECIENTE */
+
 function normalizeHistory(matches, teamId) {
   return matches
     .filter(m =>
@@ -1056,92 +1646,326 @@ function normalizeHistory(matches, teamId) {
       )
     )
     .map(m => {
-      const isHome = Number(m.homeId) === Number(teamId);
-      const goalsFor = isHome
-        ? Number(m.homeScore) : Number(m.awayScore);
-      const goalsAgainst = isHome
-        ? Number(m.awayScore) : Number(m.homeScore);
+      const home =
+        Number(m.homeId) === Number(teamId);
+
+      const gf = home
+        ? num(m.homeScore)
+        : num(m.awayScore);
+
+      const gc = home
+        ? num(m.awayScore)
+        : num(m.homeScore);
 
       return {
         ...m,
-        goalsFor,
-        goalsAgainst,
-        result: goalsFor > goalsAgainst
-          ? "Victoria"
-          : goalsFor < goalsAgainst
-            ? "Derrota" : "Empate"
+        isHome: home,
+        goalsFor: gf,
+        goalsAgainst: gc,
+        result: gf > gc
+          ? "V"
+          : gf < gc
+            ? "D"
+            : "E",
+        points: gf > gc
+          ? 3
+          : gf === gc
+            ? 1
+            : 0
       };
     })
-    .sort((a, b) =>
-      new Date(b.utcDate) - new Date(a.utcDate)
+    .sort(
+      (a, b) =>
+        new Date(b.utcDate) -
+        new Date(a.utcDate)
     );
+}
+
+function renderForm(matches) {
+  const strip = $("formStrip");
+  strip.replaceChildren();
+
+  [...matches].reverse().forEach(m => {
+    const className =
+      m.result === "V"
+        ? "form-win"
+        : m.result === "E"
+          ? "form-draw"
+          : "form-loss";
+
+    const badge = create(
+      "span",
+      m.result,
+      "form-badge " + className
+    );
+
+    badge.title =
+      `${m.homeTeam} ${m.homeScore} - ` +
+      `${m.awayScore} ${m.awayTeam}`;
+
+    strip.append(badge);
+  });
+}
+
+function renderSplit(containerId, matches) {
+  const container = $(containerId);
+  container.replaceChildren();
+
+  const played = matches.length;
+
+  const wins = matches.filter(
+    m => m.result === "V"
+  ).length;
+
+  const draws = matches.filter(
+    m => m.result === "E"
+  ).length;
+
+  const losses = matches.filter(
+    m => m.result === "D"
+  ).length;
+
+  const gf = matches.reduce(
+    (sum, m) => sum + m.goalsFor,
+    0
+  );
+
+  const gc = matches.reduce(
+    (sum, m) => sum + m.goalsAgainst,
+    0
+  );
+
+  [
+    ["Partidos", played],
+    ["Victorias", wins],
+    ["Empates", draws],
+    ["Derrotas", losses],
+    ["Goles a favor", gf],
+    ["Goles en contra", gc]
+  ].forEach(([label, value]) => {
+    const row = create(
+      "div",
+      undefined,
+      "split-row"
+    );
+
+    row.append(
+      create("span", label),
+      create("strong", String(value))
+    );
+
+    container.append(row);
+  });
+}
+
+function renderBarChart(containerId, matches, mode) {
+  const chart = $(containerId);
+  chart.replaceChildren();
+
+  const chronological =
+    [...matches].reverse();
+
+  let cumulative = 0;
+
+  const values = chronological.map(m => {
+    if (mode === "points") {
+      cumulative += m.points;
+      return cumulative;
+    }
+
+    return 0;
+  });
+
+  const max = mode === "points"
+    ? Math.max(1, ...values)
+    : Math.max(
+        1,
+        ...chronological.flatMap(
+          m => [
+            m.goalsFor,
+            m.goalsAgainst
+          ]
+        )
+      );
+
+  chronological.forEach((m, index) => {
+    const group = create(
+      "div",
+      undefined,
+      "chart-group"
+    );
+
+    const bars = create(
+      "div",
+      undefined,
+      "chart-bars"
+    );
+
+    if (mode === "points") {
+      const bar = create(
+        "div",
+        undefined,
+        "bar bar-points"
+      );
+
+      bar.style.height =
+        (values[index] / max * 135 + 3) + "px";
+
+      bar.title =
+        "Puntos acumulados: " + values[index];
+
+      bars.append(bar);
+
+    } else {
+      const forBar = create(
+        "div",
+        undefined,
+        "bar bar-for"
+      );
+
+      forBar.style.height =
+        (m.goalsFor / max * 135 + 3) + "px";
+
+      forBar.title =
+        "Goles a favor: " + m.goalsFor;
+
+      const againstBar = create(
+        "div",
+        undefined,
+        "bar bar-against"
+      );
+
+      againstBar.style.height =
+        (m.goalsAgainst / max * 135 + 3) + "px";
+
+      againstBar.title =
+        "Goles en contra: " + m.goalsAgainst;
+
+      bars.append(
+        forBar,
+        againstBar
+      );
+    }
+
+    group.append(
+      bars,
+      create(
+        "small",
+        "P" + (index + 1)
+      )
+    );
+
+    chart.append(group);
+  });
 }
 
 function renderHistory(matches) {
   $("historyContent").hidden = false;
 
-  $("historyWins").textContent = matches.filter(
-    m => m.result === "Victoria"
-  ).length;
-  $("historyDraws").textContent = matches.filter(
-    m => m.result === "Empate"
-  ).length;
-  $("historyLosses").textContent = matches.filter(
-    m => m.result === "Derrota"
-  ).length;
+  $("historyWins").textContent =
+    matches.filter(
+      m => m.result === "V"
+    ).length;
 
-  const chart = $("goalsChart");
-  chart.replaceChildren();
+  $("historyDraws").textContent =
+    matches.filter(
+      m => m.result === "E"
+    ).length;
 
-  const chronological = [...matches].reverse();
-  const maxGoals = Math.max(
-    1,
-    ...chronological.flatMap(
-      m => [m.goalsFor, m.goalsAgainst]
-    )
+  $("historyLosses").textContent =
+    matches.filter(
+      m => m.result === "D"
+    ).length;
+
+  renderForm(matches);
+
+  renderSplit(
+    "homeStats",
+    matches.filter(m => m.isHome)
   );
 
-  chronological.forEach((match, index) => {
-    const group = create("div", undefined, "chart-group");
-    const bars = create("div", undefined, "chart-bars");
+  renderSplit(
+    "awayStats",
+    matches.filter(m => !m.isHome)
+  );
 
-    const forBar = create(
-      "div", undefined, "bar bar-for"
-    );
-    forBar.style.height =
-      (match.goalsFor / maxGoals * 135 + 3) + "px";
-    forBar.title = "Goles a favor: " + match.goalsFor;
+  const total = matches.length;
 
-    const againstBar = create(
-      "div", undefined, "bar bar-against"
-    );
-    againstBar.style.height =
-      (match.goalsAgainst / maxGoals * 135 + 3) + "px";
-    againstBar.title =
-      "Goles en contra: " + match.goalsAgainst;
+  const gf = matches.reduce(
+    (sum, m) => sum + m.goalsFor,
+    0
+  );
 
-    bars.append(forBar, againstBar);
-    group.append(
-      bars,
-      create("small", "P" + (index + 1))
+  const gc = matches.reduce(
+    (sum, m) => sum + m.goalsAgainst,
+    0
+  );
+
+  const pts = matches.reduce(
+    (sum, m) => sum + m.points,
+    0
+  );
+
+  const averages = $("recentAverages");
+  averages.replaceChildren();
+
+  [
+    ["Goles a favor por partido", (gf / total).toFixed(2)],
+    ["Goles en contra por partido", (gc / total).toFixed(2)],
+    ["Puntos por partido", (pts / total).toFixed(2)],
+    ["Partidos analizados", total]
+  ].forEach(([label, value]) => {
+    averages.append(
+      metricBox(label, value)
     );
-    chart.append(group);
   });
+
+  renderBarChart(
+    "goalsChart",
+    matches,
+    "goals"
+  );
+
+  renderBarChart(
+    "pointsChart",
+    matches,
+    "points"
+  );
 
   const list = $("historyMatches");
   list.replaceChildren();
 
-  matches.forEach(match => {
+  matches.forEach(m => {
     const row = create(
-      "div", undefined, "history-match"
+      "div",
+      undefined,
+      "history-match"
     );
 
+    const resultText =
+      m.result === "V"
+        ? "Victoria"
+        : m.result === "E"
+          ? "Empate"
+          : "Derrota";
+
     row.append(
-      create("div",
-        `${match.homeTeam} ${match.homeScore} - ` +
-        `${match.awayScore} ${match.awayTeam}`),
-      create("strong", match.result),
-      create("span", formatDate(match.utcDate))
+      create(
+        "div",
+        `${m.homeTeam} ${m.homeScore} - ` +
+        `${m.awayScore} ${m.awayTeam}`
+      ),
+      create(
+        "strong",
+        resultText +
+        (m.isHome
+          ? " · Local"
+          : " · Visitante")
+      ),
+      create(
+        "span",
+        formatDate(m.utcDate)
+      )
     );
 
     list.append(row);
@@ -1150,15 +1974,19 @@ function renderHistory(matches) {
 
 async function loadHistory(teamId, teamName, league) {
   const requestId = ++historyRequest;
+
   $("historyCard").hidden = false;
   $("historyContent").hidden = true;
+
   $("historyStatus").className = "status";
+
   $("historyStatus").textContent =
     "Cargando historial de " + teamName + "...";
 
   if (!teamId) {
     $("historyStatus").textContent =
-      "Este equipo no tiene un ID disponible.";
+      "Este equipo no tiene un identificador disponible.";
+
     return;
   }
 
@@ -1171,47 +1999,60 @@ async function loadHistory(teamId, teamName, league) {
     const response = await fetch(
       "/api/historial?" + params.toString()
     );
+
     const data = await response.json();
+
     if (requestId !== historyRequest) return;
 
     if (!response.ok) {
       throw new Error(
-        data.error || "No se pudo consultar el historial."
+        data.error ||
+        "No se pudo cargar el historial."
       );
     }
 
     const matches = normalizeHistory(
-      Array.isArray(data.matches) ? data.matches : [],
+      Array.isArray(data.matches)
+        ? data.matches
+        : [],
       teamId
     );
 
     if (!matches.length) {
       $("historyStatus").textContent =
-        "No hay historial disponible para este equipo.";
+        "No hay partidos históricos disponibles para este equipo.";
+
       return;
     }
 
     $("historyStatus").textContent =
       `${matches.length} partidos finalizados disponibles. ` +
-      "El gráfico se basa en estos encuentros.";
+      "Los gráficos se calculan con estos encuentros.";
 
     renderHistory(matches);
 
   } catch (error) {
     if (requestId !== historyRequest) return;
+
     $("historyStatus").className = "status error";
-    $("historyStatus").textContent = "Error: " + error.message;
+
+    $("historyStatus").textContent =
+      "Error: " + error.message;
   }
 }
 
-/* COMPARADOR V7 */
+/* COMPARADOR DE EQUIPOS */
+
 function fillTeamSelect(select, teams) {
   select.replaceChildren();
 
   teams.forEach(team => {
-    const option = document.createElement("option");
+    const option = create(
+      "option",
+      team.nombre
+    );
+
     option.value = String(team.id);
-    option.textContent = team.nombre;
     select.append(option);
   });
 }
@@ -1221,42 +2062,60 @@ async function loadCompareTeams() {
   const requestId = ++compareRequest;
 
   compareTeams = [];
+
   $("compareResult").hidden = true;
   $("compareA").replaceChildren();
   $("compareB").replaceChildren();
+
   $("compareButton").disabled = true;
+
   $("compareStatus").className = "status";
-  $("compareStatus").textContent = "Cargando equipos...";
+  $("compareStatus").textContent =
+    "Cargando equipos...";
 
   try {
     const response = await fetch(
       "/api/clasificacion?liga=" +
       encodeURIComponent(league)
     );
+
     const data = await response.json();
+
     if (requestId !== compareRequest) return;
 
     if (!response.ok) {
       throw new Error(
-        data.error || "No se pudo cargar la liga."
+        data.error ||
+        "No se pudo cargar la liga."
       );
     }
 
     compareTeams = Array.isArray(data.equipos)
-      ? data.equipos.filter(t => t.id != null)
+      ? data.equipos.filter(
+          t => t.id != null
+        )
       : [];
 
     if (compareTeams.length < 2) {
       $("compareStatus").textContent =
         "No hay suficientes equipos para comparar.";
+
       return;
     }
 
-    fillTeamSelect($("compareA"), compareTeams);
-    fillTeamSelect($("compareB"), compareTeams);
+    fillTeamSelect(
+      $("compareA"),
+      compareTeams
+    );
+
+    fillTeamSelect(
+      $("compareB"),
+      compareTeams
+    );
 
     $("compareA").selectedIndex = 0;
     $("compareB").selectedIndex = 1;
+
     $("compareButton").disabled = false;
 
     $("compareStatus").textContent =
@@ -1265,7 +2124,9 @@ async function loadCompareTeams() {
 
   } catch (error) {
     if (requestId !== compareRequest) return;
+
     $("compareStatus").className = "status error";
+
     $("compareStatus").textContent =
       "Error: " + error.message;
   }
@@ -1274,49 +2135,85 @@ async function loadCompareTeams() {
 function updateCompareCard(suffix, team) {
   $("compareName" + suffix).textContent =
     team.nombre || "Equipo";
+
   $("comparePoints" + suffix).textContent =
     team.puntos ?? "—";
-  setCrest("compareCrest" + suffix, team.escudo);
+
+  setCrest(
+    "compareCrest" + suffix,
+    team.escudo
+  );
 }
 
-function makeCompareMetric(label, valueA, valueB) {
+function makeCompareMetric(label, a, b) {
   const container = create(
-    "div", undefined, "compare-metric"
+    "div",
+    undefined,
+    "compare-metric"
   );
+
   const values = create(
-    "div", undefined, "compare-values"
+    "div",
+    undefined,
+    "compare-values"
   );
 
   values.append(
-    create("strong", String(valueA)),
+    create("strong", String(a)),
     create("span", label),
-    create("strong", String(valueB))
+    create("strong", String(b))
   );
 
   const bars = create(
-    "div", undefined, "compare-bars"
-  );
-  const trackA = create(
-    "div", undefined, "compare-track left"
-  );
-  const trackB = create(
-    "div", undefined, "compare-track"
-  );
-  const fillA = create(
-    "div", undefined, "compare-fill-a"
-  );
-  const fillB = create(
-    "div", undefined, "compare-fill-b"
+    "div",
+    undefined,
+    "compare-bars"
   );
 
-  const max = Math.max(1, valueA, valueB);
-  fillA.style.width = Math.max(0, valueA) / max * 100 + "%";
-  fillB.style.width = Math.max(0, valueB) / max * 100 + "%";
+  const trackA = create(
+    "div",
+    undefined,
+    "compare-track left"
+  );
+
+  const trackB = create(
+    "div",
+    undefined,
+    "compare-track"
+  );
+
+  const fillA = create(
+    "div",
+    undefined,
+    "compare-fill-a"
+  );
+
+  const fillB = create(
+    "div",
+    undefined,
+    "compare-fill-b"
+  );
+
+  const max = Math.max(1, a, b);
+
+  fillA.style.width =
+    (Math.max(0, a) / max * 100) + "%";
+
+  fillB.style.width =
+    (Math.max(0, b) / max * 100) + "%";
 
   trackA.append(fillA);
   trackB.append(fillB);
-  bars.append(trackA, trackB);
-  container.append(values, bars);
+
+  bars.append(
+    trackA,
+    trackB
+  );
+
+  container.append(
+    values,
+    bars
+  );
 
   return container;
 }
@@ -1325,14 +2222,21 @@ function compareSelectedTeams() {
   const a = compareTeams.find(
     t => String(t.id) === $("compareA").value
   );
+
   const b = compareTeams.find(
     t => String(t.id) === $("compareB").value
   );
 
-  if (!a || !b || a.id === b.id) {
+  if (
+    !a ||
+    !b ||
+    String(a.id) === String(b.id)
+  ) {
     $("compareResult").hidden = true;
+
     $("compareStatus").textContent =
       "Selecciona dos equipos diferentes.";
+
     return;
   }
 
@@ -1351,50 +2255,68 @@ function compareSelectedTeams() {
     ["Goles a favor", "golesFavor"],
     ["Goles en contra", "golesContra"]
   ].forEach(([label, key]) => {
-    container.append(makeCompareMetric(
-      label,
-      number(a[key]),
-      number(b[key])
-    ));
+    container.append(
+      makeCompareMetric(
+        label,
+        num(a[key]),
+        num(b[key])
+      )
+    );
   });
 
-  const dg = create(
-    "p",
-    `Diferencia de goles: ${a.nombre} ` +
-    `${a.diferencia ?? "—"} · ` +
-    `${b.nombre} ${b.diferencia ?? "—"}`
+  container.append(
+    create(
+      "p",
+      `Diferencia de goles: ` +
+      `${a.nombre} ${a.diferencia ?? "—"} · ` +
+      `${b.nombre} ${b.diferencia ?? "—"}`
+    )
   );
-  container.append(dg);
 
-  const pa = number(a.puntos);
-  const pb = number(b.puntos);
-  const ja = number(a.jugados);
-  const jb = number(b.jugados);
+  const pa = num(a.puntos);
+  const pb = num(b.puntos);
 
-  const avgA = ja ? (pa / ja).toFixed(2) : "—";
-  const avgB = jb ? (pb / jb).toFixed(2) : "—";
+  const ja = num(a.jugados);
+  const jb = num(b.jugados);
+
+  const avgA = ja
+    ? (pa / ja).toFixed(2)
+    : "—";
+
+  const avgB = jb
+    ? (pb / jb).toFixed(2)
+    : "—";
 
   let summary;
 
   if (pa > pb) {
-    summary = `${a.nombre} tiene ${pa - pb} puntos más ` +
+    summary =
+      `${a.nombre} tiene ${pa - pb} puntos más ` +
       `que ${b.nombre}. `;
+
   } else if (pb > pa) {
-    summary = `${b.nombre} tiene ${pb - pa} puntos más ` +
+    summary =
+      `${b.nombre} tiene ${pb - pa} puntos más ` +
       `que ${a.nombre}. `;
+
   } else {
-    summary = "Ambos equipos tienen los mismos puntos. ";
+    summary =
+      "Ambos equipos tienen los mismos puntos. ";
   }
 
   summary +=
-    `Promedio de puntos por partido: ${avgA} para ` +
-    `${a.nombre} y ${avgB} para ${b.nombre}. ` +
-    "Esta comparación describe las estadísticas " +
+    `Promedio de puntos por partido: ` +
+    `${avgA} para ${a.nombre} y ` +
+    `${avgB} para ${b.nombre}. ` +
+    "La comparación corresponde a las estadísticas " +
     "de clasificación disponibles.";
 
-  $("compareAnalysis").textContent = summary;
+  $("compareAnalysis").textContent =
+    summary;
+
   $("compareStatus").textContent =
     "Comparación actualizada.";
+
   $("compareResult").hidden = false;
 
   $("compareResult").scrollIntoView({
@@ -1404,38 +2326,61 @@ function compareSelectedTeams() {
 }
 
 /* EVENTOS */
-$("loadMatches").addEventListener("click", loadMatches);
 
-$("todayButton").addEventListener("click", () => {
-  initDates();
-  loadMatches();
-});
-
-$("searchTeam").addEventListener("input", renderMatches);
-
-$("league").addEventListener("change", loadStandings);
-
-$("compareLeague").addEventListener(
-  "change", loadCompareTeams
+$("loadMatches").addEventListener(
+  "click",
+  loadMatches
 );
 
-$("compareA").addEventListener("change", () => {
-  $("compareResult").hidden = true;
-});
+$("todayButton").addEventListener(
+  "click",
+  () => {
+    initDates();
+    loadMatches();
+  }
+);
 
-$("compareB").addEventListener("change", () => {
-  $("compareResult").hidden = true;
-});
+$("searchTeam").addEventListener(
+  "input",
+  renderMatches
+);
+
+$("league").addEventListener(
+  "change",
+  loadStandings
+);
+
+$("compareLeague").addEventListener(
+  "change",
+  loadCompareTeams
+);
+
+$("compareA").addEventListener(
+  "change",
+  () => {
+    $("compareResult").hidden = true;
+  }
+);
+
+$("compareB").addEventListener(
+  "change",
+  () => {
+    $("compareResult").hidden = true;
+  }
+);
 
 $("compareButton").addEventListener(
-  "click", compareSelectedTeams
+  "click",
+  compareSelectedTeams
 );
 
 /* INICIAR FUTLAB */
+
 initDates();
 loadMatches();
 loadStandings();
 loadCompareTeams();
+
 </script>
 
 </body>
