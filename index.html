@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07121d">
-<title>FutLab v12.2 | Fútbol en datos</title>
+<title>FutLab v13 | Fútbol en datos</title>
 <style>
 :root{--bg:#07121d;--panel:#101f30;--panel2:#172a3d;--line:#2b4055;--text:#f4f8fc;--muted:#a7b8c9;--lime:#c1f56c;--blue:#78b5f6;--red:#ff9696;--gold:#ffd18b}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at top right,#123047 0,transparent 40%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.5}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.55;cursor:wait}[hidden]{display:none!important}.wrap{width:min(1180px,calc(100% - 28px));margin:auto}.top{position:sticky;top:0;z-index:20;background:#091622eb;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.top-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:70px}.brand{font-weight:950;font-size:26px;letter-spacing:-1.3px;text-decoration:none;color:var(--text)}.brand span,.lime{color:var(--lime)}nav{display:flex;gap:6px;overflow:auto}nav a{color:var(--muted);text-decoration:none;white-space:nowrap;padding:9px 12px;border-radius:9px;font-size:13px;font-weight:700}nav a:hover{background:var(--panel2);color:var(--lime)}.hero{padding:50px 0 26px}.eyebrow{color:var(--lime);font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase}.hero h1{font-size:clamp(34px,6vw,65px);letter-spacing:-2px;line-height:1.05;margin:12px 0}.hero p,.sub,.muted{color:var(--muted)}.hero p{max-width:620px}.hero-pill{display:inline-flex;gap:9px;align-items:center;background:#1a3440;border:1px solid #365c50;color:var(--lime);border-radius:99px;padding:7px 13px;font-size:12px;font-weight:700}.dot{width:8px;height:8px;border-radius:50%;background:var(--lime)}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 30px}.kpi,.panel,.soft{background:var(--panel);border:1px solid var(--line);border-radius:18px}.kpi{padding:18px}.kpi strong{font-size:32px;display:block;letter-spacing:-1px;color:var(--lime)}.kpi span{font-size:12px;color:var(--muted)}.panel{padding:24px;margin:0 0 25px;scroll-margin-top:90px}.section-head{display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap;margin-bottom:20px}.section-head h2{font-size:25px;letter-spacing:-.6px;margin:0 0 5px}.section-head p{margin:0;color:var(--muted);font-size:13px}.tag{color:var(--lime);background:#1c372e;border:1px solid #3b6347;padding:6px 11px;border-radius:99px;font-size:11px;font-weight:700}.filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px;font-weight:650}input,select{width:100%;min-width:0;background:#1a3045;border:1px solid #38536b;color:var(--text);padding:12px;border-radius:11px;color-scheme:dark}input:focus,select:focus,button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}.controls{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.btn{border-radius:10px;padding:10px 15px;font-weight:750;border:1px solid var(--line);background:#1b3044;color:var(--text)}.btn.primary{background:var(--lime);border-color:var(--lime);color:#07121d}.btn:hover:not(:disabled){filter:brightness(1.1)}.search-row{display:flex;gap:12px;align-items:center;margin:18px 0;flex-wrap:wrap}.search-row input{flex:1;min-width:200px}.status{font-size:13px;color:var(--muted);margin:10px 0}.error{color:var(--red)}.match-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.match{background:var(--panel2);border:1px solid var(--line);border-radius:15px;padding:17px}.match-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;color:var(--muted);font-size:12px}.match-top span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.state{border:1px solid var(--line);border-radius:99px;padding:4px 9px;white-space:nowrap;font-size:11px;font-weight:400}.state.live{color:var(--lime);border-color:#426c4b}.state.done{color:var(--blue)}.state.pause{color:var(--gold)}.state.bad{color:var(--red)}.teamline{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:5px 0;font-weight:650}.score{font-size:23px;color:var(--lime);font-weight:900}.kick{margin-top:13px;font-size:12px;color:var(--muted)}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:690px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:11px;color:var(--lime);letter-spacing:.5px}td{font-size:13px}.team-btn{border:0;background:none;color:var(--text);font-weight:700;padding:0;text-align:left}.team-btn:hover{color:var(--lime)}.crest{width:26px;height:26px;object-fit:contain;vertical-align:middle;margin-right:8px}.row-top td:first-child{border-left:3px solid var(--lime)}.row-bottom td:first-child{border-left:3px solid var(--red)}.soft{padding:19px;margin-top:20px;background:var(--panel2)}.team-title{display:flex;align-items:center;gap:12px}.team-title img{width:48px;height:48px;object-fit:contain}.team-title h3{margin:0}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:15px 0}.metric{background:#213a50;border-radius:12px;padding:13px}.metric strong{display:block;font-size:23px;color:var(--lime)}.metric span{display:block;color:var(--muted);font-size:11px}.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.split{background:#20374d;padding:16px;border-radius:12px}.split h4{color:var(--lime);margin:0 0 10px}.splitline{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid #3c5062;padding:7px 0;font-size:13px}.splitline span:first-child{color:var(--muted)}h3{margin:20px 0 12px}.form{display:flex;gap:7px;flex-wrap:wrap}.form span{display:grid;place-items:center;width:37px;height:37px;border-radius:10px;font-weight:900;color:#0a1822}.win{background:var(--lime)}.draw{background:var(--gold)}.loss{background:var(--red)}.chart{display:flex;align-items:end;gap:10px;overflow-x:auto;min-height:190px;border-bottom:1px solid var(--line);padding:10px 0}.chartcol{flex:1 0 45px;min-width:45px;text-align:center}.bars{height:145px;display:flex;align-items:end;justify-content:center;gap:4px}.bar{width:16px;border-radius:5px 5px 0 0;min-height:3px;background:var(--lime)}.bar.against{background:var(--blue)}.bar.points{background:var(--gold);width:24px}.chartcol small{color:var(--muted);display:block;margin-top:7px}.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin:8px 0}.swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;background:var(--lime)}.swatch.blue{background:var(--blue)}.history-item{padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.history-item small{display:block;color:var(--muted)}.compare-head{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}.compare-team{background:#20374d;border-radius:14px;text-align:center;padding:18px}.compare-team img{width:52px;height:52px;object-fit:contain}.compare-team h3{margin:7px 0}.compare-team strong{display:block;font-size:29px;color:var(--lime)}.compare-team:nth-child(2) strong{color:var(--blue)}.compare-row{padding:10px 0;border-bottom:1px solid var(--line)}.compare-values{display:grid;grid-template-columns:1fr 150px 1fr;align-items:center;gap:10px;font-size:13px}.compare-values strong:first-child{text-align:right;color:var(--lime)}.compare-values strong:last-child{color:var(--blue)}.compare-values span{text-align:center;color:var(--muted);font-size:12px}.compare-tracks{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:7px}.track{background:#2c4258;height:9px;border-radius:99px;overflow:hidden}.track.left{display:flex;justify-content:flex-end}.fill{height:100%;background:var(--lime);border-radius:99px}.fill.blue{background:var(--blue)}.summary{background:#20374d;border-radius:12px;padding:17px;color:var(--muted);margin-top:18px}.empty{color:var(--muted);padding:15px}footer{text-align:center;color:var(--muted);padding:25px 0 45px;font-size:12px}@media(max-width:750px){.top-inner{flex-wrap:wrap;padding:10px 0;gap:2px}nav{width:100%}nav a{padding:8px}.kpis{grid-template-columns:repeat(2,1fr)}.filters,.match-grid,.two{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.panel{padding:16px}.hero{padding-top:34px}.compare-values{grid-template-columns:1fr 90px 1fr}.kpi strong{font-size:27px}}
 
@@ -25,14 +25,29 @@
 .fixture-form .V{background:var(--lime);color:#102018}.fixture-form .E{background:var(--gold);color:#102018}.fixture-form .D{background:var(--red);color:#102018}
 .fixture-comparison{margin-top:18px}.fixture-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 @media(max-width:700px){.fixture-teams{grid-template-columns:1fr}.fixture-head{gap:6px;padding:16px 6px}.fixture-team{padding:13px}}
+
+/* FUTLAB V13: análisis visual de los últimos 5 y H2H verificado */
+.v13-analysis{margin-top:22px}.v13-analysis h3{margin:22px 0 8px}.v13-muted{font-size:13px;color:var(--muted);margin:5px 0 15px}
+.v13-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.v13-box{background:var(--panel2);border:1px solid var(--line);border-radius:15px;padding:17px;min-width:0}
+.v13-bars{display:flex;align-items:flex-end;gap:8px;height:150px;padding:10px 0;border-bottom:1px solid var(--line)}
+.v13-col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:5px}
+.v13-bar{width:min(30px,85%);border-radius:6px 6px 0 0;min-height:3px;background:var(--lime)}
+.v13-bar.against{background:var(--blue)}.v13-bar.points{background:var(--gold)}
+.v13-col small{font-size:10px;color:var(--muted)}.v13-key{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:10px 0}
+.v13-key i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;background:var(--lime)}
+.v13-key i.blue{background:var(--blue)}.v13-key i.gold{background:var(--gold)}
+.v13-h2h{display:grid;gap:9px}.v13-h2h-row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:11px;background:#1c3248;border-radius:10px;font-size:13px}
+.v13-h2h-row strong{color:var(--lime)}
+@media(max-width:720px){.v13-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap top-inner"><a class="brand" href="#inicio">Fut<span>Lab.</span></a><nav aria-label="Navegación"><a href="#partidos">Partidos</a><a href="#ficha-partido">Ficha de partido</a><a href="#clasificacion">Clasificación</a><a href="#centro">Rankings</a><a href="#favoritos">Favoritos</a><a href="#equipo">Estadísticas</a><a href="#comparador">Comparador</a></nav></div></header>
-<main class="wrap"><section class="hero" id="inicio"><div class="hero-pill"><span class="dot"></span> FUTLAB V12 · FICHAS DE PARTIDOS</div><h1>El fútbol se vive.<br><span class="lime">Los datos lo explican.</span></h1><p>Resultados, tablas, rendimiento reciente y comparaciones en un solo lugar. Estadísticas claras, sin complicaciones.</p></section>
+<main class="wrap"><section class="hero" id="inicio"><div class="hero-pill"><span class="dot"></span> FUTLAB V13 · ANÁLISIS AVANZADO</div><h1>El fútbol se vive.<br><span class="lime">Los datos lo explican.</span></h1><p>Resultados, tablas, rendimiento reciente y comparaciones en un solo lugar. Estadísticas claras, sin complicaciones.</p></section>
 <div class="kpis"><div class="kpi"><strong id="total">—</strong><span>Partidos consultados</span></div><div class="kpi"><strong id="finished">—</strong><span>Finalizados</span></div><div class="kpi"><strong id="scheduled">—</strong><span>Programados</span></div><div class="kpi"><strong id="goals">—</strong><span>Goles registrados</span></div></div>
 <section class="panel" id="partidos"><div class="section-head"><div><h2>Explorador de partidos</h2><p>Encuentra partidos por fecha, competición o equipo.</p></div><span class="tag">RESULTADOS</span></div><div class="filters"><div class="field"><label for="dateFrom">Desde</label><input type="date" id="dateFrom"></div><div class="field"><label for="dateTo">Hasta</label><input type="date" id="dateTo"></div><div class="field"><label for="competition">Competición</label><select id="competition"><option value="ALL">Todas las disponibles</option><option value="PL">Premier League</option><option value="PD">LaLiga</option><option value="BL1">Bundesliga</option><option value="SA">Serie A</option><option value="FL1">Ligue 1</option><option value="CL">Champions League</option><option value="DED">Eredivisie</option><option value="PPL">Primeira Liga</option><option value="BSA">Brasileirão</option><option value="ELC">Championship</option></select></div></div><div class="controls"><button class="btn" data-range="-1">Ayer</button><button class="btn" data-range="0">Hoy</button><button class="btn" data-range="1">Mañana</button><button class="btn" data-range="7">Próximos 7 días</button><button class="btn primary" id="loadMatches">Ver partidos</button></div><div class="search-row"><input id="searchTeam" type="search" placeholder="Buscar equipo o competición..." aria-label="Buscar equipo o competición"><select id="statusFilter" aria-label="Filtrar por estado" style="max-width:200px"><option value="ALL">Todos los estados</option><option value="FINISHED">Finalizados</option><option value="UPCOMING">Programados</option><option value="PLAYING">En juego / descanso</option></select></div><p class="status" id="matchStatus" role="status">Cargando partidos...</p><div id="matches" class="match-grid"></div></section>
-<section class="panel" id="ficha-partido"><div class="section-head"><div><h2>Ficha de partido</h2><p>Selecciona «Analizar partido» en el explorador para comparar sus equipos y su forma reciente.</p></div><span class="tag">MEJORADO · V12.1</span></div><p class="status" id="fixtureStatus" role="status">Elige un partido para abrir su ficha.</p><div id="fixtureDetails" hidden><div class="fixture-head"><div><h3 id="fixtureHome">Local</h3><small class="muted">LOCAL</small></div><div class="fixture-score" id="fixtureScore">— : —</div><div><h3 id="fixtureAway">Visitante</h3><small class="muted">VISITANTE</small></div></div><div class="fixture-meta" id="fixtureMeta"></div><div class="fixture-teams"><article class="fixture-team" id="fixtureHomeCard"></article><article class="fixture-team" id="fixtureAwayCard"></article></div><div class="fixture-comparison" id="fixtureComparison"></div><p class="status">Comparación informativa basada en la clasificación y los últimos partidos disponibles; no es una predicción.</p></div></section>
+<section class="panel" id="ficha-partido"><div class="section-head"><div><h2>Ficha de partido</h2><p>Selecciona «Analizar partido» en el explorador para comparar sus equipos y su forma reciente.</p></div><span class="tag">NUEVO · V13</span></div><p class="status" id="fixtureStatus" role="status">Elige un partido para abrir su ficha.</p><div id="fixtureDetails" hidden><div class="fixture-head"><div><h3 id="fixtureHome">Local</h3><small class="muted">LOCAL</small></div><div class="fixture-score" id="fixtureScore">— : —</div><div><h3 id="fixtureAway">Visitante</h3><small class="muted">VISITANTE</small></div></div><div class="fixture-meta" id="fixtureMeta"></div><div class="fixture-teams"><article class="fixture-team" id="fixtureHomeCard"></article><article class="fixture-team" id="fixtureAwayCard"></article></div><div class="fixture-comparison" id="fixtureComparison"></div><div class="v13-analysis" id="fixtureAdvanced"></div><p class="status">Comparación informativa basada en la clasificación y los últimos partidos disponibles; no es una predicción.</p></div></section>
 <section class="panel" id="clasificacion"><div class="section-head"><div><h2>Clasificaciones avanzadas</h2><p>Selecciona un equipo para consultar su perfil estadístico.</p></div><span class="tag">LIGAS</span></div><div class="field" style="max-width:320px"><label for="league">Selecciona una liga</label><select id="league"><option value="PL">Premier League</option><option value="PD">LaLiga</option><option value="BL1">Bundesliga</option><option value="SA">Serie A</option><option value="FL1">Ligue 1</option><option value="DED">Eredivisie</option><option value="PPL">Primeira Liga</option><option value="BSA">Brasileirão</option><option value="ELC">Championship</option></select></div><p id="tableStatus" class="status" role="status"></p><div class="table-wrap"><table><thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>DG</th><th>Pts</th><th>Pts/PJ</th><th>Efect.</th></tr></thead><tbody id="standingsBody"></tbody></table></div><p class="status">Las marcas de color señalan posiciones destacadas de la tabla; no representan necesariamente plazas oficiales de torneos o descenso.</p></section>
 <section class="panel" id="centro"><div class="section-head"><div><h2>Centro de estadísticas</h2><p>Rankings calculados con los datos de clasificación de cada liga.</p></div><span class="tag">NUEVO · V11</span></div><div class="rank-controls"><div class="field"><label for="rankLeague">Liga</label><select id="rankLeague"><option value="PL">Premier League</option><option value="PD">LaLiga</option><option value="BL1">Bundesliga</option><option value="SA">Serie A</option><option value="FL1">Ligue 1</option><option value="DED">Eredivisie</option><option value="PPL">Primeira Liga</option><option value="BSA">Brasileirão</option><option value="ELC">Championship</option></select></div><div class="field"><label for="rankCount">Mostrar</label><select id="rankCount"><option value="5">Top 5</option><option value="10">Top 10</option><option value="20">Todos</option></select></div></div><p id="rankStatus" class="status" role="status">Cargando rankings...</p><div id="rankingGrid" class="ranking-grid"></div><p class="status">La mejor defensa se mide por menos goles recibidos por partido. Los equipos sin partidos disputados se excluyen de los promedios.</p></section>
 <section class="panel" id="favoritos"><div class="section-head"><div><h2>Mis equipos favoritos</h2><p>Guarda equipos en este navegador para encontrarlos rápidamente.</p></div><span class="tag">PERSONALIZACIÓN</span></div><div id="favoriteGrid" class="favorite-grid"></div><p class="status">Los favoritos se guardan solo en este dispositivo. No necesitas crear una cuenta.</p></section>
@@ -208,6 +223,7 @@ async function openFixture(match){
   $('fixtureHomeCard').replaceChildren(el('p','Cargando estadísticas...','status'));
   $('fixtureAwayCard').replaceChildren(el('p','Cargando estadísticas...','status'));
   $('fixtureComparison').replaceChildren();
+  $('fixtureAdvanced').replaceChildren();
   $('ficha-partido').scrollIntoView({behavior:'smooth',block:'start'});
   const competitionCode=fixtureLeagues[match.competition]||$('competition').value;
   setStatus('fixtureStatus','Consultando las ligas nacionales disponibles...');
@@ -239,6 +255,7 @@ async function openFixture(match){
         label==='Puntos por partido'?fixed(a):a,
         label==='Puntos por partido'?fixed(b):b)));
     }
+    renderFixtureAdvanced(match,home,away,homeHistory,awayHistory);
     setStatus('fixtureStatus',home&&away?
       'Estadísticas de las ligas nacionales de ambos equipos.':
       home||away?'Se encontraron estadísticas de un equipo; el otro no tiene liga nacional identificada.':
@@ -247,6 +264,67 @@ async function openFixture(match){
     if(req!==fixtureReq)return;
     setStatus('fixtureStatus','No se pudieron cargar las estadísticas: '+error.message,true);
   }
+}
+
+
+/* V13: gráficos recientes y enfrentamientos directos verificables */
+function v13RecentChart(title,history,kind){
+  const box=el('div',undefined,'v13-box');box.append(el('h4',title));
+  const games=[...history].slice(0,5).reverse();
+  if(!games.length){box.append(el('p','No hay partidos recientes disponibles.','v13-muted'));return box;}
+  const bars=el('div',undefined,'v13-bars');
+  const max=kind==='points'?3:Math.max(1,...games.flatMap(g=>[g.gf,g.ga]));
+  games.forEach((g,i)=>{
+    const col=el('div',undefined,'v13-col');
+    if(kind==='points'){
+      const bar=el('div',undefined,'v13-bar points');
+      bar.style.height=(g.pts/max*110+3)+'px';bar.title=g.pts+' puntos';col.append(bar);
+    }else{
+      const pair=el('div');pair.style.cssText='display:flex;align-items:flex-end;justify-content:center;gap:3px;height:115px;width:100%';
+      for(const [val,cls,label] of [[g.gf,'','A favor'],[g.ga,'against','En contra']]){
+        const bar=el('div',undefined,'v13-bar '+cls);
+        bar.style.height=(val/max*105+3)+'px';bar.style.width='38%';bar.title=label+': '+val;pair.append(bar);
+      }
+      col.append(pair);
+    }
+    col.append(el('small','P'+(i+1)));bars.append(col);
+  });
+  box.append(bars);
+  const key=el('div',undefined,'v13-key');
+  if(kind==='points')key.innerHTML='<span><i class="gold"></i>Puntos por partido (0, 1 o 3)</span>';
+  else key.innerHTML='<span><i></i>Goles a favor</span><span><i class="blue"></i>Goles en contra</span>';
+  box.append(key);return box;
+}
+function v13H2H(home,away,homeHistory,awayHistory){
+  const section=el('div');section.append(el('h3','Enfrentamientos directos disponibles'));
+  const note=el('p','Solo se muestran enfrentamientos que aparezcan en los historiales recientes proporcionados por la API. No es un historial completo.','v13-muted');section.append(note);
+  if(!home||!away){section.append(el('p','No es posible identificar ambos equipos de forma segura.','status'));return section;}
+  const ids=[String(home.id),String(away.id)];
+  const seen=new Map();
+  [...homeHistory,...awayHistory].forEach(m=>{
+    if(!m||m.id==null||m.homeScore==null||m.awayScore==null)return;
+    const participants=[String(m.homeId),String(m.awayId)];
+    if(ids.every(id=>participants.includes(id)))seen.set(String(m.id),m);
+  });
+  const found=[...seen.values()].sort((a,b)=>new Date(b.utcDate)-new Date(a.utcDate));
+  if(!found.length){section.append(el('p','No se encontraron enfrentamientos entre estos dos clubes en los últimos partidos disponibles.','status'));return section;}
+  const list=el('div',undefined,'v13-h2h');
+  found.forEach(m=>{
+    const row=el('div',undefined,'v13-h2h-row');
+    row.append(el('span',`${m.homeTeam} ${m.homeScore} – ${m.awayScore} ${m.awayTeam}`),el('strong',fmtDate(m.utcDate)));
+    list.append(row);
+  });section.append(list);return section;
+}
+function renderFixtureAdvanced(match,home,away,homeHistory,awayHistory){
+  const target=$('fixtureAdvanced');target.replaceChildren();
+  target.append(el('h3','Centro de análisis avanzado'));
+  target.append(el('p','Comparación de los últimos cinco partidos disponibles por equipo. Los resultados pueden pertenecer a distintas fechas y competiciones.','v13-muted'));
+  const grid=el('div',undefined,'v13-grid');
+  grid.append(v13RecentChart('Goles · '+(home?.nombre||match.homeTeam),homeHistory,'goals'));
+  grid.append(v13RecentChart('Goles · '+(away?.nombre||match.awayTeam),awayHistory,'goals'));
+  grid.append(v13RecentChart('Puntos · '+(home?.nombre||match.homeTeam),homeHistory,'points'));
+  grid.append(v13RecentChart('Puntos · '+(away?.nombre||match.awayTeam),awayHistory,'points'));
+  target.append(grid,v13H2H(home,away,homeHistory,awayHistory));
 }
 
 function fillSelect(id,teams){const n=$(id);n.replaceChildren();teams.forEach(t=>{const o=el('option',t.nombre);o.value=String(t.id);n.append(o)})}
