@@ -8,52 +8,80 @@ export async function onRequestGet({ request, env }) {
 
   if (!env.FOOTBALL_API_KEY) {
     return Response.json(
-      { error: "Falta configurar FOOTBALL_API_KEY." },
+      { error: "FOOTBALL_API_KEY no está configurada." },
       { status: 500 }
     );
   }
 
-  const params = new URLSearchParams();
+  // Validar fechas antes de consultar.
+  const validDate = value =>
+    /^\d{4}-\d{2}-\d{2}$/.test(value || "") &&
+    !Number.isNaN(Date.parse(value + "T00:00:00Z"));
 
-  if (dateFrom) {
-    params.set("dateFrom", dateFrom);
+  if (
+    !validDate(dateFrom) ||
+    !validDate(dateTo) ||
+    dateFrom > dateTo
+  ) {
+    return Response.json(
+      { error: "Intervalo de fechas inválido." },
+      { status: 400 }
+    );
   }
 
-  if (dateTo) {
-    params.set("dateTo", dateTo);
-  }
+  const params = new URLSearchParams({
+    dateFrom,
+    dateTo
+  });
 
   if (competition !== "ALL") {
     params.set("competitions", competition);
   }
 
-  const apiUrl =
+  const endpoint =
     "https://api.football-data.org/v4/matches?" +
     params.toString();
 
   try {
-    const response = await fetch(apiUrl, {
+    const upstream = await fetch(endpoint, {
       headers: {
         "X-Auth-Token": env.FOOTBALL_API_KEY,
         "Accept": "application/json"
+      },
+      cf: {
+        cacheTtl: 0
       }
     });
 
-    const data = await response.json();
+    let data;
 
-    if (!response.ok) {
+    try {
+      data = await upstream.json();
+    } catch {
       return Response.json(
-        {
-          error: data.message ||
-            "No se pudieron obtener los partidos."
-        },
-        { status: response.status }
+        { error: "La API devolvió una respuesta inválida." },
+        { status: 502 }
       );
     }
 
-    const matches = (data.matches || []).map(match => {
-      const homeTeam = match.homeTeam || {};
-      const awayTeam = match.awayTeam || {};
+    if (!upstream.ok) {
+      return Response.json(
+        {
+          error: data.message ||
+            "Error al consultar football-data.org.",
+          providerStatus: upstream.status
+        },
+        { status: upstream.status }
+      );
+    }
+
+    const originalMatches = Array.isArray(data.matches)
+      ? data.matches
+      : [];
+
+    const matches = originalMatches.map(match => {
+      const home = match.homeTeam || {};
+      const away = match.awayTeam || {};
       const score = match.score || {};
 
       return {
@@ -63,18 +91,19 @@ export async function onRequestGet({ request, env }) {
 
         competition:
           match.competition?.name ||
+          match.competition?.code ||
           "Competición",
 
         homeTeam:
-          homeTeam.name ||
-          homeTeam.shortName ||
-          homeTeam.tla ||
+          home.name ||
+          home.shortName ||
+          home.tla ||
           "Local por definir",
 
         awayTeam:
-          awayTeam.name ||
-          awayTeam.shortName ||
-          awayTeam.tla ||
+          away.name ||
+          away.shortName ||
+          away.tla ||
           "Visitante por definir",
 
         homeScore:
@@ -96,7 +125,16 @@ export async function onRequestGet({ request, env }) {
       {
         matches,
         count: matches.length,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
+        diagnostic: {
+          requestedFrom: dateFrom,
+          requestedTo: dateTo,
+          competition,
+          providerCount: originalMatches.length,
+          message: matches.length
+            ? "Partidos recibidos correctamente."
+            : "El proveedor no devolvió partidos para estos filtros."
+        }
       },
       {
         headers: {
@@ -108,7 +146,7 @@ export async function onRequestGet({ request, env }) {
   } catch (error) {
     return Response.json(
       {
-        error: "Error al conectar con football-data.org."
+        error: "No se pudo conectar con football-data.org."
       },
       { status: 502 }
     );
