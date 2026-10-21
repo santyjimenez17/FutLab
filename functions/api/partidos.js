@@ -4,7 +4,7 @@ export async function onRequestGet({ request, env }) {
 
   const dateFrom = url.searchParams.get("dateFrom");
   const dateTo = url.searchParams.get("dateTo");
-  const competition = url.searchParams.get("competition");
+  const competition = url.searchParams.get("competition") || "ALL";
 
   if (!env.FOOTBALL_API_KEY) {
     return Response.json(
@@ -15,12 +15,15 @@ export async function onRequestGet({ request, env }) {
 
   const params = new URLSearchParams();
 
-  if (dateFrom && dateTo) {
+  if (dateFrom) {
     params.set("dateFrom", dateFrom);
+  }
+
+  if (dateTo) {
     params.set("dateTo", dateTo);
   }
 
-  if (competition && competition !== "ALL") {
+  if (competition !== "ALL") {
     params.set("competitions", competition);
   }
 
@@ -31,7 +34,8 @@ export async function onRequestGet({ request, env }) {
   try {
     const response = await fetch(apiUrl, {
       headers: {
-        "X-Auth-Token": env.FOOTBALL_API_KEY
+        "X-Auth-Token": env.FOOTBALL_API_KEY,
+        "Accept": "application/json"
       }
     });
 
@@ -47,33 +51,51 @@ export async function onRequestGet({ request, env }) {
       );
     }
 
-    const matches = (data.matches || []).map(m => {
-      const status = m.status || "SCHEDULED";
-
-      // En partidos en curso, football-data.org puede
-      // proporcionar el marcador en fullTime.
-      const score = m.score?.fullTime || {};
+    const matches = (data.matches || []).map(match => {
+      const homeTeam = match.homeTeam || {};
+      const awayTeam = match.awayTeam || {};
+      const score = match.score || {};
 
       return {
-        id: m.id,
-        utcDate: m.utcDate,
-        status,
+        id: match.id,
+        utcDate: match.utcDate,
+        status: match.status || "SCHEDULED",
+
         competition:
-          m.competition?.name || "Competición",
+          match.competition?.name ||
+          "Competición",
+
         homeTeam:
-          m.homeTeam?.name || "Por definir",
+          homeTeam.name ||
+          homeTeam.shortName ||
+          homeTeam.tla ||
+          "Local por definir",
+
         awayTeam:
-          m.awayTeam?.name || "Por definir",
-        homeScore: score.home ?? null,
-        awayScore: score.away ?? null,
-        minute: m.minute ?? null,
-        injuryTime: m.injuryTime ?? null
+          awayTeam.name ||
+          awayTeam.shortName ||
+          awayTeam.tla ||
+          "Visitante por definir",
+
+        homeScore:
+          score.fullTime?.home ??
+          score.halfTime?.home ??
+          null,
+
+        awayScore:
+          score.fullTime?.away ??
+          score.halfTime?.away ??
+          null,
+
+        minute: match.minute ?? null,
+        injuryTime: match.injuryTime ?? null
       };
     });
 
     return Response.json(
       {
         matches,
+        count: matches.length,
         updatedAt: new Date().toISOString()
       },
       {
@@ -86,7 +108,7 @@ export async function onRequestGet({ request, env }) {
   } catch (error) {
     return Response.json(
       {
-        error: "No fue posible conectar con la API."
+        error: "Error al conectar con football-data.org."
       },
       { status: 502 }
     );
