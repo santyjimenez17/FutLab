@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#081321">
+  <meta name="description" content="FutLab: panel visual de estadísticas de fútbol.">
+  <title>FutLab | Estadísticas de fútbol</title>
+  <style>
+    :root { --bg:#081321; --panel:#101e30; --panel2:#14263b; --text:#f2f7fc; --muted:#96a8ba; --lime:#bdf56a; --line:#26394e; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:radial-gradient(circle at 85% 0%,#1a3540 0%,var(--bg) 40%); color:var(--text); font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .wrap { max-width:1150px; margin:auto; padding:24px; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:16px; padding-bottom:30px; }
+    .logo { font-size:27px; font-weight:900; letter-spacing:-1px; } .logo span { color:var(--lime); }
+    .pill { color:var(--lime); background:#1d342a; border:1px solid #365a39; border-radius:99px; padding:8px 12px; font-size:12px; font-weight:700; }
+    .hero { padding:32px 0 26px; } .eyebrow { color:var(--lime); font-size:12px; font-weight:800; letter-spacing:2px; }
+    h1 { font-size:clamp(32px,6vw,57px); line-height:1.05; letter-spacing:-2px; max-width:720px; margin:14px 0; }
+    h1 em { color:var(--lime); font-style:normal; } p { color:var(--muted); line-height:1.6; }
+    .stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:20px 0 34px; }
+    .stat,.card { background:rgba(16,30,48,.94); border:1px solid var(--line); border-radius:18px; padding:20px; }
+    .stat small { display:block; color:var(--muted); margin-bottom:9px; } .stat strong { font-size:25px; }
+    .section { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:22px 0 16px; }
+    h2 { font-size:22px; margin:0; } .note { color:var(--muted); font-size:12px; }
+    .matches { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .card-top { display:flex; justify-content:space-between; gap:8px; align-items:center; color:var(--muted); font-size:12px; }
+    .teams { display:flex; justify-content:space-between; align-items:center; gap:10px; margin:25px 0; font-size:19px; font-weight:800; }
+    .vs { color:var(--lime); font-size:13px; border:1px solid #395441; padding:7px 9px; border-radius:9px; }
+    .metric { margin:17px 0; } .metric-line { display:flex; justify-content:space-between; gap:8px; font-size:13px; margin-bottom:8px; }
+    .metric-line span { color:var(--muted); } .track { height:8px; border-radius:99px; background:#26384a; overflow:hidden; }
+    .fill { height:100%; background:linear-gradient(90deg,#7fcf7c,var(--lime)); border-radius:99px; }
+    .footer { margin:35px 0 12px; font-size:12px; color:var(--muted); text-align:center; }
+    .tag { color:var(--lime); font-weight:700; } button { border:1px solid #527345; border-radius:11px; background:#1c362a; color:var(--lime); padding:10px 14px; font-weight:700; cursor:pointer; }
+    button:hover { background:#2b4a35; } button:focus-visible { outline:3px solid var(--lime); outline-offset:3px; }
+    #notice { min-height:20px; color:var(--lime); font-size:13px; margin-top:10px; }
+    @media(max-width:680px) { .wrap { padding:18px; } header { padding-bottom:10px; } .stats { grid-template-columns:1fr; gap:10px; } .matches { grid-template-columns:1fr; } .teams { font-size:17px; } .hero { padding-top:22px; } .stat { padding:16px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header><div class="logo">Fut<span>Lab</span><span aria-hidden="true">.</span></div><span class="pill">● VERSIÓN DEMO</span></header>
+    <main>
+      <section class="hero">
+        <div class="eyebrow">EL FÚTBOL, EN DATOS</div>
+        <h1>Descubre el partido <em>más allá del marcador.</em></h1>
+        <p>Un espacio para explorar estadísticas, comparar equipos y entender tendencias del fútbol.</p>
+        <button id="demoBtn" type="button">Explorar la demo ↗</button>
+        <div id="notice" role="status" aria-live="polite"></div>
+      </section>
+      <section class="stats" aria-label="Resumen de demostración">
+        <div class="stat"><small>Partidos de ejemplo</small><strong>02</strong></div>
+        <div class="stat"><small>Indicadores visuales</small><strong>06</strong></div>
+        <div class="stat"><small>Estado del proyecto</small><strong class="tag">En construcción</strong></div>
+      </section>
+      <section id="partidos" aria-label="Partidos de demostración">
+        <div class="section"><h2>Centro de partidos</h2><span class="note">Datos ilustrativos · No son resultados reales</span></div>
+        <div class="matches">
+          <article class="card">
+            <div class="card-top"><span>PARTIDO DEMO 01</span><span>Ejemplo</span></div>
+            <div class="teams"><span>Equipo Azul</span><span class="vs">VS</span><span>Equipo Verde</span></div>
+            <div class="metric"><div class="metric-line"><span>Posesión (ejemplo)</span><b>58%</b></div><div class="track"><div class="fill" style="width:58%"></div></div></div>
+            <div class="metric"><div class="metric-line"><span>Precisión de pase (ejemplo)</span><b>84%</b></div><div class="track"><div class="fill" style="width:84%"></div></div></div>
+            <div class="metric"><div class="metric-line"><span>Duelos ganados (ejemplo)</span><b>52%</b></div><div class="track"><div class="fill" style="width:52%"></div></div></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><span>PARTIDO DEMO 02</span><span>Ejemplo</span></div>
+            <div class="teams"><span>Atlético Norte</span><span class="vs">VS</span><span>Unión Sur</span></div>
+            <div class="metric"><div class="metric-line"><span>Posesión (ejemplo)</span><b>47%</b></div><div class="track"><div class="fill" style="width:47%"></div></div></div>
+            <div class="metric"><div class="metric-line"><span>Precisión de pase (ejemplo)</span><b>76%</b></div><div class="track"><div class="fill" style="width:76%"></div></div></div>
+            <div class="metric"><div class="metric-line"><span>Duelos ganados (ejemplo)</span><b>61%</b></div><div class="track"><div class="fill" style="width:61%"></div></div></div>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">FutLab © 2026 · Primera versión visual · Estadísticas ficticias para probar el diseño</footer>
+  </div>
+  <script>
+    document.getElementById('demoBtn').addEventListener('click', function () {
+      document.getElementById('partidos').scrollIntoView({behavior:'smooth'});
+      document.getElementById('notice').textContent='Estás viendo datos de demostración. Próximamente añadiremos estadísticas reales.';
+    });
+  </script>
+</body>
+</html>
