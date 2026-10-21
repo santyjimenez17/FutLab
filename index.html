@@ -1,63 +1,32 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#081321" />
-  <title>FutLab | Explorador de partidos</title>
-  <style>
-    :root{color-scheme:dark;--bg:#081321;--card:#13253a;--border:#294057;--lime:#bdf56a;--muted:#a6b7c9;--white:#f3f8ff}
-    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#173049 0,#081321 46%);color:var(--white);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
-    .wrap{width:min(1100px,calc(100% - 32px));margin:auto}.top{display:flex;align-items:center;justify-content:space-between;padding:26px 0;border-bottom:1px solid var(--border)}.logo{font-size:30px;font-weight:850;letter-spacing:-1px}.logo span{color:var(--lime)}.pill{font-size:12px;color:var(--lime);border:1px solid #527743;border-radius:30px;padding:7px 11px;background:#1a3229}.hero{padding:44px 0 25px}.eyebrow{color:var(--lime);font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}.hero h1{font-size:clamp(28px,5vw,46px);line-height:1.12;max-width:740px;margin:12px 0}.hero p,.muted{color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}.stat,.panel,.match{background:var(--card);border:1px solid var(--border);border-radius:16px}.stat{padding:20px}.stat strong{display:block;color:var(--lime);font-size:27px}.stat span{font-size:13px;color:var(--muted)}.panel{padding:20px;margin:22px 0}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.toolbar input,.toolbar select{background:#091b2c;border:1px solid #3b5066;color:var(--white);padding:13px;border-radius:10px;font:inherit;min-width:0}.toolbar input{flex:1 1 250px}.toolbar select{flex:0 1 180px}.toolbar button,.retry{background:var(--lime);color:#11201b;font-weight:800;border:0;border-radius:10px;padding:13px 17px;cursor:pointer}.toolbar button:hover,.retry:hover{filter:brightness(.94)}.meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px;color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0 40px}.match{padding:18px;min-width:0}.match-head{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted)}.tag{border-radius:40px;padding:4px 9px;background:#263b4e;color:#d7e6f3;white-space:nowrap}.tag.live{background:#244b2c;color:var(--lime)}.teams{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;margin:22px 0 10px}.team{font-size:clamp(13px,2.3vw,18px);font-weight:750;overflow-wrap:anywhere}.team:last-child{text-align:right}.score{font-size:24px;color:var(--lime);font-weight:850;white-space:nowrap}.date{font-size:13px;color:var(--muted);border-top:1px solid var(--border);padding-top:12px}.notice{grid-column:1/-1;border:1px dashed #466079;border-radius:14px;padding:26px;color:var(--muted);text-align:center}.notice strong{display:block;color:var(--white);margin-bottom:8px}.footer{border-top:1px solid var(--border);padding:24px 0 34px;color:var(--muted);font-size:12px}.hidden{display:none!important}@media(max-width:650px){.top{padding:18px 0}.logo{font-size:26px}.hero{padding-top:28px}.stats{gap:8px}.stat{padding:13px}.stat strong{font-size:21px}.stat span{font-size:11px}.panel{padding:14px}.toolbar{flex-direction:column;align-items:stretch}.toolbar input,.toolbar select,.toolbar button{width:100%;flex:auto}.grid{grid-template-columns:1fr}.teams{margin-top:17px}}
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#081321"><title>FutLab | Partidos reales</title>
+<style>
+:root{color-scheme:dark;--bg:#081321;--panel:#14263b;--line:#293e52;--lime:#bdf56a;--text:#f2f7fc;--muted:#a7b7c8}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}main{max-width:1120px;margin:auto;padding:24px 18px 60px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:48px}.brand{font-size:29px;font-weight:900;letter-spacing:-1px}.brand span{color:var(--lime)}.tag{color:var(--lime);background:#1c352b;border-radius:99px;padding:8px 12px;font-size:12px;font-weight:700}.eyebrow{color:var(--lime);font-size:12px;letter-spacing:2px;font-weight:800}h1{font-size:clamp(30px,5vw,55px);line-height:1.08;max-width:740px;margin:12px 0}p{color:var(--muted);line-height:1.5}.filters{display:grid;grid-template-columns:1fr 1fr 1.3fr auto;gap:12px;margin:28px 0 18px;background:#101f31;padding:18px;border:1px solid var(--line);border-radius:18px}label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}input,select,button{font:inherit}input,select{width:100%;padding:12px 10px;border:1px solid #3a5067;border-radius:10px;background:#0b1828;color:white;min-width:0}button{border:0;border-radius:10px;background:var(--lime);color:#0a1b17;font-weight:800;padding:12px 18px;cursor:pointer;align-self:end;min-height:45px}button:disabled{opacity:.65;cursor:wait}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}.stat strong{display:block;color:var(--lime);font-size:28px}.stat small{color:var(--muted)}.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin:28px 0 14px}.toolbar h2{margin:0}.search{max-width:320px}.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.game{border:1px solid var(--line);border-radius:16px;padding:18px;background:var(--panel)}.game-top{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:12px;margin-bottom:20px}.teams{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}.teams span:last-child{text-align:right}.score{font-size:21px;font-weight:800;color:var(--lime);white-space:nowrap}.date{color:var(--muted);font-size:12px;margin-top:20px}.notice{background:#14263b;border:1px solid var(--line);padding:20px;border-radius:14px;color:var(--muted)}.hidden{display:none!important}footer{color:var(--muted);font-size:12px;margin-top:36px}@media(max-width:700px){header{margin-bottom:30px}.filters{grid-template-columns:1fr 1fr}.filters .league,.filters button{grid-column:1/-1}.games{grid-template-columns:1fr}.search{max-width:none;width:100%}.toolbar{align-items:stretch}.summary{gap:8px}.stat{padding:12px}.stat strong{font-size:24px}}@media(max-width:380px){.filters{grid-template-columns:1fr}.filters .league,.filters button{grid-column:auto}.tag{font-size:10px}.brand{font-size:25px}}
+</style>
 </head>
-<body>
-  <div class="wrap">
-    <header class="top"><div class="logo">Fut<span>Lab.</span></div><span class="pill">● DATOS REALES · v3</span></header>
-    <section class="hero"><div class="eyebrow">El fútbol, en datos</div><h1>Explora los partidos más allá del marcador.</h1><p>Resultados y calendarios obtenidos desde football-data.org a través de nuestra conexión segura.</p></section>
-    <section class="stats" aria-label="Resumen"><div class="stat"><strong id="total">—</strong><span>Partidos recibidos</span></div><div class="stat"><strong id="finished">—</strong><span>Finalizados</span></div><div class="stat"><strong id="upcoming">—</strong><span>Por comenzar</span></div></section>
-    <section class="panel"><div class="toolbar"><input id="search" type="search" placeholder="Buscar equipo o competición…" aria-label="Buscar partidos"/><select id="status" aria-label="Filtrar por estado"><option value="all">Todos los estados</option><option value="live">En juego</option><option value="finished">Finalizados</option><option value="upcoming">Próximos</option><option value="other">Otros estados</option></select><button id="refresh" type="button">↻ Actualizar</button></div><div class="meta"><span id="message" role="status" aria-live="polite">Conectando con la API…</span><span id="updated">—</span></div></section>
-    <main><div id="games" class="grid" aria-live="polite"><div class="notice">Cargando partidos reales…</div></div></main>
-    <footer class="footer">FutLab · Fuente: football-data.org · Las fechas se muestran en la zona horaria de tu dispositivo. Los datos dependen de la cobertura y disponibilidad de la API.</footer>
-  </div>
-  <script>
-    const $ = id => document.getElementById(id);
-    let matches = [];
-    const live = new Set(['IN_PLAY','PAUSED','LIVE']);
-    const upcoming = new Set(['SCHEDULED','TIMED']);
-    const labels = {SCHEDULED:'Programado',TIMED:'Programado',IN_PLAY:'En juego',PAUSED:'Descanso',LIVE:'En vivo',FINISHED:'Finalizado',POSTPONED:'Aplazado',SUSPENDED:'Suspendido',CANCELLED:'Cancelado',AWARDED:'Adjudicado'};
-    const group = s => live.has(s)?'live':s==='FINISHED'?'finished':upcoming.has(s)?'upcoming':'other';
-    function element(tag, className, content){const e=document.createElement(tag);if(className)e.className=className;if(content!==undefined)e.textContent=content;return e;}
-    function render(){
-      const q=$('search').value.trim().toLocaleLowerCase('es'); const selected=$('status').value;
-      const filtered=matches.filter(m=>[m.homeTeam,m.awayTeam,m.competition].some(x=>String(x||'').toLocaleLowerCase('es').includes(q))&&(selected==='all'||group(m.status)===selected));
-      const root=$('games');root.replaceChildren();
-      if(!filtered.length){const box=element('div','notice');box.append(element('strong','',matches.length?'No hay coincidencias':'No hay partidos disponibles'),element('span','',matches.length?'Prueba otra búsqueda o cambia el filtro.':'La API no devolvió encuentros para su consulta actual.'));root.append(box);return;}
-      for(const m of filtered){
-        const card=element('article','match');const head=element('div','match-head');head.append(element('span','',m.competition||'Competición no indicada'),element('span','tag '+(live.has(m.status)?'live':''),labels[m.status]||m.status||'Sin estado'));
-        const teams=element('div','teams');const home=element('div','team',m.homeTeam||'Por definir');const away=element('div','team',m.awayTeam||'Por definir');const scoreAvailable=m.homeScore!==null&&m.homeScore!==undefined&&m.awayScore!==null&&m.awayScore!==undefined;
-        teams.append(home,element('div','score',scoreAvailable?`${m.homeScore} – ${m.awayScore}`:'vs'),away);
-        const date=new Date(m.utcDate);const when=Number.isNaN(date.getTime())?'Fecha no disponible':new Intl.DateTimeFormat('es',{dateStyle:'medium',timeStyle:'short'}).format(date);
-        card.append(head,teams,element('div','date',when));root.append(card);
-      }
-    }
-    async function load(){
-      $('refresh').disabled=true;$('message').textContent='Consultando partidos…';
-      try{
-        const response=await fetch('/api/partidos',{cache:'no-store'});
-        const data=await response.json();
-        if(!response.ok||!Array.isArray(data.matches))throw new Error(data.error||`Error HTTP ${response.status}`);
-        matches=data.matches;
-        $('total').textContent=matches.length;
-        $('finished').textContent=matches.filter(m=>m.status==='FINISHED').length;
-        $('upcoming').textContent=matches.filter(m=>upcoming.has(m.status)).length;
-        $('message').textContent=matches.length?'Partidos cargados correctamente':'Conexión correcta, sin partidos disponibles en esta consulta.';
-        $('updated').textContent='Actualizado: '+new Intl.DateTimeFormat('es',{timeStyle:'short'}).format(new Date());
-        render();
-      }catch(err){$('message').textContent='No se pudieron cargar los partidos.';$('updated').textContent='';const root=$('games');root.replaceChildren();const box=element('div','notice');box.append(element('strong','','Error de conexión'),element('span','',err.message||'Inténtalo de nuevo.'));root.append(box);}
-      finally{$('refresh').disabled=false;}
-    }
-    $('search').addEventListener('input',render);$('status').addEventListener('change',render);$('refresh').addEventListener('click',load);load();
-  </script>
-</body>
-</html>
+<body><main>
+<header><div class="brand">Fut<span>Lab.</span></div><div class="tag">● v4 · DATOS REALES</div></header>
+<section><div class="eyebrow">EL FÚTBOL, EN DATOS</div><h1>Explora partidos reales por fecha y competición.</h1><p>Consulta calendarios y marcadores de distintas ligas. Los datos provienen de football-data.org.</p></section>
+<form id="filters" class="filters">
+<div><label for="from">Desde (UTC)</label><input id="from" type="date" required></div>
+<div><label for="to">Hasta (UTC)</label><input id="to" type="date" required></div>
+<div class="league"><label for="competition">Competición</label><select id="competition"><option value="ALL">Todas las disponibles</option><option value="PL">Premier League</option><option value="PD">LaLiga</option><option value="BL1">Bundesliga</option><option value="SA">Serie A</option><option value="FL1">Ligue 1</option><option value="CL">Champions League</option><option value="DED">Eredivisie</option><option value="PPL">Primeira Liga</option><option value="BSA">Brasileirão</option></select></div>
+<button id="load" type="submit">Ver partidos ↗</button>
+</form>
+<div class="summary"><div class="stat"><strong id="total">—</strong><small>Partidos</small></div><div class="stat"><strong id="finished">—</strong><small>Finalizados</small></div><div class="stat"><strong id="upcoming">—</strong><small>Programados</small></div></div>
+<div class="toolbar"><h2>Explorador de partidos</h2><input id="search" class="search" placeholder="Buscar equipo o liga…" aria-label="Buscar equipos o competiciones"></div>
+<div id="notice" class="notice" role="status">Cargando partidos reales…</div><div id="games" class="games" aria-live="polite"></div>
+<footer>Fuente: football-data.org · Horarios mostrados en tu zona local · La selección de fechas se interpreta en UTC. Los datos disponibles dependen del plan de la API.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);let matches=[];
+const today=new Date().toISOString().slice(0,10);$('from').value=today;$('to').value=today;
+const escapeHTML=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const statusName=s=>({FINISHED:'Finalizado',SCHEDULED:'Programado',TIMED:'Programado',IN_PLAY:'En juego',LIVE:'En vivo',PAUSED:'Pausa',POSTPONED:'Aplazado',CANCELLED:'Cancelado',SUSPENDED:'Suspendido'}[s]||s||'Sin estado');
+function render(){const q=$('search').value.toLocaleLowerCase('es');const filtered=matches.filter(m=>[m.homeTeam,m.awayTeam,m.competition].some(v=>String(v).toLocaleLowerCase('es').includes(q)));$('games').replaceChildren();if(!filtered.length){$('notice').classList.remove('hidden');$('notice').textContent=matches.length?'No hay partidos que coincidan con la búsqueda.':'No hay partidos disponibles para esos filtros. Prueba otras fechas o competiciones.';return}$('notice').classList.add('hidden');for(const m of filtered){const card=document.createElement('article');card.className='game';const hasScore=m.homeScore!==null&&m.awayScore!==null;const when=m.utcDate?new Date(m.utcDate).toLocaleString('es',{dateStyle:'medium',timeStyle:'short'}):'Fecha pendiente';card.innerHTML=`<div class="game-top"><span>${escapeHTML(m.competition)}</span><span>${escapeHTML(statusName(m.status))}</span></div><div class="teams"><span>${escapeHTML(m.homeTeam)}</span><div class="score">${hasScore?`${m.homeScore} : ${m.awayScore}`:'VS'}</div><span>${escapeHTML(m.awayTeam)}</span></div><div class="date">${escapeHTML(when)}</div>`;$('games').append(card)}}
+async function load(e){if(e)e.preventDefault();const a=$('from').value,b=$('to').value;const days=(new Date(b+'T00:00:00Z')-new Date(a+'T00:00:00Z'))/86400000;if(!a||!b||days<0||days>14){$('notice').classList.remove('hidden');$('notice').textContent='Selecciona un intervalo válido de hasta 15 días.';return}const btn=$('load');btn.disabled=true;btn.textContent='Cargando…';$('notice').classList.remove('hidden');$('notice').textContent='Consultando partidos reales…';$('games').replaceChildren();try{const params=new URLSearchParams({dateFrom:a,dateTo:b,competition:$('competition').value});const response=await fetch('/api/partidos?'+params);const data=await response.json();if(!response.ok)throw new Error(data.error||'No se pudieron cargar los partidos.');matches=Array.isArray(data.matches)?data.matches:[];$('total').textContent=matches.length;$('finished').textContent=matches.filter(m=>m.status==='FINISHED').length;$('upcoming').textContent=matches.filter(m=>['SCHEDULED','TIMED'].includes(m.status)).length;render()}catch(err){matches=[];['total','finished','upcoming'].forEach(id=>$(id).textContent='—');$('notice').classList.remove('hidden');$('notice').textContent='Error: '+err.message}finally{btn.disabled=false;btn.textContent='Ver partidos ↗'}}
+$('filters').addEventListener('submit',load);$('search').addEventListener('input',render);load();
+</script></body></html>
