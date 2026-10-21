@@ -5,8 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#081321">
-<meta name="description" content="FutLab: resultados, clasificaciones, historial y estadísticas de fútbol en español.">
-<title>FutLab v8.1 | Estadísticas de fútbol</title>
+<meta name="description" content="FutLab: resultados, clasificaciones, historial y estadísticas de fútbol.">
+<title>FutLab v8.2 | Estadísticas de fútbol</title>
 
 <style>
 :root {
@@ -38,7 +38,9 @@ body {
   line-height: 1.5;
 }
 
-button, input, select {
+button,
+input,
+select {
   font: inherit;
 }
 
@@ -82,7 +84,7 @@ header {
 .version {
   color: var(--lime);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .hero {
@@ -197,7 +199,7 @@ button:focus-visible {
 .secondary {
   padding: 12px 20px;
   border-radius: 10px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .primary {
@@ -227,6 +229,8 @@ button:disabled {
   color: var(--red);
 }
 
+/* TARJETAS DE PARTIDOS */
+
 .match-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -254,13 +258,20 @@ button:disabled {
   min-width: 0;
 }
 
+/* ETIQUETAS FINAS Y ELEGANTES */
+
 .status-badge {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--line);
   border-radius: 20px;
-  padding: 4px 9px;
+  padding: 4px 10px;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  line-height: 1.4;
   color: var(--muted);
 }
 
@@ -305,6 +316,8 @@ button:disabled {
   color: var(--muted);
   font-size: 12px;
 }
+
+/* TABLAS */
 
 .table-scroll {
   overflow-x: auto;
@@ -359,6 +372,8 @@ td {
   height: 26px;
   object-fit: contain;
 }
+
+/* ESTADÍSTICAS */
 
 .inner-card {
   background: var(--panel2);
@@ -418,6 +433,8 @@ td {
 .summary3 .metric {
   text-align: center;
 }
+
+/* GRÁFICOS */
 
 .chart-legend {
   display: flex;
@@ -515,6 +532,8 @@ td {
   font-size: 12px;
 }
 
+/* FORMA RECIENTE */
+
 .form-strip {
   display: flex;
   gap: 8px;
@@ -585,6 +604,8 @@ td {
   color: var(--muted);
   font-size: 12px;
 }
+
+/* COMPARADOR */
 
 .compare-cards {
   display: grid;
@@ -772,7 +793,7 @@ footer {
 <header>
   <div class="container nav">
     <div class="logo">Fut<span>Lab.</span></div>
-    <div class="version">v8.1 · EN ESPAÑOL</div>
+    <div class="version">v8.2 · ESTADÍSTICAS</div>
   </div>
 </header>
 
@@ -783,9 +804,10 @@ footer {
     El fútbol, explicado
     <span class="accent">con datos.</span>
   </h1>
+
   <p>
     Resultados, clasificaciones, historial, gráficos
-    y comparaciones de equipos. Todo en español.
+    y comparaciones de equipos.
   </p>
 </section>
 
@@ -794,10 +816,12 @@ footer {
     <strong id="total">—</strong>
     <span>Partidos</span>
   </div>
+
   <div class="stat">
     <strong id="finalizados">—</strong>
     <span>Finalizados</span>
   </div>
+
   <div class="stat">
     <strong id="programados">—</strong>
     <span>Programados</span>
@@ -805,8 +829,10 @@ footer {
 </section>
 
 <!-- PARTIDOS -->
+
 <section class="panel">
   <h2>Explorador de partidos</h2>
+
   <p class="description">
     Selecciona fechas y competición para consultar los encuentros.
   </p>
@@ -824,18 +850,19 @@ footer {
 
     <div>
       <label for="competition">Competición</label>
+
       <select id="competition">
         <option value="ALL">Todas las disponibles</option>
-        <option value="PL">Liga Premier de Inglaterra</option>
-        <option value="PD">Primera División de España</option>
-        <option value="BL1">Liga Alemana</option>
-        <option value="SA">Liga Italiana</option>
-        <option value="FL1">Liga Francesa</option>
-        <option value="CL">Liga de Campeones</option>
-        <option value="DED">Liga Neerlandesa</option>
-        <option value="PPL">Primera Liga de Portugal</option>
-        <option value="BSA">Primera División de Brasil</option>
-        <option value="ELC">Segunda División de Inglaterra</option>
+        <option value="PL">Premier League</option>
+        <option value="PD">LaLiga</option>
+        <option value="BL1">Bundesliga</option>
+        <option value="SA">Serie A</option>
+        <option value="FL1">Ligue 1</option>
+        <option value="CL">Champions League</option>
+        <option value="DED">Eredivisie</option>
+        <option value="PPL">Primeira Liga</option>
+        <option value="BSA">Brasileirão</option>
+        <option value="ELC">Championship</option>
       </select>
     </div>
   </div>
@@ -855,6 +882,7 @@ footer {
   </p>
 
   <label for="searchTeam">Buscar equipo o competición</label>
+
   <input
     type="search"
     id="searchTeam"
@@ -869,6 +897,7 @@ footer {
 </section>
 
 <!-- CLASIFICACIONES -->
+
 <section class="panel" id="clasificaciones">
   <h2>Clasificaciones</h2>
 
@@ -879,16 +908,17 @@ footer {
 
   <div style="max-width:340px">
     <label for="league">Liga</label>
+
     <select id="league">
-      <option value="PL">Liga Premier de Inglaterra</option>
-      <option value="PD">Primera División de España</option>
-      <option value="BL1">Liga Alemana</option>
-      <option value="SA">Liga Italiana</option>
-      <option value="FL1">Liga Francesa</option>
-      <option value="DED">Liga Neerlandesa</option>
-      <option value="PPL">Primera Liga de Portugal</option>
-      <option value="BSA">Primera División de Brasil</option>
-      <option value="ELC">Segunda División de Inglaterra</option>
+      <option value="PL">Premier League</option>
+      <option value="PD">LaLiga</option>
+      <option value="BL1">Bundesliga</option>
+      <option value="SA">Serie A</option>
+      <option value="FL1">Ligue 1</option>
+      <option value="DED">Eredivisie</option>
+      <option value="PPL">Primeira Liga</option>
+      <option value="BSA">Brasileirão</option>
+      <option value="ELC">Championship</option>
     </select>
   </div>
 
@@ -910,6 +940,7 @@ footer {
           <th>Pts</th>
         </tr>
       </thead>
+
       <tbody id="standingsBody"></tbody>
     </table>
   </div>
@@ -939,6 +970,7 @@ footer {
     <div id="historyContent" hidden>
 
       <h4>Forma reciente</h4>
+
       <div id="formStrip" class="form-strip"></div>
 
       <p class="mini-note">
@@ -1027,6 +1059,7 @@ footer {
 </section>
 
 <!-- COMPARADOR -->
+
 <section class="panel" id="comparador">
   <h2>Comparador de equipos</h2>
 
@@ -1038,16 +1071,17 @@ footer {
   <div class="filters">
     <div>
       <label for="compareLeague">Liga</label>
+
       <select id="compareLeague">
-        <option value="PL">Liga Premier de Inglaterra</option>
-        <option value="PD">Primera División de España</option>
-        <option value="BL1">Liga Alemana</option>
-        <option value="SA">Liga Italiana</option>
-        <option value="FL1">Liga Francesa</option>
-        <option value="DED">Liga Neerlandesa</option>
-        <option value="PPL">Primera Liga de Portugal</option>
-        <option value="BSA">Primera División de Brasil</option>
-        <option value="ELC">Segunda División de Inglaterra</option>
+        <option value="PL">Premier League</option>
+        <option value="PD">LaLiga</option>
+        <option value="BL1">Bundesliga</option>
+        <option value="SA">Serie A</option>
+        <option value="FL1">Ligue 1</option>
+        <option value="DED">Eredivisie</option>
+        <option value="PPL">Primeira Liga</option>
+        <option value="BSA">Brasileirão</option>
+        <option value="ELC">Championship</option>
       </select>
     </div>
 
@@ -1097,6 +1131,7 @@ footer {
     </div>
 
     <h3>Estadísticas comparadas</h3>
+
     <div id="compareMetrics"></div>
 
     <div class="compare-summary">
@@ -1109,7 +1144,7 @@ footer {
 </main>
 
 <footer>
-  FutLab v8.1 · Datos de football-data.org
+  FutLab v8.2 · Datos de football-data.org
   <br>
   La disponibilidad depende del plan de acceso a la API.
 </footer>
@@ -1124,7 +1159,7 @@ let historyRequest = 0;
 let compareRequest = 0;
 let compareTeams = [];
 
-/* TRADUCCIONES AL ESPAÑOL */
+/* ESTADOS EN ESPAÑOL */
 
 function traducirEstado(estado) {
   const estados = {
@@ -1142,34 +1177,28 @@ function traducirEstado(estado) {
   return estados[estado] || "Estado no disponible";
 }
 
-function traducirCompeticion(nombre) {
-  const nombres = {
-    "Premier League": "Liga Premier de Inglaterra",
-    "Primera Division": "Primera División de España",
-    "Primera División": "Primera División de España",
-    "Bundesliga": "Liga Alemana",
-    "Serie A": "Liga Italiana",
-    "Ligue 1": "Liga Francesa",
-    "Ligue 1 McDonald's": "Liga Francesa",
-    "Champions League": "Liga de Campeones",
-    "UEFA Champions League": "Liga de Campeones",
-    "Eredivisie": "Liga Neerlandesa",
-    "Primeira Liga": "Primera Liga de Portugal",
-    "Campeonato Brasileiro Série A": "Primera División de Brasil",
-    "Campeonato Brasileiro Serie A": "Primera División de Brasil",
-    "Championship": "Segunda División de Inglaterra",
-    "English Football League Championship": "Segunda División de Inglaterra"
-  };
+/* NOMBRES DE LIGAS SIN TRADUCIR */
 
-  return nombres[nombre] || nombre || "Competición";
+function nombreCompeticion(nombre) {
+  return nombre || "Competición";
 }
 
 function claseEstado(estado) {
-  if (estado === "IN_PLAY") return "status-live";
-  if (estado === "PAUSED") return "status-paused";
-  if (estado === "FINISHED") return "status-finished";
+  if (estado === "IN_PLAY") {
+    return "status-live";
+  }
 
-  if (["CANCELLED", "SUSPENDED", "POSTPONED"].includes(estado)) {
+  if (estado === "PAUSED") {
+    return "status-paused";
+  }
+
+  if (estado === "FINISHED") {
+    return "status-finished";
+  }
+
+  if (
+    ["CANCELLED", "SUSPENDED", "POSTPONED"].includes(estado)
+  ) {
     return "status-cancelled";
   }
 
@@ -1193,22 +1222,33 @@ function create(tag, text, className) {
 }
 
 function num(value) {
-  if (value == null) return 0;
+  if (value == null) {
+    return 0;
+  }
 
   const n = Number(value);
+
   return Number.isFinite(n) ? n : 0;
 }
 
 function localDate(date) {
   const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
+
+  const m = String(
+    date.getMonth() + 1
+  ).padStart(2, "0");
+
+  const d = String(
+    date.getDate()
+  ).padStart(2, "0");
 
   return `${y}-${m}-${d}`;
 }
 
 function formatDate(value) {
-  if (!value) return "Fecha por confirmar";
+  if (!value) {
+    return "Fecha por confirmar";
+  }
 
   const date = new Date(value);
 
@@ -1235,7 +1275,11 @@ function setCrest(id, url) {
 }
 
 function metricBox(label, value) {
-  const box = create("div", undefined, "metric");
+  const box = create(
+    "div",
+    undefined,
+    "metric"
+  );
 
   box.append(
     create(
@@ -1255,7 +1299,7 @@ function initDates() {
   $("dateTo").value = today;
 }
 
-/* EXPLORADOR DE PARTIDOS */
+/* PARTIDOS */
 
 function updateCounters(matches) {
   $("total").textContent = matches.length;
@@ -1271,6 +1315,7 @@ function updateCounters(matches) {
 
 function renderMatches() {
   const container = $("matches");
+
   container.replaceChildren();
 
   const query = $("searchTeam").value
@@ -1281,8 +1326,7 @@ function renderMatches() {
     const text = [
       m.homeTeam,
       m.awayTeam,
-      m.competition,
-      traducirCompeticion(m.competition)
+      m.competition
     ].join(" ").toLocaleLowerCase("es");
 
     return text.includes(query);
@@ -1324,7 +1368,7 @@ function renderMatches() {
     top.append(
       create(
         "span",
-        traducirCompeticion(m.competition)
+        nombreCompeticion(m.competition)
       ),
       badge
     );
@@ -1414,7 +1458,9 @@ async function loadMatches() {
   const requestId = ++matchesRequest;
 
   $("loadMatches").disabled = true;
+
   $("matchStatus").className = "status";
+
   $("matchStatus").textContent =
     "Cargando partidos...";
 
@@ -1431,7 +1477,9 @@ async function loadMatches() {
 
     const data = await response.json();
 
-    if (requestId !== matchesRequest) return;
+    if (requestId !== matchesRequest) {
+      return;
+    }
 
     if (!response.ok) {
       throw new Error(
@@ -1445,20 +1493,25 @@ async function loadMatches() {
       : [];
 
     updateCounters(currentMatches);
+
     renderMatches();
 
     $("matchStatus").textContent =
       `${currentMatches.length} partidos encontrados.`;
 
   } catch (error) {
-    if (requestId !== matchesRequest) return;
+    if (requestId !== matchesRequest) {
+      return;
+    }
 
     currentMatches = [];
 
     updateCounters([]);
+
     renderMatches();
 
     $("matchStatus").className = "status error";
+
     $("matchStatus").textContent =
       "Error: " + error.message;
 
@@ -1469,7 +1522,7 @@ async function loadMatches() {
   }
 }
 
-/* CLASIFICACIONES Y FICHAS */
+/* CLASIFICACIONES */
 
 function showTeam(team) {
   $("teamCard").hidden = false;
@@ -1477,7 +1530,10 @@ function showTeam(team) {
   $("teamTitle").textContent =
     team.nombre || "Equipo";
 
-  setCrest("teamCrest", team.escudo);
+  setCrest(
+    "teamCrest",
+    team.escudo
+  );
 
   const data = [
     ["Posición", team.posicion],
@@ -1492,6 +1548,7 @@ function showTeam(team) {
   ];
 
   const container = $("teamMetrics");
+
   container.replaceChildren();
 
   data.forEach(([label, value]) => {
@@ -1508,15 +1565,18 @@ function showTeam(team) {
 
 async function loadStandings() {
   const league = $("league").value;
+
   const requestId = ++standingsRequest;
 
   historyRequest++;
 
   $("teamCard").hidden = true;
   $("historyCard").hidden = true;
+
   $("standingsBody").replaceChildren();
 
   $("tableStatus").className = "status";
+
   $("tableStatus").textContent =
     "Cargando clasificación...";
 
@@ -1528,7 +1588,9 @@ async function loadStandings() {
 
     const data = await response.json();
 
-    if (requestId !== standingsRequest) return;
+    if (requestId !== standingsRequest) {
+      return;
+    }
 
     if (!response.ok) {
       throw new Error(
@@ -1600,7 +1662,9 @@ async function loadStandings() {
       });
 
       wrapper.append(button);
+
       teamCell.append(wrapper);
+
       row.append(teamCell);
 
       [
@@ -1625,15 +1689,18 @@ async function loadStandings() {
     });
 
   } catch (error) {
-    if (requestId !== standingsRequest) return;
+    if (requestId !== standingsRequest) {
+      return;
+    }
 
     $("tableStatus").className = "status error";
+
     $("tableStatus").textContent =
       "Error: " + error.message;
   }
 }
 
-/* HISTORIAL Y RENDIMIENTO RECIENTE */
+/* HISTORIAL */
 
 function normalizeHistory(matches, teamId) {
   return matches
@@ -1683,6 +1750,7 @@ function normalizeHistory(matches, teamId) {
 
 function renderForm(matches) {
   const strip = $("formStrip");
+
   strip.replaceChildren();
 
   [...matches].reverse().forEach(m => {
@@ -1709,6 +1777,7 @@ function renderForm(matches) {
 
 function renderSplit(containerId, matches) {
   const container = $(containerId);
+
   container.replaceChildren();
 
   const played = matches.length;
@@ -1760,6 +1829,7 @@ function renderSplit(containerId, matches) {
 
 function renderBarChart(containerId, matches, mode) {
   const chart = $(containerId);
+
   chart.replaceChildren();
 
   const chronological =
@@ -1907,6 +1977,7 @@ function renderHistory(matches) {
   );
 
   const averages = $("recentAverages");
+
   averages.replaceChildren();
 
   [
@@ -1933,6 +2004,7 @@ function renderHistory(matches) {
   );
 
   const list = $("historyMatches");
+
   list.replaceChildren();
 
   matches.forEach(m => {
@@ -2002,7 +2074,9 @@ async function loadHistory(teamId, teamName, league) {
 
     const data = await response.json();
 
-    if (requestId !== historyRequest) return;
+    if (requestId !== historyRequest) {
+      return;
+    }
 
     if (!response.ok) {
       throw new Error(
@@ -2032,7 +2106,9 @@ async function loadHistory(teamId, teamName, league) {
     renderHistory(matches);
 
   } catch (error) {
-    if (requestId !== historyRequest) return;
+    if (requestId !== historyRequest) {
+      return;
+    }
 
     $("historyStatus").className = "status error";
 
@@ -2041,7 +2117,7 @@ async function loadHistory(teamId, teamName, league) {
   }
 }
 
-/* COMPARADOR DE EQUIPOS */
+/* COMPARADOR */
 
 function fillTeamSelect(select, teams) {
   select.replaceChildren();
@@ -2053,23 +2129,27 @@ function fillTeamSelect(select, teams) {
     );
 
     option.value = String(team.id);
+
     select.append(option);
   });
 }
 
 async function loadCompareTeams() {
   const league = $("compareLeague").value;
+
   const requestId = ++compareRequest;
 
   compareTeams = [];
 
   $("compareResult").hidden = true;
+
   $("compareA").replaceChildren();
   $("compareB").replaceChildren();
 
   $("compareButton").disabled = true;
 
   $("compareStatus").className = "status";
+
   $("compareStatus").textContent =
     "Cargando equipos...";
 
@@ -2081,7 +2161,9 @@ async function loadCompareTeams() {
 
     const data = await response.json();
 
-    if (requestId !== compareRequest) return;
+    if (requestId !== compareRequest) {
+      return;
+    }
 
     if (!response.ok) {
       throw new Error(
@@ -2123,7 +2205,9 @@ async function loadCompareTeams() {
       "Elige dos equipos diferentes.";
 
   } catch (error) {
-    if (requestId !== compareRequest) return;
+    if (requestId !== compareRequest) {
+      return;
+    }
 
     $("compareStatus").className = "status error";
 
@@ -2244,6 +2328,7 @@ function compareSelectedTeams() {
   updateCompareCard("B", b);
 
   const container = $("compareMetrics");
+
   container.replaceChildren();
 
   [
