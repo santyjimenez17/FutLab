@@ -1,35 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081321">
-<meta name="description" content="FutLab: explora partidos y estadísticas de fútbol en un panel interactivo."><title>FutLab | Explorador de partidos</title>
-<style>
-:root{--bg:#081321;--panel:#101e30;--panel2:#14263b;--text:#f2f7fc;--muted:#96a8ba;--lime:#bdf56a;--line:#26394e}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 85% 0%,#1a3540 0%,var(--bg) 42%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}.wrap{max-width:1160px;margin:auto;padding:24px}header,.section,.toolbar,.card-top,.teams,.metric-line,.detail-heading,.summary-head{display:flex;align-items:center;justify-content:space-between;gap:12px}header{padding-bottom:20px}.logo{font-size:29px;font-weight:900;letter-spacing:-1px}.logo span{color:var(--lime)}.pill,.chip{border:1px solid #365a39;background:#1d342a;color:var(--lime);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700}.hero{padding:30px 0 20px}.eyebrow{color:var(--lime);font-size:12px;font-weight:800;letter-spacing:2px}h1{font-size:clamp(32px,6vw,56px);line-height:1.08;letter-spacing:-1.7px;max-width:780px;margin:14px 0}h1 em{color:var(--lime);font-style:normal}p{color:var(--muted);line-height:1.6}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0 32px}.stat,.card,.detail,.controls{background:rgba(16,30,48,.96);border:1px solid var(--line);border-radius:18px;padding:20px}.stat small{display:block;color:var(--muted);margin-bottom:9px}.stat strong{font-size:26px}.section{margin:25px 0 16px}h2{font-size:22px;margin:0}.note,.card-top{color:var(--muted);font-size:12px}.controls{margin-bottom:16px}.toolbar{flex-wrap:wrap}.search{flex:1 1 230px;min-width:0}input,select{width:100%;background:#0a1726;border:1px solid #3a5064;border-radius:11px;color:var(--text);padding:13px;font:inherit}input::placeholder{color:#8da1b4}select{max-width:200px}input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--lime);outline-offset:2px}.matches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{transition:border-color .2s,transform .2s}.card:hover{border-color:#688c50;transform:translateY(-2px)}.card.selected{border-color:var(--lime);box-shadow:0 0 0 1px #bdf56a55}.teams{font-size:18px;font-weight:800;margin:20px 0;min-height:50px}.team{text-align:center;flex:1;min-width:0;overflow-wrap:anywhere}.vs{flex:none;color:var(--lime);font-size:12px;border:1px solid #395441;padding:7px 9px;border-radius:9px}.mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:14px 0}.mini>div{background:var(--panel2);border-radius:10px;padding:11px 5px;text-align:center}.mini strong{display:block;font-size:18px;color:var(--lime)}.mini small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.action{border:1px solid #527345;border-radius:11px;background:#1c362a;color:var(--lime);padding:11px 14px;font-weight:750;cursor:pointer;width:100%}.action:hover{background:#2b4a35}.detail{margin-top:18px}.detail-heading{align-items:flex-start;flex-wrap:wrap}.detail h3{margin:5px 0 0;font-size:23px}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}.metric-box{background:var(--panel2);border-radius:13px;padding:14px}.metric-line{font-size:13px;margin-bottom:10px}.metric-line span{color:var(--muted)}.track{height:9px;background:#26384a;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#7fcf7c,var(--lime));border-radius:99px}.empty{padding:25px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:15px;grid-column:1/-1}.footer{margin:34px 0 12px;font-size:12px;color:var(--muted);text-align:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:700px){.wrap{padding:17px}header{padding-bottom:5px}.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat{padding:12px}.stat strong{font-size:19px}.stat small{font-size:11px}.matches,.detail-grid{grid-template-columns:1fr}.hero{padding-top:20px}.section{align-items:flex-start;flex-direction:column;gap:5px}select{max-width:none}.toolbar{flex-direction:column;align-items:stretch}.search{flex:auto}.teams{font-size:16px}.pill{font-size:10px;padding:7px 9px}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#081321" />
+  <title>FutLab | Explorador de partidos</title>
+  <style>
+    :root{color-scheme:dark;--bg:#081321;--card:#13253a;--border:#294057;--lime:#bdf56a;--muted:#a6b7c9;--white:#f3f8ff}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#173049 0,#081321 46%);color:var(--white);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+    .wrap{width:min(1100px,calc(100% - 32px));margin:auto}.top{display:flex;align-items:center;justify-content:space-between;padding:26px 0;border-bottom:1px solid var(--border)}.logo{font-size:30px;font-weight:850;letter-spacing:-1px}.logo span{color:var(--lime)}.pill{font-size:12px;color:var(--lime);border:1px solid #527743;border-radius:30px;padding:7px 11px;background:#1a3229}.hero{padding:44px 0 25px}.eyebrow{color:var(--lime);font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}.hero h1{font-size:clamp(28px,5vw,46px);line-height:1.12;max-width:740px;margin:12px 0}.hero p,.muted{color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}.stat,.panel,.match{background:var(--card);border:1px solid var(--border);border-radius:16px}.stat{padding:20px}.stat strong{display:block;color:var(--lime);font-size:27px}.stat span{font-size:13px;color:var(--muted)}.panel{padding:20px;margin:22px 0}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.toolbar input,.toolbar select{background:#091b2c;border:1px solid #3b5066;color:var(--white);padding:13px;border-radius:10px;font:inherit;min-width:0}.toolbar input{flex:1 1 250px}.toolbar select{flex:0 1 180px}.toolbar button,.retry{background:var(--lime);color:#11201b;font-weight:800;border:0;border-radius:10px;padding:13px 17px;cursor:pointer}.toolbar button:hover,.retry:hover{filter:brightness(.94)}.meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px;color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0 40px}.match{padding:18px;min-width:0}.match-head{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted)}.tag{border-radius:40px;padding:4px 9px;background:#263b4e;color:#d7e6f3;white-space:nowrap}.tag.live{background:#244b2c;color:var(--lime)}.teams{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;margin:22px 0 10px}.team{font-size:clamp(13px,2.3vw,18px);font-weight:750;overflow-wrap:anywhere}.team:last-child{text-align:right}.score{font-size:24px;color:var(--lime);font-weight:850;white-space:nowrap}.date{font-size:13px;color:var(--muted);border-top:1px solid var(--border);padding-top:12px}.notice{grid-column:1/-1;border:1px dashed #466079;border-radius:14px;padding:26px;color:var(--muted);text-align:center}.notice strong{display:block;color:var(--white);margin-bottom:8px}.footer{border-top:1px solid var(--border);padding:24px 0 34px;color:var(--muted);font-size:12px}.hidden{display:none!important}@media(max-width:650px){.top{padding:18px 0}.logo{font-size:26px}.hero{padding-top:28px}.stats{gap:8px}.stat{padding:13px}.stat strong{font-size:21px}.stat span{font-size:11px}.panel{padding:14px}.toolbar{flex-direction:column;align-items:stretch}.toolbar input,.toolbar select,.toolbar button{width:100%;flex:auto}.grid{grid-template-columns:1fr}.teams{margin-top:17px}}
+  </style>
 </head>
-<body><div class="wrap"><header><div class="logo">Fut<span>Lab.</span></div><span class="pill">● DEMO INTERACTIVA</span></header><main>
-<section class="hero"><div class="eyebrow">EL FÚTBOL, EN DATOS</div><h1>Explora cada partido <em>más allá del marcador.</em></h1><p>Busca equipos, filtra encuentros y compara estadísticas desde cualquier pantalla.</p></section>
-<section class="stats" aria-label="Resumen"><div class="stat"><small>Partidos demo</small><strong id="total">04</strong></div><div class="stat"><small>Indicadores</small><strong>06</strong></div><div class="stat"><small>Estado</small><strong style="color:var(--lime)">Interactivo</strong></div></section>
-<section id="explorador" aria-label="Explorador de partidos"><div class="section"><h2>Explorador de partidos</h2><span class="note">Todos los datos son ficticios</span></div>
-<div class="controls"><div class="toolbar"><div class="search"><label class="sr-only" for="search">Buscar equipo</label><input id="search" type="search" placeholder="🔎 Buscar equipo (ej.: Azul)" autocomplete="off"></div><label class="sr-only" for="league">Filtrar por liga</label><select id="league"><option value="all">Todas las ligas</option><option value="Liga Demo A">Liga Demo A</option><option value="Liga Demo B">Liga Demo B</option></select></div></div>
-<div class="matches" id="matches" aria-live="polite"></div>
-<div class="detail" id="detail" aria-live="polite"><div class="note">Selecciona un partido para ver sus estadísticas.</div></div></section>
-</main><footer class="footer">FutLab © 2026 · Versión 2 · Estadísticas ficticias, no corresponden a encuentros reales</footer></div>
-<script>
-'use strict';
-const games=[
-{id:1,league:'Liga Demo A',home:'Equipo Azul',away:'Equipo Verde',metrics:[['Posesión',58,42,'%'],['Precisión de pase',84,78,'%'],['Duelos ganados',52,48,'%'],['Tiros',14,9,''],['Tiros al arco',6,3,''],['Córners',7,4,'']]},
-{id:2,league:'Liga Demo A',home:'Atlético Norte',away:'Unión Sur',metrics:[['Posesión',47,53,'%'],['Precisión de pase',76,81,'%'],['Duelos ganados',61,39,'%'],['Tiros',8,12,''],['Tiros al arco',3,5,''],['Córners',3,6,'']]},
-{id:3,league:'Liga Demo B',home:'Deportivo Sol',away:'Ciudad Luna',metrics:[['Posesión',64,36,'%'],['Precisión de pase',88,72,'%'],['Duelos ganados',49,51,'%'],['Tiros',17,7,''],['Tiros al arco',8,2,''],['Córners',9,2,'']]},
-{id:4,league:'Liga Demo B',home:'Real Costa',away:'Montaña FC',metrics:[['Posesión',51,49,'%'],['Precisión de pase',80,79,'%'],['Duelos ganados',55,45,'%'],['Tiros',11,10,''],['Tiros al arco',4,4,''],['Córners',5,5,'']]}
-];
-const matches=document.getElementById('matches'),detail=document.getElementById('detail'),search=document.getElementById('search'),league=document.getElementById('league');let selected=1;
-function safe(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function visible(){const q=search.value.trim().toLocaleLowerCase('es');return games.filter(g=>(league.value==='all'||g.league===league.value)&&(`${g.home} ${g.away} ${g.league}`).toLocaleLowerCase('es').includes(q));}
-function render(){const list=visible();document.getElementById('total').textContent=String(list.length).padStart(2,'0');if(!list.some(g=>g.id===selected))selected=list[0]?.id??null;
-matches.innerHTML=list.length?list.map(g=>`<article class="card ${g.id===selected?'selected':''}"><div class="card-top"><span>${safe(g.league)}</span><span>PARTIDO DEMO ${String(g.id).padStart(2,'0')}</span></div><div class="teams"><span class="team">${safe(g.home)}</span><span class="vs">VS</span><span class="team">${safe(g.away)}</span></div><div class="mini">${g.metrics.slice(3).map(m=>`<div><strong>${m[1]} – ${m[2]}</strong><small>${safe(m[0])}</small></div>`).join('')}</div><button class="action" type="button" data-id="${g.id}" aria-label="Ver estadísticas de ${safe(g.home)} contra ${safe(g.away)}">${g.id===selected?'Viendo estadísticas ✓':'Ver estadísticas →'}</button></article>`).join(''):'<div class="empty">No encontramos partidos con esos filtros. Prueba otro equipo o selecciona “Todas las ligas”.</div>';
-const g=games.find(x=>x.id===selected);if(!g){detail.innerHTML='<p>No hay un partido seleccionado.</p>';return;}
-detail.innerHTML=`<div class="detail-heading"><div><span class="eyebrow">COMPARATIVA DEL PARTIDO</span><h3>${safe(g.home)} vs ${safe(g.away)}</h3></div><span class="chip">${safe(g.league)}</span></div><p>Los valores son ilustrativos. En cada indicador se muestra primero el equipo local y después el visitante.</p><div class="detail-grid">${g.metrics.map(m=>{const pct=m[3]==='%'?m[1]:m[1]+m[2]>0?Math.round(100*m[1]/(m[1]+m[2])):50;return `<div class="metric-box"><div class="metric-line"><span>${safe(m[0])}</span><b>${m[1]}${m[3]} · ${m[2]}${m[3]}</b></div><div class="track" role="img" aria-label="${safe(m[0])}: ${m[1]}${m[3]} frente a ${m[2]}${m[3]}"><div class="fill" style="width:${pct}%"></div></div></div>`}).join('')}</div>`;
-}
-matches.addEventListener('click',e=>{const b=e.target.closest('button[data-id]');if(!b)return;selected=Number(b.dataset.id);render();detail.scrollIntoView({behavior:'smooth',block:'start'});});search.addEventListener('input',render);league.addEventListener('change',render);render();
-</script></body></html>
+<body>
+  <div class="wrap">
+    <header class="top"><div class="logo">Fut<span>Lab.</span></div><span class="pill">● DATOS REALES · v3</span></header>
+    <section class="hero"><div class="eyebrow">El fútbol, en datos</div><h1>Explora los partidos más allá del marcador.</h1><p>Resultados y calendarios obtenidos desde football-data.org a través de nuestra conexión segura.</p></section>
+    <section class="stats" aria-label="Resumen"><div class="stat"><strong id="total">—</strong><span>Partidos recibidos</span></div><div class="stat"><strong id="finished">—</strong><span>Finalizados</span></div><div class="stat"><strong id="upcoming">—</strong><span>Por comenzar</span></div></section>
+    <section class="panel"><div class="toolbar"><input id="search" type="search" placeholder="Buscar equipo o competición…" aria-label="Buscar partidos"/><select id="status" aria-label="Filtrar por estado"><option value="all">Todos los estados</option><option value="live">En juego</option><option value="finished">Finalizados</option><option value="upcoming">Próximos</option><option value="other">Otros estados</option></select><button id="refresh" type="button">↻ Actualizar</button></div><div class="meta"><span id="message" role="status" aria-live="polite">Conectando con la API…</span><span id="updated">—</span></div></section>
+    <main><div id="games" class="grid" aria-live="polite"><div class="notice">Cargando partidos reales…</div></div></main>
+    <footer class="footer">FutLab · Fuente: football-data.org · Las fechas se muestran en la zona horaria de tu dispositivo. Los datos dependen de la cobertura y disponibilidad de la API.</footer>
+  </div>
+  <script>
+    const $ = id => document.getElementById(id);
+    let matches = [];
+    const live = new Set(['IN_PLAY','PAUSED','LIVE']);
+    const upcoming = new Set(['SCHEDULED','TIMED']);
+    const labels = {SCHEDULED:'Programado',TIMED:'Programado',IN_PLAY:'En juego',PAUSED:'Descanso',LIVE:'En vivo',FINISHED:'Finalizado',POSTPONED:'Aplazado',SUSPENDED:'Suspendido',CANCELLED:'Cancelado',AWARDED:'Adjudicado'};
+    const group = s => live.has(s)?'live':s==='FINISHED'?'finished':upcoming.has(s)?'upcoming':'other';
+    function element(tag, className, content){const e=document.createElement(tag);if(className)e.className=className;if(content!==undefined)e.textContent=content;return e;}
+    function render(){
+      const q=$('search').value.trim().toLocaleLowerCase('es'); const selected=$('status').value;
+      const filtered=matches.filter(m=>[m.homeTeam,m.awayTeam,m.competition].some(x=>String(x||'').toLocaleLowerCase('es').includes(q))&&(selected==='all'||group(m.status)===selected));
+      const root=$('games');root.replaceChildren();
+      if(!filtered.length){const box=element('div','notice');box.append(element('strong','',matches.length?'No hay coincidencias':'No hay partidos disponibles'),element('span','',matches.length?'Prueba otra búsqueda o cambia el filtro.':'La API no devolvió encuentros para su consulta actual.'));root.append(box);return;}
+      for(const m of filtered){
+        const card=element('article','match');const head=element('div','match-head');head.append(element('span','',m.competition||'Competición no indicada'),element('span','tag '+(live.has(m.status)?'live':''),labels[m.status]||m.status||'Sin estado'));
+        const teams=element('div','teams');const home=element('div','team',m.homeTeam||'Por definir');const away=element('div','team',m.awayTeam||'Por definir');const scoreAvailable=m.homeScore!==null&&m.homeScore!==undefined&&m.awayScore!==null&&m.awayScore!==undefined;
+        teams.append(home,element('div','score',scoreAvailable?`${m.homeScore} – ${m.awayScore}`:'vs'),away);
+        const date=new Date(m.utcDate);const when=Number.isNaN(date.getTime())?'Fecha no disponible':new Intl.DateTimeFormat('es',{dateStyle:'medium',timeStyle:'short'}).format(date);
+        card.append(head,teams,element('div','date',when));root.append(card);
+      }
+    }
+    async function load(){
+      $('refresh').disabled=true;$('message').textContent='Consultando partidos…';
+      try{
+        const response=await fetch('/api/partidos',{cache:'no-store'});
+        const data=await response.json();
+        if(!response.ok||!Array.isArray(data.matches))throw new Error(data.error||`Error HTTP ${response.status}`);
+        matches=data.matches;
+        $('total').textContent=matches.length;
+        $('finished').textContent=matches.filter(m=>m.status==='FINISHED').length;
+        $('upcoming').textContent=matches.filter(m=>upcoming.has(m.status)).length;
+        $('message').textContent=matches.length?'Partidos cargados correctamente':'Conexión correcta, sin partidos disponibles en esta consulta.';
+        $('updated').textContent='Actualizado: '+new Intl.DateTimeFormat('es',{timeStyle:'short'}).format(new Date());
+        render();
+      }catch(err){$('message').textContent='No se pudieron cargar los partidos.';$('updated').textContent='';const root=$('games');root.replaceChildren();const box=element('div','notice');box.append(element('strong','','Error de conexión'),element('span','',err.message||'Inténtalo de nuevo.'));root.append(box);}
+      finally{$('refresh').disabled=false;}
+    }
+    $('search').addEventListener('input',render);$('status').addEventListener('change',render);$('refresh').addEventListener('click',load);load();
+  </script>
+</body>
+</html>
