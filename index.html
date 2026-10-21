@@ -5,8 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#081321">
-<meta name="description" content="FutLab: resultados en vivo, clasificaciones y estadísticas de fútbol.">
-<title>FutLab v9 | Fútbol en vivo y estadísticas</title>
+<meta name="description" content="FutLab: resultados, clasificaciones y estadísticas de fútbol.">
+
+<title>FutLab v8.2 | Estadísticas de fútbol</title>
 
 <style>
 :root {
@@ -22,9 +23,13 @@
   --amber: #ffd38b;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
@@ -34,9 +39,19 @@ body {
   line-height: 1.5;
 }
 
-button, input, select { font: inherit; }
-button { cursor: pointer; }
-[hidden] { display: none !important; }
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}
 
 .container {
   width: min(1120px, calc(100% - 30px));
@@ -62,7 +77,10 @@ header {
   letter-spacing: -1px;
 }
 
-.logo span, .accent { color: var(--lime); }
+.logo span,
+.accent {
+  color: var(--lime);
+}
 
 .version {
   color: var(--lime);
@@ -70,7 +88,9 @@ header {
   font-weight: 600;
 }
 
-.hero { padding: 38px 0 20px; }
+.hero {
+  padding: 38px 0 20px;
+}
 
 .hero h1 {
   font-size: clamp(29px, 5vw, 48px);
@@ -91,13 +111,16 @@ header {
   margin: 24px 0;
 }
 
-.stat, .panel {
+.stat,
+.panel {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 18px;
 }
 
-.stat { padding: 20px; }
+.stat {
+  padding: 20px;
+}
 
 .stat strong {
   display: block;
@@ -115,9 +138,18 @@ header {
   margin-bottom: 24px;
 }
 
-h2 { margin: 0 0 8px; font-size: 24px; }
-h3 { margin: 0 0 12px; }
-h4 { margin: 0 0 10px; }
+h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+h3 {
+  margin: 0 0 12px;
+}
+
+h4 {
+  margin: 0 0 10px;
+}
 
 .description {
   color: var(--muted);
@@ -139,7 +171,8 @@ label {
   margin-bottom: 7px;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   min-width: 0;
   padding: 12px;
@@ -150,7 +183,9 @@ input, select {
   color-scheme: dark;
 }
 
-input:focus, select:focus, button:focus-visible {
+input:focus,
+select:focus,
+button:focus-visible {
   outline: 2px solid var(--lime);
   outline-offset: 2px;
 }
@@ -161,7 +196,8 @@ input:focus, select:focus, button:focus-visible {
   gap: 10px;
 }
 
-.primary, .secondary {
+.primary,
+.secondary {
   padding: 12px 20px;
   border-radius: 10px;
   font-weight: 700;
@@ -190,41 +226,8 @@ button:disabled {
   margin: 16px 0;
 }
 
-.error { color: var(--red); }
-
-.live-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 16px 0;
-}
-
-.live-note {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.live-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--lime);
-  font-size: 12px;
-}
-
-.live-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--lime);
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+.error {
+  color: var(--red);
 }
 
 /* PARTIDOS */
@@ -242,10 +245,6 @@ button:disabled {
   border-radius: 14px;
 }
 
-.match.is-live {
-  border-color: #50774a;
-}
-
 .match-top {
   display: flex;
   justify-content: space-between;
@@ -260,13 +259,11 @@ button:disabled {
   min-width: 0;
 }
 
-/* ESTADOS FINOS */
-
 .status-badge {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   border: 1px solid var(--line);
   border-radius: 20px;
   padding: 4px 10px;
@@ -298,12 +295,6 @@ button:disabled {
   color: var(--red);
 }
 
-.live-minute {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--lime);
-}
-
 .team-row {
   display: flex;
   align-items: center;
@@ -327,7 +318,9 @@ button:disabled {
 
 /* CLASIFICACIONES */
 
-.table-scroll { overflow-x: auto; }
+.table-scroll {
+  overflow-x: auto;
+}
 
 table {
   width: 100%;
@@ -335,7 +328,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   text-align: left;
   padding: 12px 9px;
   border-bottom: 1px solid var(--line);
@@ -347,7 +341,9 @@ th {
   font-size: 12px;
 }
 
-td { font-size: 14px; }
+td {
+  font-size: 14px;
+}
 
 .team-button {
   border: 0;
@@ -360,7 +356,9 @@ td { font-size: 14px; }
   text-decoration-color: #657a90;
 }
 
-.team-button:hover { color: var(--lime); }
+.team-button:hover {
+  color: var(--lime);
+}
 
 .team-name {
   display: inline-flex;
@@ -374,7 +372,7 @@ td { font-size: 14px; }
   object-fit: contain;
 }
 
-/* EQUIPOS Y ESTADÍSTICAS */
+/* ESTADÍSTICAS */
 
 .inner-card {
   background: var(--panel2);
@@ -397,7 +395,9 @@ td { font-size: 14px; }
   object-fit: contain;
 }
 
-.team-heading h3 { margin: 0; }
+.team-heading h3 {
+  margin: 0;
+}
 
 .metrics {
   display: grid;
@@ -429,7 +429,9 @@ td { font-size: 14px; }
   margin: 16px 0 24px;
 }
 
-.summary3 .metric { text-align: center; }
+.summary3 .metric {
+  text-align: center;
+}
 
 .form-strip {
   display: flex;
@@ -449,9 +451,17 @@ td { font-size: 14px; }
   color: #081321;
 }
 
-.form-win { background: var(--lime); }
-.form-draw { background: var(--amber); }
-.form-loss { background: var(--red); }
+.form-win {
+  background: var(--lime);
+}
+
+.form-draw {
+  background: var(--amber);
+}
+
+.form-loss {
+  background: var(--red);
+}
 
 .split-grid {
   display: grid;
@@ -466,7 +476,9 @@ td { font-size: 14px; }
   border-radius: 14px;
 }
 
-.split-card h4 { color: var(--lime); }
+.split-card h4 {
+  color: var(--lime);
+}
 
 .split-row {
   display: flex;
@@ -477,7 +489,9 @@ td { font-size: 14px; }
   font-size: 14px;
 }
 
-.split-row span:first-child { color: var(--muted); }
+.split-row span:first-child {
+  color: var(--muted);
+}
 
 .section-divider {
   border: 0;
@@ -514,8 +528,13 @@ td { font-size: 14px; }
   display: inline-block;
 }
 
-.dot-for { background: var(--lime); }
-.dot-against { background: var(--blue); }
+.dot-for {
+  background: var(--lime);
+}
+
+.dot-against {
+  background: var(--blue);
+}
 
 .chart {
   display: flex;
@@ -547,8 +566,13 @@ td { font-size: 14px; }
   border-radius: 5px 5px 0 0;
 }
 
-.bar-for { background: var(--lime); }
-.bar-against { background: var(--blue); }
+.bar-for {
+  background: var(--lime);
+}
+
+.bar-against {
+  background: var(--blue);
+}
 
 .bar-points {
   background: var(--amber);
@@ -630,7 +654,10 @@ td { font-size: 14px; }
 
 .compare-values {
   display: grid;
-  grid-template-columns: minmax(40px, 1fr) 120px minmax(40px, 1fr);
+  grid-template-columns:
+    minmax(40px, 1fr)
+    120px
+    minmax(40px, 1fr);
   gap: 10px;
   align-items: center;
 }
@@ -670,13 +697,19 @@ td { font-size: 14px; }
   justify-content: flex-end;
 }
 
-.compare-fill-a, .compare-fill-b {
+.compare-fill-a,
+.compare-fill-b {
   height: 100%;
   border-radius: 6px;
 }
 
-.compare-fill-a { background: var(--lime); }
-.compare-fill-b { background: var(--blue); }
+.compare-fill-a {
+  background: var(--lime);
+}
+
+.compare-fill-b {
+  background: var(--blue);
+}
 
 .compare-summary {
   background: var(--panel2);
@@ -685,7 +718,9 @@ td { font-size: 14px; }
   margin-top: 22px;
 }
 
-.compare-summary h3 { color: var(--lime); }
+.compare-summary h3 {
+  color: var(--lime);
+}
 
 .compare-summary p {
   margin-bottom: 0;
@@ -700,22 +735,56 @@ footer {
 }
 
 @media (max-width: 720px) {
-  .filters { grid-template-columns: 1fr; }
-  .match-grid { grid-template-columns: 1fr; }
-  .metrics { grid-template-columns: repeat(2, 1fr); }
-  .split-grid { grid-template-columns: 1fr; }
+  .filters {
+    grid-template-columns: 1fr;
+  }
 
-  .panel, .inner-card { padding: 15px; }
-  .stat { padding: 13px; }
-  .stat strong { font-size: 23px; }
-  .stat span { font-size: 11px; }
+  .match-grid {
+    grid-template-columns: 1fr;
+  }
 
-  .compare-card { padding: 12px; }
-  .compare-card h3 { font-size: 14px; }
-  .compare-card strong { font-size: 25px; }
+  .metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .split-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel,
+  .inner-card {
+    padding: 15px;
+  }
+
+  .stat {
+    padding: 13px;
+  }
+
+  .stat strong {
+    font-size: 23px;
+  }
+
+  .stat span {
+    font-size: 11px;
+  }
+
+  .compare-card {
+    padding: 12px;
+  }
+
+  .compare-card h3 {
+    font-size: 14px;
+  }
+
+  .compare-card strong {
+    font-size: 25px;
+  }
 
   .compare-values {
-    grid-template-columns: minmax(35px, 1fr) 90px minmax(35px, 1fr);
+    grid-template-columns:
+      minmax(35px, 1fr)
+      90px
+      minmax(35px, 1fr);
     gap: 6px;
   }
 }
@@ -727,7 +796,7 @@ footer {
 <header>
   <div class="container nav">
     <div class="logo">Fut<span>Lab.</span></div>
-    <div class="version">v9 · EN VIVO</div>
+    <div class="version">v8.2 · ESTADÍSTICAS</div>
   </div>
 </header>
 
@@ -738,8 +807,9 @@ footer {
     El fútbol, explicado
     <span class="accent">con datos.</span>
   </h1>
+
   <p>
-    Marcadores en vivo, clasificaciones, historial,
+    Resultados, clasificaciones, historial,
     gráficos y comparaciones de equipos.
   </p>
 </section>
@@ -749,10 +819,12 @@ footer {
     <strong id="total">—</strong>
     <span>Partidos</span>
   </div>
+
   <div class="stat">
     <strong id="finalizados">—</strong>
     <span>Finalizados</span>
   </div>
+
   <div class="stat">
     <strong id="programados">—</strong>
     <span>Programados</span>
@@ -762,12 +834,15 @@ footer {
 <!-- PARTIDOS -->
 
 <section class="panel" id="partidos">
+
   <h2>Explorador de partidos</h2>
+
   <p class="description">
-    Consulta resultados y marcadores en directo.
+    Consulta partidos y resultados por fecha y competición.
   </p>
 
   <div class="filters">
+
     <div>
       <label for="dateFrom">Desde</label>
       <input type="date" id="dateFrom">
@@ -780,6 +855,7 @@ footer {
 
     <div>
       <label for="competition">Competición</label>
+
       <select id="competition">
         <option value="ALL">Todas las disponibles</option>
         <option value="PL">Premier League</option>
@@ -794,34 +870,39 @@ footer {
         <option value="ELC">Championship</option>
       </select>
     </div>
+
   </div>
 
   <div class="actions">
-    <button class="primary" id="loadMatches" type="button">
+    <button
+      class="primary"
+      id="loadMatches"
+      type="button"
+    >
       Ver partidos
     </button>
 
-    <button class="secondary" id="todayButton" type="button">
+    <button
+      class="secondary"
+      id="todayButton"
+      type="button"
+    >
       Volver a hoy
     </button>
   </div>
 
-  <div class="live-toolbar">
-    <div class="live-label">
-      <span class="live-dot"></span>
-      Actualización automática
-    </div>
-
-    <span class="live-note" id="lastUpdate">
-      Cada 2 minutos
-    </span>
-  </div>
-
-  <p id="matchStatus" class="status" role="status">
+  <p
+    id="matchStatus"
+    class="status"
+    role="status"
+  >
     Preparando partidos...
   </p>
 
-  <label for="searchTeam">Buscar equipo o competición</label>
+  <label for="searchTeam">
+    Buscar equipo o competición
+  </label>
+
   <input
     type="search"
     id="searchTeam"
@@ -833,11 +914,13 @@ footer {
     class="match-grid"
     style="margin-top:16px"
   ></div>
+
 </section>
 
 <!-- CLASIFICACIONES -->
 
 <section class="panel" id="clasificaciones">
+
   <h2>Clasificaciones</h2>
 
   <p class="description">
@@ -846,6 +929,7 @@ footer {
   </p>
 
   <div style="max-width:340px">
+
     <label for="league">Liga</label>
 
     <select id="league">
@@ -859,9 +943,14 @@ footer {
       <option value="BSA">Brasileirão</option>
       <option value="ELC">Championship</option>
     </select>
+
   </div>
 
-  <p id="tableStatus" class="status" role="status">
+  <p
+    id="tableStatus"
+    class="status"
+    role="status"
+  >
     Cargando clasificación...
   </p>
 
@@ -879,11 +968,17 @@ footer {
           <th>Pts</th>
         </tr>
       </thead>
+
       <tbody id="standingsBody"></tbody>
     </table>
   </div>
 
-  <article id="teamCard" class="inner-card" hidden>
+  <article
+    id="teamCard"
+    class="inner-card"
+    hidden
+  >
+
     <div class="team-heading">
       <img id="teamCrest" alt="" hidden>
       <h3 id="teamTitle"></h3>
@@ -893,21 +988,39 @@ footer {
       Estadísticas de temporada.
     </p>
 
-    <div id="teamMetrics" class="metrics"></div>
+    <div
+      id="teamMetrics"
+      class="metrics"
+    ></div>
+
   </article>
 
-  <article id="historyCard" class="inner-card" hidden>
+  <article
+    id="historyCard"
+    class="inner-card"
+    hidden
+  >
+
     <h3 style="color:var(--lime)">
       Historial y rendimiento reciente
     </h3>
 
-    <p id="historyStatus" class="status" role="status">
+    <p
+      id="historyStatus"
+      class="status"
+      role="status"
+    >
       Cargando historial...
     </p>
 
     <div id="historyContent" hidden>
+
       <h4>Forma reciente</h4>
-      <div id="formStrip" class="form-strip"></div>
+
+      <div
+        id="formStrip"
+        class="form-strip"
+      ></div>
 
       <p class="mini-note">
         V = victoria · E = empate · D = derrota.
@@ -915,79 +1028,106 @@ footer {
       </p>
 
       <div class="summary3">
+
         <div class="metric">
           <strong id="historyWins">—</strong>
           <span>Victorias</span>
         </div>
+
         <div class="metric">
           <strong id="historyDraws">—</strong>
           <span>Empates</span>
         </div>
+
         <div class="metric">
           <strong id="historyLosses">—</strong>
           <span>Derrotas</span>
         </div>
+
       </div>
 
       <hr class="section-divider">
 
-      <h3>Rendimiento como local y visitante</h3>
+      <h3>
+        Rendimiento como local y visitante
+      </h3>
+
       <p class="mini-note">
         Datos de los partidos recientes disponibles.
       </p>
 
       <div class="split-grid">
+
         <div class="split-card">
           <h4>En casa</h4>
           <div id="homeStats"></div>
         </div>
+
         <div class="split-card">
           <h4>Fuera de casa</h4>
           <div id="awayStats"></div>
         </div>
+
       </div>
 
       <hr class="section-divider">
 
       <h3>Promedios recientes</h3>
-      <div id="recentAverages" class="metrics"></div>
+
+      <div
+        id="recentAverages"
+        class="metrics"
+      ></div>
 
       <hr class="section-divider">
 
       <h3>Goles por partido</h3>
+
       <div class="chart-legend">
         <span class="legend-item">
           <i class="legend-dot dot-for"></i>
           Goles a favor
         </span>
+
         <span class="legend-item">
           <i class="legend-dot dot-against"></i>
           Goles en contra
         </span>
       </div>
 
-      <div id="goalsChart" class="chart"></div>
+      <div
+        id="goalsChart"
+        class="chart"
+      ></div>
 
       <h3 style="margin-top:25px">
         Evolución de puntos recientes
       </h3>
+
       <p class="mini-note">
         Puntos acumulados en los encuentros mostrados.
       </p>
 
-      <div id="pointsChart" class="chart"></div>
+      <div
+        id="pointsChart"
+        class="chart"
+      ></div>
 
       <h3 style="margin-top:25px">
         Últimos resultados disponibles
       </h3>
+
       <div id="historyMatches"></div>
+
     </div>
   </article>
+
 </section>
 
 <!-- COMPARADOR -->
 
 <section class="panel" id="comparador">
+
   <h2>Comparador de equipos</h2>
 
   <p class="description">
@@ -996,8 +1136,10 @@ footer {
   </p>
 
   <div class="filters">
+
     <div>
       <label for="compareLeague">Liga</label>
+
       <select id="compareLeague">
         <option value="PL">Premier League</option>
         <option value="PD">LaLiga</option>
@@ -1014,16 +1156,21 @@ footer {
     <div>
       <label for="compareA">Equipo A</label>
       <select id="compareA">
-        <option value="">Cargando equipos...</option>
+        <option value="">
+          Cargando equipos...
+        </option>
       </select>
     </div>
 
     <div>
       <label for="compareB">Equipo B</label>
       <select id="compareB">
-        <option value="">Cargando equipos...</option>
+        <option value="">
+          Cargando equipos...
+        </option>
       </select>
     </div>
+
   </div>
 
   <button
@@ -1035,12 +1182,18 @@ footer {
     Comparar equipos
   </button>
 
-  <p id="compareStatus" class="status" role="status">
+  <p
+    id="compareStatus"
+    class="status"
+    role="status"
+  >
     Cargando equipos...
   </p>
 
   <div id="compareResult" hidden>
+
     <div class="compare-cards">
+
       <div class="compare-card">
         <img id="compareCrestA" alt="" hidden>
         <h3 id="compareNameA">Equipo A</h3>
@@ -1054,28 +1207,33 @@ footer {
         <strong id="comparePointsB">—</strong>
         <span>Puntos</span>
       </div>
+
     </div>
 
     <h3>Estadísticas comparadas</h3>
+
     <div id="compareMetrics"></div>
 
     <div class="compare-summary">
       <h3>Resumen estadístico</h3>
       <p id="compareAnalysis"></p>
     </div>
+
   </div>
+
 </section>
 
 </main>
 
 <footer>
-  FutLab v9 · Datos de football-data.org
+  FutLab v8.2 · Datos de football-data.org
   <br>
-  La disponibilidad de marcadores y minutos en vivo
-  depende de la API y del plan contratado.
+  Los resultados dependen de la disponibilidad
+  de la API.
 </footer>
 
 <script>
+
 const $ = id => document.getElementById(id);
 
 let currentMatches = [];
@@ -1085,10 +1243,7 @@ let historyRequest = 0;
 let compareRequest = 0;
 let compareTeams = [];
 
-const REFRESH_MS = 120000;
-let matchesLoading = false;
-
-/* TRADUCCIÓN DE ESTADOS */
+/* ESTADOS EN ESPAÑOL */
 
 function traducirEstado(estado) {
   const estados = {
@@ -1107,47 +1262,26 @@ function traducirEstado(estado) {
 }
 
 function claseEstado(estado) {
-  if (estado === "IN_PLAY") return "status-live";
-  if (estado === "PAUSED") return "status-paused";
-  if (estado === "FINISHED") return "status-finished";
+  if (estado === "IN_PLAY") {
+    return "status-live";
+  }
+
+  if (estado === "PAUSED") {
+    return "status-paused";
+  }
+
+  if (estado === "FINISHED") {
+    return "status-finished";
+  }
 
   if (
-    ["POSTPONED", "SUSPENDED", "CANCELLED"].includes(estado)
+    ["POSTPONED", "SUSPENDED", "CANCELLED"]
+      .includes(estado)
   ) {
     return "status-cancelled";
   }
 
   return "";
-}
-
-/* MINUTO EN VIVO */
-
-function mostrarMinuto(partido) {
-  if (partido.status !== "IN_PLAY") {
-    return "";
-  }
-
-  if (partido.minute == null) {
-    return "En directo";
-  }
-
-  const minuto = Number(partido.minute);
-
-  if (!Number.isFinite(minuto) || minuto < 0) {
-    return "En directo";
-  }
-
-  const extra = Number(partido.injuryTime);
-
-  if (
-    partido.injuryTime != null &&
-    Number.isFinite(extra) &&
-    extra > 0
-  ) {
-    return `${minuto}+${extra}'`;
-  }
-
-  return `${minuto}'`;
 }
 
 /* UTILIDADES */
@@ -1167,22 +1301,32 @@ function create(tag, text, className) {
 }
 
 function num(value) {
-  if (value == null) return 0;
+  if (value == null) {
+    return 0;
+  }
 
   const n = Number(value);
+
   return Number.isFinite(n) ? n : 0;
 }
 
 function localDate(date) {
   const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
+  const m = String(
+    date.getMonth() + 1
+  ).padStart(2, "0");
+
+  const d = String(
+    date.getDate()
+  ).padStart(2, "0");
 
   return `${y}-${m}-${d}`;
 }
 
 function formatDate(value) {
-  if (!value) return "Fecha por confirmar";
+  if (!value) {
+    return "Fecha por confirmar";
+  }
 
   const date = new Date(value);
 
@@ -1196,21 +1340,13 @@ function formatDate(value) {
   }).format(date);
 }
 
-function formatTime(value) {
-  const date = new Date(value);
-
-  if (isNaN(date.getTime())) return "—";
-
-  return new Intl.DateTimeFormat("es", {
-    hour: "2-digit",
-    minute: "2-digit"
-  }).format(date);
-}
-
 function setCrest(id, url) {
   const img = $(id);
 
-  if (url && /^https:\/\//i.test(url)) {
+  if (
+    url &&
+    /^https:\/\//i.test(url)
+  ) {
     img.src = url;
     img.hidden = false;
   } else {
@@ -1220,10 +1356,17 @@ function setCrest(id, url) {
 }
 
 function metricBox(label, value) {
-  const box = create("div", undefined, "metric");
+  const box = create(
+    "div",
+    undefined,
+    "metric"
+  );
 
   box.append(
-    create("strong", value == null ? "—" : String(value)),
+    create(
+      "strong",
+      value == null ? "—" : String(value)
+    ),
     create("span", label)
   );
 
@@ -1242,20 +1385,25 @@ function initDates() {
 function updateCounters(matches) {
   $("total").textContent = matches.length;
 
-  $("finalizados").textContent = matches.filter(
-    m => m.status === "FINISHED"
-  ).length;
+  $("finalizados").textContent =
+    matches.filter(
+      m => m.status === "FINISHED"
+    ).length;
 
-  $("programados").textContent = matches.filter(
-    m => ["SCHEDULED", "TIMED"].includes(m.status)
-  ).length;
+  $("programados").textContent =
+    matches.filter(
+      m =>
+        m.status === "SCHEDULED" ||
+        m.status === "TIMED"
+    ).length;
 }
 
 function renderMatches() {
   const container = $("matches");
   container.replaceChildren();
 
-  const query = $("searchTeam").value
+  const query = $("searchTeam")
+    .value
     .trim()
     .toLocaleLowerCase("es");
 
@@ -1279,63 +1427,35 @@ function renderMatches() {
         "status"
       )
     );
+
     return;
   }
 
-  // Los partidos en vivo aparecen primero.
-  filtered.sort((a, b) => {
-    const priority = {
-      IN_PLAY: 0,
-      PAUSED: 1,
-      TIMED: 2,
-      SCHEDULED: 2,
-      FINISHED: 3
-    };
-
-    const pa = priority[a.status] ?? 4;
-    const pb = priority[b.status] ?? 4;
-
-    if (pa !== pb) return pa - pb;
-
-    return new Date(a.utcDate) - new Date(b.utcDate);
-  });
+  filtered.sort(
+    (a, b) =>
+      new Date(a.utcDate) -
+      new Date(b.utcDate)
+  );
 
   filtered.forEach(m => {
-    const live = m.status === "IN_PLAY";
-
     const card = create(
       "article",
       undefined,
-      live ? "match is-live" : "match"
+      "match"
     );
 
-    const top = create("div", undefined, "match-top");
+    const top = create(
+      "div",
+      undefined,
+      "match-top"
+    );
 
     const badge = create(
       "span",
-      undefined,
-      "status-badge " + claseEstado(m.status)
+      traducirEstado(m.status),
+      "status-badge " +
+      claseEstado(m.status)
     );
-
-    if (live) {
-      badge.append(
-        create("i", undefined, "live-dot")
-      );
-    }
-
-    badge.append(
-      create("span", traducirEstado(m.status))
-    );
-
-    if (live) {
-      badge.append(
-        create(
-          "span",
-          mostrarMinuto(m),
-          "live-minute"
-        )
-      );
-    }
 
     top.append(
       create(
@@ -1345,10 +1465,17 @@ function renderMatches() {
       badge
     );
 
-    const home = create("div", undefined, "team-row");
+    const home = create(
+      "div",
+      undefined,
+      "team-row"
+    );
 
     home.append(
-      create("span", m.homeTeam || "Por definir"),
+      create(
+        "span",
+        m.homeTeam || "Por definir"
+      ),
       create(
         "span",
         m.homeScore == null
@@ -1358,10 +1485,17 @@ function renderMatches() {
       )
     );
 
-    const away = create("div", undefined, "team-row");
+    const away = create(
+      "div",
+      undefined,
+      "team-row"
+    );
 
     away.append(
-      create("span", m.awayTeam || "Por definir"),
+      create(
+        "span",
+        m.awayTeam || "Por definir"
+      ),
       create(
         "span",
         m.awayScore == null
@@ -1375,21 +1509,29 @@ function renderMatches() {
       top,
       home,
       away,
-      create("div", formatDate(m.utcDate), "match-date")
+      create(
+        "div",
+        formatDate(m.utcDate),
+        "match-date"
+      )
     );
 
     container.append(card);
   });
 }
 
-async function loadMatches(silent = false) {
-  if (matchesLoading) return;
-
+async function loadMatches() {
   const dateFrom = $("dateFrom").value;
   const dateTo = $("dateTo").value;
 
-  const start = Date.parse(dateFrom + "T00:00:00Z");
-  const end = Date.parse(dateTo + "T00:00:00Z");
+  const start = Date.parse(
+    dateFrom + "T00:00:00Z"
+  );
+
+  const end = Date.parse(
+    dateTo + "T00:00:00Z"
+  );
+
   const days = (end - start) / 86400000;
 
   if (
@@ -1397,22 +1539,22 @@ async function loadMatches(silent = false) {
     days < 0 ||
     days > 14
   ) {
-    $("matchStatus").className = "status error";
+    $("matchStatus").className =
+      "status error";
+
     $("matchStatus").textContent =
       "Selecciona un intervalo de 1 a 15 días.";
+
     return;
   }
 
-  matchesLoading = true;
   const requestId = ++matchesRequest;
 
   $("loadMatches").disabled = true;
 
-  if (!silent) {
-    $("matchStatus").className = "status";
-    $("matchStatus").textContent =
-      "Cargando partidos...";
-  }
+  $("matchStatus").className = "status";
+  $("matchStatus").textContent =
+    "Cargando partidos...";
 
   const params = new URLSearchParams({
     dateFrom,
@@ -1422,13 +1564,14 @@ async function loadMatches(silent = false) {
 
   try {
     const response = await fetch(
-      "/api/partidos?" + params.toString(),
-      { cache: "no-store" }
+      "/api/partidos?" + params.toString()
     );
 
     const data = await response.json();
 
-    if (requestId !== matchesRequest) return;
+    if (requestId !== matchesRequest) {
+      return;
+    }
 
     if (!response.ok) {
       throw new Error(
@@ -1445,29 +1588,27 @@ async function loadMatches(silent = false) {
     renderMatches();
 
     $("matchStatus").className = "status";
+
     $("matchStatus").textContent =
       `${currentMatches.length} partidos encontrados.`;
 
-    $("lastUpdate").textContent =
-      "Actualizado a las " +
-      formatTime(data.updatedAt || new Date());
-
   } catch (error) {
-    if (requestId !== matchesRequest) return;
-
-    if (!silent) {
-      currentMatches = [];
-      updateCounters([]);
-      renderMatches();
+    if (requestId !== matchesRequest) {
+      return;
     }
 
-    $("matchStatus").className = "status error";
+    currentMatches = [];
+    updateCounters([]);
+    renderMatches();
+
+    $("matchStatus").className =
+      "status error";
+
     $("matchStatus").textContent =
-      "Error al actualizar: " + error.message;
+      "Error: " + error.message;
 
   } finally {
     if (requestId === matchesRequest) {
-      matchesLoading = false;
       $("loadMatches").disabled = false;
     }
   }
@@ -1477,10 +1618,14 @@ async function loadMatches(silent = false) {
 
 function showTeam(team) {
   $("teamCard").hidden = false;
+
   $("teamTitle").textContent =
     team.nombre || "Equipo";
 
-  setCrest("teamCrest", team.escudo);
+  setCrest(
+    "teamCrest",
+    team.escudo
+  );
 
   const data = [
     ["Posición", team.posicion],
@@ -1498,7 +1643,9 @@ function showTeam(team) {
   container.replaceChildren();
 
   data.forEach(([label, value]) => {
-    container.append(metricBox(label, value));
+    container.append(
+      metricBox(label, value)
+    );
   });
 
   $("teamCard").scrollIntoView({
@@ -1515,6 +1662,7 @@ async function loadStandings() {
 
   $("teamCard").hidden = true;
   $("historyCard").hidden = true;
+
   $("standingsBody").replaceChildren();
 
   $("tableStatus").className = "status";
@@ -1529,7 +1677,9 @@ async function loadStandings() {
 
     const data = await response.json();
 
-    if (requestId !== standingsRequest) return;
+    if (requestId !== standingsRequest) {
+      return;
+    }
 
     if (!response.ok) {
       throw new Error(
@@ -1542,18 +1692,23 @@ async function loadStandings() {
       ? data.equipos
       : [];
 
-    $("tableStatus").textContent = teams.length
-      ? "Selecciona un equipo para ver sus estadísticas."
-      : "No hay clasificación disponible.";
+    $("tableStatus").textContent =
+      teams.length
+        ? "Selecciona un equipo para ver sus estadísticas."
+        : "No hay clasificación disponible.";
 
     teams.forEach(team => {
       const row = create("tr");
 
       row.append(
-        create("td", String(team.posicion ?? "—"))
+        create(
+          "td",
+          String(team.posicion ?? "—")
+        )
       );
 
       const teamCell = create("td");
+
       const wrapper = create(
         "span",
         undefined,
@@ -1573,6 +1728,7 @@ async function loadStandings() {
         img.src = team.escudo;
         img.alt = "";
         img.loading = "lazy";
+
         wrapper.append(img);
       }
 
@@ -1584,10 +1740,18 @@ async function loadStandings() {
 
       button.type = "button";
 
-      button.addEventListener("click", () => {
-        showTeam(team);
-        loadHistory(team.id, team.nombre, league);
-      });
+      button.addEventListener(
+        "click",
+        () => {
+          showTeam(team);
+
+          loadHistory(
+            team.id,
+            team.nombre,
+            league
+          );
+        }
+      );
 
       wrapper.append(button);
       teamCell.append(wrapper);
@@ -1604,7 +1768,9 @@ async function loadStandings() {
         row.append(
           create(
             "td",
-            value == null ? "—" : String(value)
+            value == null
+              ? "—"
+              : String(value)
           )
         );
       });
@@ -1613,9 +1779,13 @@ async function loadStandings() {
     });
 
   } catch (error) {
-    if (requestId !== standingsRequest) return;
+    if (requestId !== standingsRequest) {
+      return;
+    }
 
-    $("tableStatus").className = "status error";
+    $("tableStatus").className =
+      "status error";
+
     $("tableStatus").textContent =
       "Error: " + error.message;
   }
@@ -1650,8 +1820,18 @@ function normalizeHistory(matches, teamId) {
         isHome: home,
         goalsFor: gf,
         goalsAgainst: gc,
-        result: gf > gc ? "V" : gf < gc ? "D" : "E",
-        points: gf > gc ? 3 : gf === gc ? 1 : 0
+        result:
+          gf > gc
+            ? "V"
+            : gf < gc
+              ? "D"
+              : "E",
+        points:
+          gf > gc
+            ? 3
+            : gf === gc
+              ? 1
+              : 0
       };
     })
     .sort(
@@ -1706,12 +1886,14 @@ function renderSplit(containerId, matches) {
   ).length;
 
   const gf = matches.reduce(
-    (sum, m) => sum + m.goalsFor,
+    (sum, m) =>
+      sum + m.goalsFor,
     0
   );
 
   const gc = matches.reduce(
-    (sum, m) => sum + m.goalsAgainst,
+    (sum, m) =>
+      sum + m.goalsAgainst,
     0
   );
 
@@ -1731,18 +1913,27 @@ function renderSplit(containerId, matches) {
 
     row.append(
       create("span", label),
-      create("strong", String(value))
+      create(
+        "strong",
+        String(value)
+      )
     );
 
     container.append(row);
   });
 }
 
-function renderBarChart(containerId, matches, mode) {
+function renderBarChart(
+  containerId,
+  matches,
+  mode
+) {
   const chart = $(containerId);
   chart.replaceChildren();
 
-  const chronological = [...matches].reverse();
+  const chronological =
+    [...matches].reverse();
+
   let cumulative = 0;
 
   const values = chronological.map(m => {
@@ -1759,7 +1950,10 @@ function renderBarChart(containerId, matches, mode) {
     : Math.max(
         1,
         ...chronological.flatMap(
-          m => [m.goalsFor, m.goalsAgainst]
+          m => [
+            m.goalsFor,
+            m.goalsAgainst
+          ]
         )
       );
 
@@ -1784,10 +1978,12 @@ function renderBarChart(containerId, matches, mode) {
       );
 
       bar.style.height =
-        (values[index] / max * 135 + 3) + "px";
+        (values[index] / max * 135 + 3) +
+        "px";
 
       bar.title =
-        "Puntos acumulados: " + values[index];
+        "Puntos acumulados: " +
+        values[index];
 
       bars.append(bar);
 
@@ -1799,10 +1995,12 @@ function renderBarChart(containerId, matches, mode) {
       );
 
       forBar.style.height =
-        (m.goalsFor / max * 135 + 3) + "px";
+        (m.goalsFor / max * 135 + 3) +
+        "px";
 
       forBar.title =
-        "Goles a favor: " + m.goalsFor;
+        "Goles a favor: " +
+        m.goalsFor;
 
       const againstBar = create(
         "div",
@@ -1811,17 +2009,25 @@ function renderBarChart(containerId, matches, mode) {
       );
 
       againstBar.style.height =
-        (m.goalsAgainst / max * 135 + 3) + "px";
+        (m.goalsAgainst / max * 135 + 3) +
+        "px";
 
       againstBar.title =
-        "Goles en contra: " + m.goalsAgainst;
+        "Goles en contra: " +
+        m.goalsAgainst;
 
-      bars.append(forBar, againstBar);
+      bars.append(
+        forBar,
+        againstBar
+      );
     }
 
     group.append(
       bars,
-      create("small", "P" + (index + 1))
+      create(
+        "small",
+        "P" + (index + 1)
+      )
     );
 
     chart.append(group);
@@ -1831,44 +2037,54 @@ function renderBarChart(containerId, matches, mode) {
 function renderHistory(matches) {
   $("historyContent").hidden = false;
 
-  $("historyWins").textContent = matches.filter(
-    m => m.result === "V"
-  ).length;
+  $("historyWins").textContent =
+    matches.filter(
+      m => m.result === "V"
+    ).length;
 
-  $("historyDraws").textContent = matches.filter(
-    m => m.result === "E"
-  ).length;
+  $("historyDraws").textContent =
+    matches.filter(
+      m => m.result === "E"
+    ).length;
 
-  $("historyLosses").textContent = matches.filter(
-    m => m.result === "D"
-  ).length;
+  $("historyLosses").textContent =
+    matches.filter(
+      m => m.result === "D"
+    ).length;
 
   renderForm(matches);
 
   renderSplit(
     "homeStats",
-    matches.filter(m => m.isHome)
+    matches.filter(
+      m => m.isHome
+    )
   );
 
   renderSplit(
     "awayStats",
-    matches.filter(m => !m.isHome)
+    matches.filter(
+      m => !m.isHome
+    )
   );
 
   const total = matches.length;
 
   const gf = matches.reduce(
-    (sum, m) => sum + m.goalsFor,
+    (sum, m) =>
+      sum + m.goalsFor,
     0
   );
 
   const gc = matches.reduce(
-    (sum, m) => sum + m.goalsAgainst,
+    (sum, m) =>
+      sum + m.goalsAgainst,
     0
   );
 
   const pts = matches.reduce(
-    (sum, m) => sum + m.points,
+    (sum, m) =>
+      sum + m.points,
     0
   );
 
@@ -1876,16 +2092,39 @@ function renderHistory(matches) {
   averages.replaceChildren();
 
   [
-    ["Goles a favor por partido", (gf / total).toFixed(2)],
-    ["Goles en contra por partido", (gc / total).toFixed(2)],
-    ["Puntos por partido", (pts / total).toFixed(2)],
-    ["Partidos analizados", total]
+    [
+      "Goles a favor por partido",
+      (gf / total).toFixed(2)
+    ],
+    [
+      "Goles en contra por partido",
+      (gc / total).toFixed(2)
+    ],
+    [
+      "Puntos por partido",
+      (pts / total).toFixed(2)
+    ],
+    [
+      "Partidos analizados",
+      total
+    ]
   ].forEach(([label, value]) => {
-    averages.append(metricBox(label, value));
+    averages.append(
+      metricBox(label, value)
+    );
   });
 
-  renderBarChart("goalsChart", matches, "goals");
-  renderBarChart("pointsChart", matches, "points");
+  renderBarChart(
+    "goalsChart",
+    matches,
+    "goals"
+  );
+
+  renderBarChart(
+    "pointsChart",
+    matches,
+    "points"
+  );
 
   const list = $("historyMatches");
   list.replaceChildren();
@@ -1913,24 +2152,37 @@ function renderHistory(matches) {
       create(
         "strong",
         resultText +
-        (m.isHome ? " · Local" : " · Visitante")
+        (
+          m.isHome
+            ? " · Local"
+            : " · Visitante"
+        )
       ),
-      create("span", formatDate(m.utcDate))
+      create(
+        "span",
+        formatDate(m.utcDate)
+      )
     );
 
     list.append(row);
   });
 }
 
-async function loadHistory(teamId, teamName, league) {
+async function loadHistory(
+  teamId,
+  teamName,
+  league
+) {
   const requestId = ++historyRequest;
 
   $("historyCard").hidden = false;
   $("historyContent").hidden = true;
 
   $("historyStatus").className = "status";
+
   $("historyStatus").textContent =
-    "Cargando historial de " + teamName + "...";
+    "Cargando historial de " +
+    teamName + "...";
 
   if (!teamId) {
     $("historyStatus").textContent =
@@ -1945,12 +2197,15 @@ async function loadHistory(teamId, teamName, league) {
 
   try {
     const response = await fetch(
-      "/api/historial?" + params.toString()
+      "/api/historial?" +
+      params.toString()
     );
 
     const data = await response.json();
 
-    if (requestId !== historyRequest) return;
+    if (requestId !== historyRequest) {
+      return;
+    }
 
     if (!response.ok) {
       throw new Error(
@@ -1960,7 +2215,9 @@ async function loadHistory(teamId, teamName, league) {
     }
 
     const matches = normalizeHistory(
-      Array.isArray(data.matches) ? data.matches : [],
+      Array.isArray(data.matches)
+        ? data.matches
+        : [],
       teamId
     );
 
@@ -1976,9 +2233,13 @@ async function loadHistory(teamId, teamName, league) {
     renderHistory(matches);
 
   } catch (error) {
-    if (requestId !== historyRequest) return;
+    if (requestId !== historyRequest) {
+      return;
+    }
 
-    $("historyStatus").className = "status error";
+    $("historyStatus").className =
+      "status error";
+
     $("historyStatus").textContent =
       "Error: " + error.message;
   }
@@ -1990,7 +2251,11 @@ function fillTeamSelect(select, teams) {
   select.replaceChildren();
 
   teams.forEach(team => {
-    const option = create("option", team.nombre);
+    const option = create(
+      "option",
+      team.nombre
+    );
+
     option.value = String(team.id);
     select.append(option);
   });
@@ -2003,11 +2268,14 @@ async function loadCompareTeams() {
   compareTeams = [];
 
   $("compareResult").hidden = true;
+
   $("compareA").replaceChildren();
   $("compareB").replaceChildren();
+
   $("compareButton").disabled = true;
 
   $("compareStatus").className = "status";
+
   $("compareStatus").textContent =
     "Cargando equipos...";
 
@@ -2019,7 +2287,9 @@ async function loadCompareTeams() {
 
     const data = await response.json();
 
-    if (requestId !== compareRequest) return;
+    if (requestId !== compareRequest) {
+      return;
+    }
 
     if (!response.ok) {
       throw new Error(
@@ -2028,9 +2298,12 @@ async function loadCompareTeams() {
       );
     }
 
-    compareTeams = Array.isArray(data.equipos)
-      ? data.equipos.filter(t => t.id != null)
-      : [];
+    compareTeams =
+      Array.isArray(data.equipos)
+        ? data.equipos.filter(
+            t => t.id != null
+          )
+        : [];
 
     if (compareTeams.length < 2) {
       $("compareStatus").textContent =
@@ -2038,8 +2311,15 @@ async function loadCompareTeams() {
       return;
     }
 
-    fillTeamSelect($("compareA"), compareTeams);
-    fillTeamSelect($("compareB"), compareTeams);
+    fillTeamSelect(
+      $("compareA"),
+      compareTeams
+    );
+
+    fillTeamSelect(
+      $("compareB"),
+      compareTeams
+    );
 
     $("compareA").selectedIndex = 0;
     $("compareB").selectedIndex = 1;
@@ -2050,9 +2330,13 @@ async function loadCompareTeams() {
       `${compareTeams.length} equipos disponibles.`;
 
   } catch (error) {
-    if (requestId !== compareRequest) return;
+    if (requestId !== compareRequest) {
+      return;
+    }
 
-    $("compareStatus").className = "status error";
+    $("compareStatus").className =
+      "status error";
+
     $("compareStatus").textContent =
       "Error: " + error.message;
   }
@@ -2065,7 +2349,10 @@ function updateCompareCard(suffix, team) {
   $("comparePoints" + suffix).textContent =
     team.puntos ?? "—";
 
-  setCrest("compareCrest" + suffix, team.escudo);
+  setCrest(
+    "compareCrest" + suffix,
+    team.escudo
+  );
 }
 
 function makeCompareMetric(label, a, b) {
@@ -2128,25 +2415,42 @@ function makeCompareMetric(label, a, b) {
   trackA.append(fillA);
   trackB.append(fillB);
 
-  bars.append(trackA, trackB);
-  container.append(values, bars);
+  bars.append(
+    trackA,
+    trackB
+  );
+
+  container.append(
+    values,
+    bars
+  );
 
   return container;
 }
 
 function compareSelectedTeams() {
   const a = compareTeams.find(
-    t => String(t.id) === $("compareA").value
+    t =>
+      String(t.id) ===
+      $("compareA").value
   );
 
   const b = compareTeams.find(
-    t => String(t.id) === $("compareB").value
+    t =>
+      String(t.id) ===
+      $("compareB").value
   );
 
-  if (!a || !b || String(a.id) === String(b.id)) {
+  if (
+    !a ||
+    !b ||
+    String(a.id) === String(b.id)
+  ) {
     $("compareResult").hidden = true;
+
     $("compareStatus").textContent =
       "Selecciona dos equipos diferentes.";
+
     return;
   }
 
@@ -2177,7 +2481,7 @@ function compareSelectedTeams() {
   container.append(
     create(
       "p",
-      `Diferencia de goles: ` +
+      "Diferencia de goles: " +
       `${a.nombre} ${a.diferencia ?? "—"} · ` +
       `${b.nombre} ${b.diferencia ?? "—"}`
     )
@@ -2185,11 +2489,17 @@ function compareSelectedTeams() {
 
   const pa = num(a.puntos);
   const pb = num(b.puntos);
+
   const ja = num(a.jugados);
   const jb = num(b.jugados);
 
-  const avgA = ja ? (pa / ja).toFixed(2) : "—";
-  const avgB = jb ? (pb / jb).toFixed(2) : "—";
+  const avgA = ja
+    ? (pa / ja).toFixed(2)
+    : "—";
+
+  const avgB = jb
+    ? (pb / jb).toFixed(2)
+    : "—";
 
   let summary;
 
@@ -2200,15 +2510,18 @@ function compareSelectedTeams() {
     summary =
       `${b.nombre} tiene ${pb - pa} puntos más que ${a.nombre}. `;
   } else {
-    summary = "Ambos equipos tienen los mismos puntos. ";
+    summary =
+      "Ambos equipos tienen los mismos puntos. ";
   }
 
   summary +=
-    `Promedio de puntos por partido: ` +
+    "Promedio de puntos por partido: " +
     `${avgA} para ${a.nombre} y ` +
     `${avgB} para ${b.nombre}.`;
 
-  $("compareAnalysis").textContent = summary;
+  $("compareAnalysis").textContent =
+    summary;
+
   $("compareStatus").textContent =
     "Comparación actualizada.";
 
@@ -2224,7 +2537,7 @@ function compareSelectedTeams() {
 
 $("loadMatches").addEventListener(
   "click",
-  () => loadMatches()
+  loadMatches
 );
 
 $("todayButton").addEventListener(
@@ -2267,23 +2580,6 @@ $("compareB").addEventListener(
 $("compareButton").addEventListener(
   "click",
   compareSelectedTeams
-);
-
-/* ACTUALIZACIÓN AUTOMÁTICA */
-
-setInterval(() => {
-  if (document.visibilityState === "visible") {
-    loadMatches(true);
-  }
-}, REFRESH_MS);
-
-document.addEventListener(
-  "visibilitychange",
-  () => {
-    if (document.visibilityState === "visible") {
-      loadMatches(true);
-    }
-  }
 );
 
 /* INICIAR FUTLAB */
