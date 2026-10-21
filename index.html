@@ -1315,5 +1315,611 @@
     loadMatches();
     loadStandings();
   </script>
+
+<!-- INICIO FUTLAB V7: COMPARADOR DE EQUIPOS -->
+
+<style>
+  #fl7-comparador {
+    max-width: 1120px;
+    margin: 24px auto;
+    padding: 22px;
+    border: 1px solid #2c425b;
+    border-radius: 18px;
+    background: #112237;
+    color: #f2f7fc;
+    font-family: system-ui, sans-serif;
+  }
+
+  #fl7-comparador * {
+    box-sizing: border-box;
+  }
+
+  #fl7-comparador h2 {
+    margin: 0 0 8px;
+    color: #bdf56a;
+  }
+
+  #fl7-comparador p {
+    color: #a8b8c9;
+  }
+
+  .fl7-filtros {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+  }
+
+  .fl7-filtros label {
+    display: block;
+    margin-bottom: 7px;
+    color: #a8b8c9;
+    font-size: 13px;
+  }
+
+  .fl7-filtros select {
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+    background: #192e46;
+    color: #f2f7fc;
+    border: 1px solid #405671;
+    border-radius: 10px;
+  }
+
+  #fl7-boton {
+    background: #bdf56a;
+    color: #081321;
+    border: 0;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  #fl7-boton:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  #fl7-estado {
+    margin: 16px 0;
+    font-size: 14px;
+    color: #a8b8c9;
+  }
+
+  .fl7-tarjetas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+  }
+
+  .fl7-tarjeta {
+    padding: 20px;
+    text-align: center;
+    background: #192e46;
+    border: 1px solid #2c425b;
+    border-radius: 16px;
+  }
+
+  .fl7-tarjeta img {
+    display: block;
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+    margin: 0 auto 12px;
+  }
+
+  .fl7-tarjeta h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+  }
+
+  .fl7-tarjeta strong {
+    display: block;
+    color: #bdf56a;
+    font-size: 32px;
+  }
+
+  .fl7-tarjeta span {
+    color: #a8b8c9;
+    font-size: 13px;
+  }
+
+  .fl7-fila {
+    display: grid;
+    grid-template-columns: minmax(45px, 1fr) 110px minmax(45px, 1fr);
+    gap: 10px;
+    align-items: center;
+    margin: 16px 0;
+  }
+
+  .fl7-valor {
+    font-weight: 800;
+    font-size: 18px;
+  }
+
+  .fl7-valor:first-child {
+    color: #bdf56a;
+    text-align: right;
+  }
+
+  .fl7-valor:last-child {
+    color: #79a8e8;
+    text-align: left;
+  }
+
+  .fl7-nombre-metrica {
+    color: #a8b8c9;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .fl7-barras {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-top: 5px;
+  }
+
+  .fl7-pista {
+    height: 9px;
+    background: #253d57;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .fl7-pista.izquierda {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .fl7-relleno-a {
+    height: 100%;
+    background: #bdf56a;
+    border-radius: 6px;
+  }
+
+  .fl7-relleno-b {
+    height: 100%;
+    background: #79a8e8;
+    border-radius: 6px;
+  }
+
+  .fl7-metrica {
+    border-bottom: 1px solid #2c425b;
+    padding: 3px 0 12px;
+  }
+
+  .fl7-resumen {
+    margin-top: 22px;
+    padding: 16px;
+    background: #192e46;
+    border-radius: 12px;
+    line-height: 1.6;
+  }
+
+  .fl7-resumen h3 {
+    color: #bdf56a;
+    margin: 0 0 8px;
+  }
+
+  #fl7-resultado[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 720px) {
+    #fl7-comparador {
+      margin: 20px 15px;
+      padding: 16px;
+    }
+
+    .fl7-filtros {
+      grid-template-columns: 1fr;
+    }
+
+    .fl7-tarjeta {
+      padding: 12px;
+    }
+
+    .fl7-tarjeta h3 {
+      font-size: 14px;
+    }
+
+    .fl7-tarjeta strong {
+      font-size: 25px;
+    }
+
+    .fl7-fila {
+      grid-template-columns: minmax(35px, 1fr) 90px minmax(35px, 1fr);
+      gap: 6px;
+    }
+  }
+</style>
+
+<section id="fl7-comparador">
+  <h2>Comparador de equipos</h2>
+
+  <p>
+    Selecciona dos equipos de la misma liga
+    para comparar sus estadísticas de temporada.
+  </p>
+
+  <div class="fl7-filtros">
+    <div>
+      <label for="fl7-liga">Liga</label>
+      <select id="fl7-liga">
+        <option value="PL">Premier League</option>
+        <option value="PD">LaLiga</option>
+        <option value="BL1">Bundesliga</option>
+        <option value="SA">Serie A</option>
+        <option value="FL1">Ligue 1</option>
+        <option value="DED">Eredivisie</option>
+        <option value="PPL">Liga de Portugal</option>
+        <option value="BSA">Brasileirão</option>
+        <option value="ELC">Championship</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="fl7-equipo-a">Equipo A</label>
+      <select id="fl7-equipo-a">
+        <option value="">Cargando equipos...</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="fl7-equipo-b">Equipo B</label>
+      <select id="fl7-equipo-b">
+        <option value="">Cargando equipos...</option>
+      </select>
+    </div>
+  </div>
+
+  <button id="fl7-boton" type="button">
+    Comparar equipos
+  </button>
+
+  <p id="fl7-estado" role="status">
+    Cargando clasificación...
+  </p>
+
+  <div id="fl7-resultado" hidden>
+    <div class="fl7-tarjetas">
+      <div class="fl7-tarjeta">
+        <img id="fl7-escudo-a" alt="" hidden>
+        <h3 id="fl7-nombre-a">Equipo A</h3>
+        <strong id="fl7-puntos-a">—</strong>
+        <span>Puntos</span>
+      </div>
+
+      <div class="fl7-tarjeta">
+        <img id="fl7-escudo-b" alt="" hidden>
+        <h3 id="fl7-nombre-b">Equipo B</h3>
+        <strong id="fl7-puntos-b">—</strong>
+        <span>Puntos</span>
+      </div>
+    </div>
+
+    <h3>Estadísticas comparadas</h3>
+
+    <div id="fl7-metricas"></div>
+
+    <div class="fl7-resumen">
+      <h3>Resumen estadístico</h3>
+      <p id="fl7-analisis"></p>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const liga = document.getElementById("fl7-liga");
+  const selectA = document.getElementById("fl7-equipo-a");
+  const selectB = document.getElementById("fl7-equipo-b");
+  const boton = document.getElementById("fl7-boton");
+  const estado = document.getElementById("fl7-estado");
+  const resultado = document.getElementById("fl7-resultado");
+  const metricas = document.getElementById("fl7-metricas");
+
+  let equipos = [];
+  let solicitudActual = 0;
+
+  function crear(tag, texto, clase) {
+    const elemento = document.createElement(tag);
+
+    if (texto !== undefined) {
+      elemento.textContent = texto;
+    }
+
+    if (clase) {
+      elemento.className = clase;
+    }
+
+    return elemento;
+  }
+
+  function numero(valor) {
+    const n = Number(valor);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function llenarSelector(select, lista) {
+    select.replaceChildren();
+
+    lista.forEach(equipo => {
+      const opcion = document.createElement("option");
+      opcion.value = String(equipo.id);
+      opcion.textContent = equipo.nombre;
+      select.append(opcion);
+    });
+  }
+
+  async function cargarEquipos() {
+    const solicitud = ++solicitudActual;
+
+    equipos = [];
+    resultado.hidden = true;
+    selectA.replaceChildren();
+    selectB.replaceChildren();
+
+    estado.textContent = "Cargando equipos...";
+    boton.disabled = true;
+
+    try {
+      const respuesta = await fetch(
+        "/api/clasificacion?liga=" +
+        encodeURIComponent(liga.value)
+      );
+
+      const datos = await respuesta.json();
+
+      if (solicitud !== solicitudActual) return;
+
+      if (!respuesta.ok) {
+        throw new Error(
+          datos.error || "No se pudo cargar la liga."
+        );
+      }
+
+      equipos = Array.isArray(datos.equipos)
+        ? datos.equipos
+        : [];
+
+      if (equipos.length < 2) {
+        estado.textContent =
+          "No hay suficientes equipos disponibles.";
+        return;
+      }
+
+      llenarSelector(selectA, equipos);
+      llenarSelector(selectB, equipos);
+
+      selectA.selectedIndex = 0;
+      selectB.selectedIndex = 1;
+
+      estado.textContent =
+        `${equipos.length} equipos disponibles. ` +
+        "Elige dos y pulsa Comparar equipos.";
+
+      boton.disabled = false;
+
+    } catch (error) {
+      if (solicitud !== solicitudActual) return;
+
+      estado.textContent = "Error: " + error.message;
+    }
+  }
+
+  function actualizarTarjeta(sufijo, equipo) {
+    document.getElementById(
+      "fl7-nombre-" + sufijo
+    ).textContent = equipo.nombre;
+
+    document.getElementById(
+      "fl7-puntos-" + sufijo
+    ).textContent = numero(equipo.puntos);
+
+    const imagen = document.getElementById(
+      "fl7-escudo-" + sufijo
+    );
+
+    if (
+      equipo.escudo &&
+      /^https:\/\//i.test(equipo.escudo)
+    ) {
+      imagen.src = equipo.escudo;
+      imagen.hidden = false;
+    } else {
+      imagen.removeAttribute("src");
+      imagen.hidden = true;
+    }
+  }
+
+  function crearMetrica(nombre, valorA, valorB) {
+    const maximo = Math.max(1, valorA, valorB);
+
+    const contenedor = crear(
+      "div", undefined, "fl7-metrica"
+    );
+
+    const fila = crear(
+      "div", undefined, "fl7-fila"
+    );
+
+    fila.append(
+      crear("span", String(valorA), "fl7-valor"),
+      crear("span", nombre, "fl7-nombre-metrica"),
+      crear("span", String(valorB), "fl7-valor")
+    );
+
+    const barras = crear(
+      "div", undefined, "fl7-barras"
+    );
+
+    const pistaA = crear(
+      "div", undefined, "fl7-pista izquierda"
+    );
+
+    const pistaB = crear(
+      "div", undefined, "fl7-pista"
+    );
+
+    const barraA = crear(
+      "div", undefined, "fl7-relleno-a"
+    );
+
+    const barraB = crear(
+      "div", undefined, "fl7-relleno-b"
+    );
+
+    // Las barras representan valores positivos.
+    barraA.style.width =
+      Math.max(0, valorA) / maximo * 100 + "%";
+
+    barraB.style.width =
+      Math.max(0, valorB) / maximo * 100 + "%";
+
+    pistaA.append(barraA);
+    pistaB.append(barraB);
+
+    barras.append(pistaA, pistaB);
+    contenedor.append(fila, barras);
+
+    return contenedor;
+  }
+
+  function comparar() {
+    const equipoA = equipos.find(
+      e => String(e.id) === selectA.value
+    );
+
+    const equipoB = equipos.find(
+      e => String(e.id) === selectB.value
+    );
+
+    if (!equipoA || !equipoB) {
+      estado.textContent =
+        "Selecciona dos equipos válidos.";
+      resultado.hidden = true;
+      return;
+    }
+
+    if (equipoA.id === equipoB.id) {
+      estado.textContent =
+        "Selecciona dos equipos diferentes.";
+      resultado.hidden = true;
+      return;
+    }
+
+    actualizarTarjeta("a", equipoA);
+    actualizarTarjeta("b", equipoB);
+
+    metricas.replaceChildren();
+
+    const datos = [
+      ["Puntos", "puntos"],
+      ["Partidos", "jugados"],
+      ["Victorias", "ganados"],
+      ["Empates", "empatados"],
+      ["Derrotas", "perdidos"],
+      ["Goles a favor", "golesFavor"],
+      ["Goles en contra", "golesContra"]
+    ];
+
+    datos.forEach(([nombre, clave]) => {
+      metricas.append(
+        crearMetrica(
+          nombre,
+          numero(equipoA[clave]),
+          numero(equipoB[clave])
+        )
+      );
+    });
+
+    // La diferencia de goles puede ser negativa,
+    // por eso la mostramos como valor textual.
+    const diferencia = crear(
+      "p",
+      `Diferencia de goles: ` +
+      `${equipoA.nombre} ` +
+      `${numero(equipoA.diferencia)} · ` +
+      `${equipoB.nombre} ` +
+      `${numero(equipoB.diferencia)}`
+    );
+
+    metricas.append(diferencia);
+
+    const puntosA = numero(equipoA.puntos);
+    const puntosB = numero(equipoB.puntos);
+
+    const pjA = numero(equipoA.jugados);
+    const pjB = numero(equipoB.jugados);
+
+    const promedioA = pjA
+      ? (puntosA / pjA).toFixed(2)
+      : "—";
+
+    const promedioB = pjB
+      ? (puntosB / pjB).toFixed(2)
+      : "—";
+
+    let texto = "";
+
+    if (puntosA > puntosB) {
+      texto =
+        `${equipoA.nombre} tiene ` +
+        `${puntosA - puntosB} puntos más que ` +
+        `${equipoB.nombre}. `;
+    } else if (puntosB > puntosA) {
+      texto =
+        `${equipoB.nombre} tiene ` +
+        `${puntosB - puntosA} puntos más que ` +
+        `${equipoA.nombre}. `;
+    } else {
+      texto =
+        "Ambos equipos tienen los mismos puntos. ";
+    }
+
+    texto +=
+      `El promedio de puntos por partido es ` +
+      `${promedioA} para ${equipoA.nombre} y ` +
+      `${promedioB} para ${equipoB.nombre}. ` +
+      "La comparación corresponde a los datos " +
+      "de clasificación disponibles.";
+
+    document.getElementById(
+      "fl7-analisis"
+    ).textContent = texto;
+
+    resultado.hidden = false;
+
+    estado.textContent =
+      "Comparación actualizada correctamente.";
+
+    resultado.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
+    });
+  }
+
+  liga.addEventListener("change", cargarEquipos);
+
+  selectA.addEventListener("change", () => {
+    resultado.hidden = true;
+  });
+
+  selectB.addEventListener("change", () => {
+    resultado.hidden = true;
+  });
+
+  boton.addEventListener("click", comparar);
+
+  cargarEquipos();
+})();
+</script>
+
+<!-- FIN FUTLAB V7 -->
 </body>
 </html>
