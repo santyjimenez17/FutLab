@@ -4,137 +4,77 @@ export async function onRequestGet({ request, env }) {
 
   const dateFrom = url.searchParams.get("dateFrom");
   const dateTo = url.searchParams.get("dateTo");
-  const competition = url.searchParams.get("competition") || "ALL";
+  const competition = url.searchParams.get("competition");
 
   if (!env.FOOTBALL_API_KEY) {
     return Response.json(
-      { error: "FOOTBALL_API_KEY no está configurada." },
+      { error: "Falta configurar FOOTBALL_API_KEY." },
       { status: 500 }
     );
   }
 
-  // Validar fechas antes de consultar.
-  const validDate = value =>
-    /^\d{4}-\d{2}-\d{2}$/.test(value || "") &&
-    !Number.isNaN(Date.parse(value + "T00:00:00Z"));
+  const params = new URLSearchParams();
 
-  if (
-    !validDate(dateFrom) ||
-    !validDate(dateTo) ||
-    dateFrom > dateTo
-  ) {
-    return Response.json(
-      { error: "Intervalo de fechas inválido." },
-      { status: 400 }
-    );
+  if (dateFrom && dateTo) {
+    params.set("dateFrom", dateFrom);
+    params.set("dateTo", dateTo);
   }
 
-  const params = new URLSearchParams({
-    dateFrom,
-    dateTo
-  });
-
-  if (competition !== "ALL") {
+  if (competition && competition !== "ALL") {
     params.set("competitions", competition);
   }
 
-  const endpoint =
+  const apiUrl =
     "https://api.football-data.org/v4/matches?" +
     params.toString();
 
   try {
-    const upstream = await fetch(endpoint, {
+    const response = await fetch(apiUrl, {
       headers: {
-        "X-Auth-Token": env.FOOTBALL_API_KEY,
-        "Accept": "application/json"
-      },
-      cf: {
-        cacheTtl: 0
+        "X-Auth-Token": env.FOOTBALL_API_KEY
       }
     });
 
-    let data;
+    const data = await response.json();
 
-    try {
-      data = await upstream.json();
-    } catch {
-      return Response.json(
-        { error: "La API devolvió una respuesta inválida." },
-        { status: 502 }
-      );
-    }
-
-    if (!upstream.ok) {
+    if (!response.ok) {
       return Response.json(
         {
           error: data.message ||
-            "Error al consultar football-data.org.",
-          providerStatus: upstream.status
+            "No se pudieron obtener los partidos."
         },
-        { status: upstream.status }
+        { status: response.status }
       );
     }
 
-    const originalMatches = Array.isArray(data.matches)
-      ? data.matches
-      : [];
+    const matches = (data.matches || []).map(m => {
+      const status = m.status || "SCHEDULED";
 
-    const matches = originalMatches.map(match => {
-      const home = match.homeTeam || {};
-      const away = match.awayTeam || {};
-      const score = match.score || {};
+      // En partidos en curso, football-data.org puede
+      // proporcionar el marcador en fullTime.
+      const score = m.score?.fullTime || {};
 
       return {
-        id: match.id,
-        utcDate: match.utcDate,
-        status: match.status || "SCHEDULED",
-
+        id: m.id,
+        utcDate: m.utcDate,
+        status,
         competition:
-          match.competition?.name ||
-          match.competition?.code ||
-          "Competición",
-
+          m.competition?.name || "Competición",
         homeTeam:
-          home.name ||
-          home.shortName ||
-          home.tla ||
-          "Local por definir",
-
+          m.homeTeam?.name || "Por definir",
         awayTeam:
-          away.name ||
-          away.shortName ||
-          away.tla ||
-          "Visitante por definir",
-
-        homeScore:
-          score.fullTime?.home ??
-          score.halfTime?.home ??
-          null,
-
-        awayScore:
-          score.fullTime?.away ??
-          score.halfTime?.away ??
-          null,
-
-        minute: match.minute ?? null,
-        injuryTime: match.injuryTime ?? null
+          m.awayTeam?.name || "Por definir",
+        homeScore: score.home ?? null,
+        awayScore: score.away ?? null,
+        minute: m.minute ?? null,
+        injuryTime: m.injuryTime ?? null
       };
     });
 
     return Response.json(
       {
         matches,
-        count: matches.length,
-        updatedAt: new Date().toISOString(),
-        diagnostic: {
-          requestedFrom: dateFrom,
-          requestedTo: dateTo,
-          competition,
-          providerCount: originalMatches.length,
-          message: matches.length
-            ? "Partidos recibidos correctamente."
-            : "El proveedor no devolvió partidos para estos filtros."
-        }
+        updatedAt: new Date().toISOString()
       },
       {
         headers: {
@@ -146,7 +86,7 @@ export async function onRequestGet({ request, env }) {
   } catch (error) {
     return Response.json(
       {
-        error: "No se pudo conectar con football-data.org."
+        error: "No fue posible conectar con la API."
       },
       { status: 502 }
     );
