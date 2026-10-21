@@ -29,4 +29,233 @@ const statusName=s=>({FINISHED:'Finalizado',SCHEDULED:'Programado',TIMED:'Progra
 function render(){const q=$('search').value.toLocaleLowerCase('es');const filtered=matches.filter(m=>[m.homeTeam,m.awayTeam,m.competition].some(v=>String(v).toLocaleLowerCase('es').includes(q)));$('games').replaceChildren();if(!filtered.length){$('notice').classList.remove('hidden');$('notice').textContent=matches.length?'No hay partidos que coincidan con la búsqueda.':'No hay partidos disponibles para esos filtros. Prueba otras fechas o competiciones.';return}$('notice').classList.add('hidden');for(const m of filtered){const card=document.createElement('article');card.className='game';const hasScore=m.homeScore!==null&&m.awayScore!==null;const when=m.utcDate?new Date(m.utcDate).toLocaleString('es',{dateStyle:'medium',timeStyle:'short'}):'Fecha pendiente';card.innerHTML=`<div class="game-top"><span>${escapeHTML(m.competition)}</span><span>${escapeHTML(statusName(m.status))}</span></div><div class="teams"><span>${escapeHTML(m.homeTeam)}</span><div class="score">${hasScore?`${m.homeScore} : ${m.awayScore}`:'VS'}</div><span>${escapeHTML(m.awayTeam)}</span></div><div class="date">${escapeHTML(when)}</div>`;$('games').append(card)}}
 async function load(e){if(e)e.preventDefault();const a=$('from').value,b=$('to').value;const days=(new Date(b+'T00:00:00Z')-new Date(a+'T00:00:00Z'))/86400000;if(!a||!b||days<0||days>14){$('notice').classList.remove('hidden');$('notice').textContent='Selecciona un intervalo válido de hasta 15 días.';return}const btn=$('load');btn.disabled=true;btn.textContent='Cargando…';$('notice').classList.remove('hidden');$('notice').textContent='Consultando partidos reales…';$('games').replaceChildren();try{const params=new URLSearchParams({dateFrom:a,dateTo:b,competition:$('competition').value});const response=await fetch('/api/partidos?'+params);const data=await response.json();if(!response.ok)throw new Error(data.error||'No se pudieron cargar los partidos.');matches=Array.isArray(data.matches)?data.matches:[];$('total').textContent=matches.length;$('finished').textContent=matches.filter(m=>m.status==='FINISHED').length;$('upcoming').textContent=matches.filter(m=>['SCHEDULED','TIMED'].includes(m.status)).length;render()}catch(err){matches=[];['total','finished','upcoming'].forEach(id=>$(id).textContent='—');$('notice').classList.remove('hidden');$('notice').textContent='Error: '+err.message}finally{btn.disabled=false;btn.textContent='Ver partidos ↗'}}
 $('filters').addEventListener('submit',load);$('search').addEventListener('input',render);load();
-</script></body></html>
+</script>
+<section id="futlab-tabla" class="fl5-panel">
+  <h2>Clasificaciones y equipos</h2>
+  <p>Explora posiciones y estadísticas reales.</p>
+
+  <label for="fl5-liga">Competición</label>
+  <select id="fl5-liga">
+    <option value="PL">Premier League</option>
+    <option value="PD">LaLiga</option>
+    <option value="BL1">Bundesliga</option>
+    <option value="SA">Serie A</option>
+    <option value="FL1">Ligue 1</option>
+    <option value="DED">Eredivisie</option>
+    <option value="PPL">Liga de Portugal</option>
+    <option value="BSA">Brasileirão</option>
+    <option value="ELC">Championship</option>
+  </select>
+
+  <p id="fl5-estado" role="status">
+    Cargando clasificación...
+  </p>
+
+  <div class="fl5-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Pos.</th>
+          <th>Equipo</th>
+          <th>PJ</th>
+          <th>DG</th>
+          <th>Pts</th>
+        </tr>
+      </thead>
+      <tbody id="fl5-filas"></tbody>
+    </table>
+  </div>
+
+  <div id="fl5-ficha" class="fl5-ficha" hidden>
+    <h3 id="fl5-nombre"></h3>
+    <div id="fl5-datos"></div>
+  </div>
+</section>
+
+<style>
+  .fl5-panel {
+    background: #101e30;
+    color: #f2f7fc;
+    border: 1px solid #26394e;
+    border-radius: 20px;
+    padding: 22px;
+    margin: 32px auto;
+    max-width: 1100px;
+    font-family: system-ui, sans-serif;
+  }
+  .fl5-panel h2 { color: #bdf56a; }
+  .fl5-panel p { color: #a7b7c8; }
+  .fl5-panel select {
+    display: block;
+    width: 100%;
+    max-width: 340px;
+    padding: 12px;
+    margin: 10px 0 20px;
+    border-radius: 10px;
+    background: #14263b;
+    color: white;
+    border: 1px solid #38516a;
+  }
+  .fl5-scroll { overflow-x: auto; }
+  .fl5-panel table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 340px;
+  }
+  .fl5-panel th, .fl5-panel td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #26394e;
+    text-align: left;
+  }
+  .fl5-panel th { color: #bdf56a; }
+  .fl5-equipo {
+    color: #f2f7fc;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    text-decoration: underline;
+  }
+  .fl5-ficha {
+    background: #14263b;
+    border-radius: 14px;
+    padding: 18px;
+    margin-top: 20px;
+  }
+  .fl5-ficha h3 { color: #bdf56a; }
+  .fl5-ficha #fl5-datos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .fl5-metrica {
+    padding: 12px;
+    border-radius: 10px;
+    background: #1c3148;
+  }
+  .fl5-metrica strong {
+    display: block;
+    font-size: 22px;
+    color: #bdf56a;
+  }
+  .fl5-metrica span {
+    font-size: 12px;
+    color: #a7b7c8;
+  }
+  @media (max-width: 600px) {
+    .fl5-panel { padding: 14px; }
+    .fl5-panel th, .fl5-panel td {
+      padding: 10px 5px;
+      font-size: 13px;
+    }
+  }
+</style>
+
+<script>
+(() => {
+  const liga = document.getElementById("fl5-liga");
+  const estado = document.getElementById("fl5-estado");
+  const filas = document.getElementById("fl5-filas");
+  const ficha = document.getElementById("fl5-ficha");
+  const nombre = document.getElementById("fl5-nombre");
+  const datos = document.getElementById("fl5-datos");
+
+  function mostrarEquipo(equipo) {
+    ficha.hidden = false;
+    nombre.textContent = equipo.nombre;
+    datos.replaceChildren();
+
+    const metricas = [
+      ["Partidos jugados", equipo.jugados],
+      ["Victorias", equipo.ganados],
+      ["Empates", equipo.empatados],
+      ["Derrotas", equipo.perdidos],
+      ["Goles a favor", equipo.golesFavor],
+      ["Goles en contra", equipo.golesContra],
+      ["Diferencia de goles", equipo.diferencia],
+      ["Puntos", equipo.puntos]
+    ];
+
+    metricas.forEach(([etiqueta, valor]) => {
+      const bloque = document.createElement("div");
+      bloque.className = "fl5-metrica";
+
+      const cifra = document.createElement("strong");
+      cifra.textContent = valor ?? "—";
+
+      const texto = document.createElement("span");
+      texto.textContent = etiqueta;
+
+      bloque.append(cifra, texto);
+      datos.append(bloque);
+    });
+  }
+
+  async function cargarClasificacion() {
+    estado.textContent = "Cargando clasificación...";
+    filas.replaceChildren();
+    ficha.hidden = true;
+
+    try {
+      const respuesta = await fetch(
+        "/api/clasificacion?liga=" +
+        encodeURIComponent(liga.value)
+      );
+
+      const resultado = await respuesta.json();
+
+      if (!respuesta.ok) {
+        throw new Error(
+          resultado.error || "No se pudo cargar la tabla."
+        );
+      }
+
+      const equipos = resultado.equipos || [];
+
+      estado.textContent = equipos.length
+        ? resultado.competicion + " · Selecciona un equipo"
+        : "No hay clasificación disponible para esta liga.";
+
+      equipos.forEach(equipo => {
+        const fila = document.createElement("tr");
+
+        const posicion = document.createElement("td");
+        posicion.textContent = equipo.posicion;
+
+        const celdaEquipo = document.createElement("td");
+        const boton = document.createElement("button");
+        boton.className = "fl5-equipo";
+        boton.textContent = equipo.nombre;
+        boton.addEventListener("click", () => {
+          mostrarEquipo(equipo);
+        });
+        celdaEquipo.append(boton);
+
+        const jugados = document.createElement("td");
+        jugados.textContent = equipo.jugados;
+
+        const diferencia = document.createElement("td");
+        diferencia.textContent = equipo.diferencia;
+
+        const puntos = document.createElement("td");
+        puntos.textContent = equipo.puntos;
+
+        fila.append(
+          posicion, celdaEquipo,
+          jugados, diferencia, puntos
+        );
+        filas.append(fila);
+      });
+
+    } catch (error) {
+      estado.textContent =
+        "No se pudo cargar: " + error.message;
+    }
+  }
+
+  liga.addEventListener("change", cargarClasificacion);
+  cargarClasificacion();
+})();
+</script>
+</body></html>
