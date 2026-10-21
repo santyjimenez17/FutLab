@@ -1,84 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#081321">
-  <meta name="description" content="FutLab: panel visual de estadísticas de fútbol.">
-  <title>FutLab | Estadísticas de fútbol</title>
-  <style>
-    :root { --bg:#081321; --panel:#101e30; --panel2:#14263b; --text:#f2f7fc; --muted:#96a8ba; --lime:#bdf56a; --line:#26394e; }
-    * { box-sizing:border-box; }
-    body { margin:0; background:radial-gradient(circle at 85% 0%,#1a3540 0%,var(--bg) 40%); color:var(--text); font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-    .wrap { max-width:1150px; margin:auto; padding:24px; }
-    header { display:flex; justify-content:space-between; align-items:center; gap:16px; padding-bottom:30px; }
-    .logo { font-size:27px; font-weight:900; letter-spacing:-1px; } .logo span { color:var(--lime); }
-    .pill { color:var(--lime); background:#1d342a; border:1px solid #365a39; border-radius:99px; padding:8px 12px; font-size:12px; font-weight:700; }
-    .hero { padding:32px 0 26px; } .eyebrow { color:var(--lime); font-size:12px; font-weight:800; letter-spacing:2px; }
-    h1 { font-size:clamp(32px,6vw,57px); line-height:1.05; letter-spacing:-2px; max-width:720px; margin:14px 0; }
-    h1 em { color:var(--lime); font-style:normal; } p { color:var(--muted); line-height:1.6; }
-    .stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:20px 0 34px; }
-    .stat,.card { background:rgba(16,30,48,.94); border:1px solid var(--line); border-radius:18px; padding:20px; }
-    .stat small { display:block; color:var(--muted); margin-bottom:9px; } .stat strong { font-size:25px; }
-    .section { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:22px 0 16px; }
-    h2 { font-size:22px; margin:0; } .note { color:var(--muted); font-size:12px; }
-    .matches { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
-    .card-top { display:flex; justify-content:space-between; gap:8px; align-items:center; color:var(--muted); font-size:12px; }
-    .teams { display:flex; justify-content:space-between; align-items:center; gap:10px; margin:25px 0; font-size:19px; font-weight:800; }
-    .vs { color:var(--lime); font-size:13px; border:1px solid #395441; padding:7px 9px; border-radius:9px; }
-    .metric { margin:17px 0; } .metric-line { display:flex; justify-content:space-between; gap:8px; font-size:13px; margin-bottom:8px; }
-    .metric-line span { color:var(--muted); } .track { height:8px; border-radius:99px; background:#26384a; overflow:hidden; }
-    .fill { height:100%; background:linear-gradient(90deg,#7fcf7c,var(--lime)); border-radius:99px; }
-    .footer { margin:35px 0 12px; font-size:12px; color:var(--muted); text-align:center; }
-    .tag { color:var(--lime); font-weight:700; } button { border:1px solid #527345; border-radius:11px; background:#1c362a; color:var(--lime); padding:10px 14px; font-weight:700; cursor:pointer; }
-    button:hover { background:#2b4a35; } button:focus-visible { outline:3px solid var(--lime); outline-offset:3px; }
-    #notice { min-height:20px; color:var(--lime); font-size:13px; margin-top:10px; }
-    @media(max-width:680px) { .wrap { padding:18px; } header { padding-bottom:10px; } .stats { grid-template-columns:1fr; gap:10px; } .matches { grid-template-columns:1fr; } .teams { font-size:17px; } .hero { padding-top:22px; } .stat { padding:16px; } }
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081321">
+<meta name="description" content="FutLab: explora partidos y estadísticas de fútbol en un panel interactivo."><title>FutLab | Explorador de partidos</title>
+<style>
+:root{--bg:#081321;--panel:#101e30;--panel2:#14263b;--text:#f2f7fc;--muted:#96a8ba;--lime:#bdf56a;--line:#26394e}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 85% 0%,#1a3540 0%,var(--bg) 42%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}.wrap{max-width:1160px;margin:auto;padding:24px}header,.section,.toolbar,.card-top,.teams,.metric-line,.detail-heading,.summary-head{display:flex;align-items:center;justify-content:space-between;gap:12px}header{padding-bottom:20px}.logo{font-size:29px;font-weight:900;letter-spacing:-1px}.logo span{color:var(--lime)}.pill,.chip{border:1px solid #365a39;background:#1d342a;color:var(--lime);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700}.hero{padding:30px 0 20px}.eyebrow{color:var(--lime);font-size:12px;font-weight:800;letter-spacing:2px}h1{font-size:clamp(32px,6vw,56px);line-height:1.08;letter-spacing:-1.7px;max-width:780px;margin:14px 0}h1 em{color:var(--lime);font-style:normal}p{color:var(--muted);line-height:1.6}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0 32px}.stat,.card,.detail,.controls{background:rgba(16,30,48,.96);border:1px solid var(--line);border-radius:18px;padding:20px}.stat small{display:block;color:var(--muted);margin-bottom:9px}.stat strong{font-size:26px}.section{margin:25px 0 16px}h2{font-size:22px;margin:0}.note,.card-top{color:var(--muted);font-size:12px}.controls{margin-bottom:16px}.toolbar{flex-wrap:wrap}.search{flex:1 1 230px;min-width:0}input,select{width:100%;background:#0a1726;border:1px solid #3a5064;border-radius:11px;color:var(--text);padding:13px;font:inherit}input::placeholder{color:#8da1b4}select{max-width:200px}input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--lime);outline-offset:2px}.matches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{transition:border-color .2s,transform .2s}.card:hover{border-color:#688c50;transform:translateY(-2px)}.card.selected{border-color:var(--lime);box-shadow:0 0 0 1px #bdf56a55}.teams{font-size:18px;font-weight:800;margin:20px 0;min-height:50px}.team{text-align:center;flex:1;min-width:0;overflow-wrap:anywhere}.vs{flex:none;color:var(--lime);font-size:12px;border:1px solid #395441;padding:7px 9px;border-radius:9px}.mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:14px 0}.mini>div{background:var(--panel2);border-radius:10px;padding:11px 5px;text-align:center}.mini strong{display:block;font-size:18px;color:var(--lime)}.mini small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.action{border:1px solid #527345;border-radius:11px;background:#1c362a;color:var(--lime);padding:11px 14px;font-weight:750;cursor:pointer;width:100%}.action:hover{background:#2b4a35}.detail{margin-top:18px}.detail-heading{align-items:flex-start;flex-wrap:wrap}.detail h3{margin:5px 0 0;font-size:23px}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}.metric-box{background:var(--panel2);border-radius:13px;padding:14px}.metric-line{font-size:13px;margin-bottom:10px}.metric-line span{color:var(--muted)}.track{height:9px;background:#26384a;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#7fcf7c,var(--lime));border-radius:99px}.empty{padding:25px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:15px;grid-column:1/-1}.footer{margin:34px 0 12px;font-size:12px;color:var(--muted);text-align:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:700px){.wrap{padding:17px}header{padding-bottom:5px}.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat{padding:12px}.stat strong{font-size:19px}.stat small{font-size:11px}.matches,.detail-grid{grid-template-columns:1fr}.hero{padding-top:20px}.section{align-items:flex-start;flex-direction:column;gap:5px}select{max-width:none}.toolbar{flex-direction:column;align-items:stretch}.search{flex:auto}.teams{font-size:16px}.pill{font-size:10px;padding:7px 9px}}
+</style>
 </head>
-<body>
-  <div class="wrap">
-    <header><div class="logo">Fut<span>Lab</span><span aria-hidden="true">.</span></div><span class="pill">● VERSIÓN DEMO</span></header>
-    <main>
-      <section class="hero">
-        <div class="eyebrow">EL FÚTBOL, EN DATOS</div>
-        <h1>Descubre el partido <em>más allá del marcador.</em></h1>
-        <p>Un espacio para explorar estadísticas, comparar equipos y entender tendencias del fútbol.</p>
-        <button id="demoBtn" type="button">Explorar la demo ↗</button>
-        <div id="notice" role="status" aria-live="polite"></div>
-      </section>
-      <section class="stats" aria-label="Resumen de demostración">
-        <div class="stat"><small>Partidos de ejemplo</small><strong>02</strong></div>
-        <div class="stat"><small>Indicadores visuales</small><strong>06</strong></div>
-        <div class="stat"><small>Estado del proyecto</small><strong class="tag">En construcción</strong></div>
-      </section>
-      <section id="partidos" aria-label="Partidos de demostración">
-        <div class="section"><h2>Centro de partidos</h2><span class="note">Datos ilustrativos · No son resultados reales</span></div>
-        <div class="matches">
-          <article class="card">
-            <div class="card-top"><span>PARTIDO DEMO 01</span><span>Ejemplo</span></div>
-            <div class="teams"><span>Equipo Azul</span><span class="vs">VS</span><span>Equipo Verde</span></div>
-            <div class="metric"><div class="metric-line"><span>Posesión (ejemplo)</span><b>58%</b></div><div class="track"><div class="fill" style="width:58%"></div></div></div>
-            <div class="metric"><div class="metric-line"><span>Precisión de pase (ejemplo)</span><b>84%</b></div><div class="track"><div class="fill" style="width:84%"></div></div></div>
-            <div class="metric"><div class="metric-line"><span>Duelos ganados (ejemplo)</span><b>52%</b></div><div class="track"><div class="fill" style="width:52%"></div></div></div>
-          </article>
-          <article class="card">
-            <div class="card-top"><span>PARTIDO DEMO 02</span><span>Ejemplo</span></div>
-            <div class="teams"><span>Atlético Norte</span><span class="vs">VS</span><span>Unión Sur</span></div>
-            <div class="metric"><div class="metric-line"><span>Posesión (ejemplo)</span><b>47%</b></div><div class="track"><div class="fill" style="width:47%"></div></div></div>
-            <div class="metric"><div class="metric-line"><span>Precisión de pase (ejemplo)</span><b>76%</b></div><div class="track"><div class="fill" style="width:76%"></div></div></div>
-            <div class="metric"><div class="metric-line"><span>Duelos ganados (ejemplo)</span><b>61%</b></div><div class="track"><div class="fill" style="width:61%"></div></div></div>
-          </article>
-        </div>
-      </section>
-    </main>
-    <footer class="footer">FutLab © 2026 · Primera versión visual · Estadísticas ficticias para probar el diseño</footer>
-  </div>
-  <script>
-    document.getElementById('demoBtn').addEventListener('click', function () {
-      document.getElementById('partidos').scrollIntoView({behavior:'smooth'});
-      document.getElementById('notice').textContent='Estás viendo datos de demostración. Próximamente añadiremos estadísticas reales.';
-    });
-  </script>
-</body>
-</html>
+<body><div class="wrap"><header><div class="logo">Fut<span>Lab.</span></div><span class="pill">● DEMO INTERACTIVA</span></header><main>
+<section class="hero"><div class="eyebrow">EL FÚTBOL, EN DATOS</div><h1>Explora cada partido <em>más allá del marcador.</em></h1><p>Busca equipos, filtra encuentros y compara estadísticas desde cualquier pantalla.</p></section>
+<section class="stats" aria-label="Resumen"><div class="stat"><small>Partidos demo</small><strong id="total">04</strong></div><div class="stat"><small>Indicadores</small><strong>06</strong></div><div class="stat"><small>Estado</small><strong style="color:var(--lime)">Interactivo</strong></div></section>
+<section id="explorador" aria-label="Explorador de partidos"><div class="section"><h2>Explorador de partidos</h2><span class="note">Todos los datos son ficticios</span></div>
+<div class="controls"><div class="toolbar"><div class="search"><label class="sr-only" for="search">Buscar equipo</label><input id="search" type="search" placeholder="🔎 Buscar equipo (ej.: Azul)" autocomplete="off"></div><label class="sr-only" for="league">Filtrar por liga</label><select id="league"><option value="all">Todas las ligas</option><option value="Liga Demo A">Liga Demo A</option><option value="Liga Demo B">Liga Demo B</option></select></div></div>
+<div class="matches" id="matches" aria-live="polite"></div>
+<div class="detail" id="detail" aria-live="polite"><div class="note">Selecciona un partido para ver sus estadísticas.</div></div></section>
+</main><footer class="footer">FutLab © 2026 · Versión 2 · Estadísticas ficticias, no corresponden a encuentros reales</footer></div>
+<script>
+'use strict';
+const games=[
+{id:1,league:'Liga Demo A',home:'Equipo Azul',away:'Equipo Verde',metrics:[['Posesión',58,42,'%'],['Precisión de pase',84,78,'%'],['Duelos ganados',52,48,'%'],['Tiros',14,9,''],['Tiros al arco',6,3,''],['Córners',7,4,'']]},
+{id:2,league:'Liga Demo A',home:'Atlético Norte',away:'Unión Sur',metrics:[['Posesión',47,53,'%'],['Precisión de pase',76,81,'%'],['Duelos ganados',61,39,'%'],['Tiros',8,12,''],['Tiros al arco',3,5,''],['Córners',3,6,'']]},
+{id:3,league:'Liga Demo B',home:'Deportivo Sol',away:'Ciudad Luna',metrics:[['Posesión',64,36,'%'],['Precisión de pase',88,72,'%'],['Duelos ganados',49,51,'%'],['Tiros',17,7,''],['Tiros al arco',8,2,''],['Córners',9,2,'']]},
+{id:4,league:'Liga Demo B',home:'Real Costa',away:'Montaña FC',metrics:[['Posesión',51,49,'%'],['Precisión de pase',80,79,'%'],['Duelos ganados',55,45,'%'],['Tiros',11,10,''],['Tiros al arco',4,4,''],['Córners',5,5,'']]}
+];
+const matches=document.getElementById('matches'),detail=document.getElementById('detail'),search=document.getElementById('search'),league=document.getElementById('league');let selected=1;
+function safe(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function visible(){const q=search.value.trim().toLocaleLowerCase('es');return games.filter(g=>(league.value==='all'||g.league===league.value)&&(`${g.home} ${g.away} ${g.league}`).toLocaleLowerCase('es').includes(q));}
+function render(){const list=visible();document.getElementById('total').textContent=String(list.length).padStart(2,'0');if(!list.some(g=>g.id===selected))selected=list[0]?.id??null;
+matches.innerHTML=list.length?list.map(g=>`<article class="card ${g.id===selected?'selected':''}"><div class="card-top"><span>${safe(g.league)}</span><span>PARTIDO DEMO ${String(g.id).padStart(2,'0')}</span></div><div class="teams"><span class="team">${safe(g.home)}</span><span class="vs">VS</span><span class="team">${safe(g.away)}</span></div><div class="mini">${g.metrics.slice(3).map(m=>`<div><strong>${m[1]} – ${m[2]}</strong><small>${safe(m[0])}</small></div>`).join('')}</div><button class="action" type="button" data-id="${g.id}" aria-label="Ver estadísticas de ${safe(g.home)} contra ${safe(g.away)}">${g.id===selected?'Viendo estadísticas ✓':'Ver estadísticas →'}</button></article>`).join(''):'<div class="empty">No encontramos partidos con esos filtros. Prueba otro equipo o selecciona “Todas las ligas”.</div>';
+const g=games.find(x=>x.id===selected);if(!g){detail.innerHTML='<p>No hay un partido seleccionado.</p>';return;}
+detail.innerHTML=`<div class="detail-heading"><div><span class="eyebrow">COMPARATIVA DEL PARTIDO</span><h3>${safe(g.home)} vs ${safe(g.away)}</h3></div><span class="chip">${safe(g.league)}</span></div><p>Los valores son ilustrativos. En cada indicador se muestra primero el equipo local y después el visitante.</p><div class="detail-grid">${g.metrics.map(m=>{const pct=m[3]==='%'?m[1]:m[1]+m[2]>0?Math.round(100*m[1]/(m[1]+m[2])):50;return `<div class="metric-box"><div class="metric-line"><span>${safe(m[0])}</span><b>${m[1]}${m[3]} · ${m[2]}${m[3]}</b></div><div class="track" role="img" aria-label="${safe(m[0])}: ${m[1]}${m[3]} frente a ${m[2]}${m[3]}"><div class="fill" style="width:${pct}%"></div></div></div>`}).join('')}</div>`;
+}
+matches.addEventListener('click',e=>{const b=e.target.closest('button[data-id]');if(!b)return;selected=Number(b.dataset.id);render();detail.scrollIntoView({behavior:'smooth',block:'start'});});search.addEventListener('input',render);league.addEventListener('change',render);render();
+</script></body></html>
